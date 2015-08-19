@@ -11,6 +11,7 @@ public class MainFrame extends JFrame {
     CardLayout cards;
     JPanel buttonPanel, cardPanel;
     JPanel setupCard, passCard;
+    JTabbedPane tabbedPane;
 
     public MainFrame() {
         setTitle("Project");
