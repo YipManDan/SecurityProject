@@ -12,7 +12,7 @@ public class MainFrame extends JFrame {
     JPanel buttonPanel, cardPanel;
     JPanel setupCard, passCard;
     JTabbedPane tabbedPane;
-    //changing
+    //new Change
 
     public MainFrame() {
         setTitle("Project");
