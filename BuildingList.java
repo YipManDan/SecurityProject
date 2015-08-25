@@ -14,8 +14,15 @@ public class BuildingList {
         Building temp = new Building(1);
         temp.createSubAreas(10);
         temp.setSystemPass("0000");
+        URL url = this.getClass().getClassLoader()
+                .getResource("singleHouse.jpg");
+        temp.setImage(url);
+
         buildings.add(temp);
         temp = new Building(2);
+        url = this.getClass().getClassLoader()
+                .getResource("commercial.jpg");
+        temp.setImage(url);
         buildings.add(temp);
         //temp.setImage(this.getClass().getClassLoader().getResource("singleHouse.jpg"));
     }

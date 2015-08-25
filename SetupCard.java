@@ -37,13 +37,6 @@ public class SetupCard extends JPanel {
     String soundName = "yourSound.wav";
 
     SetupCard() {
-        URL url = this.getClass().getClassLoader()
-                .getResource("singleHouse.jpg");
-        BuildingList.getBuilding(0).setImage(url);
-        url = this.getClass().getClassLoader()
-                .getResource("commercial.jpg");
-        BuildingList.getBuilding(1).setImage(url);
-
         setLayout(new BorderLayout());
 
         // panelRight = new JPanel(new FlowLayout(FlowLayout.LEADING, 15, 6));
