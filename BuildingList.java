@@ -1,5 +1,6 @@
 package project.security;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -10,9 +11,13 @@ public class BuildingList {
 
 
     BuildingList() {
-        buildings.add(new Building(1));
-        buildings.get(0).createSubAreas(10);
-        buildings.get(0).setSystemPass("0000");
+        Building temp = new Building(1);
+        temp.createSubAreas(10);
+        temp.setSystemPass("0000");
+        buildings.add(temp);
+        temp = new Building(2);
+        buildings.add(temp);
+        //temp.setImage(this.getClass().getClassLoader().getResource("singleHouse.jpg"));
     }
     public static Building getBuilding(int index) {
         return buildings.get(index);

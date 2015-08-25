@@ -37,6 +37,13 @@ public class SetupCard extends JPanel {
     String soundName = "yourSound.wav";
 
     SetupCard() {
+        URL url = this.getClass().getClassLoader()
+                .getResource("singleHouse.jpg");
+        BuildingList.getBuilding(0).setImage(url);
+        url = this.getClass().getClassLoader()
+                .getResource("commercial.jpg");
+        BuildingList.getBuilding(1).setImage(url);
+
         setLayout(new BorderLayout());
 
         // panelRight = new JPanel(new FlowLayout(FlowLayout.LEADING, 15, 6));
@@ -120,8 +127,7 @@ public class SetupCard extends JPanel {
 
                 if (selectedBuilding.equals("Single House")) {
                     panelCenter.removeAll();
-                    URL url = this.getClass().getClassLoader()
-                            .getResource("singleHouse.jpg");
+                    URL url = BuildingList.getBuilding(0).getImage();
                     JLabel homeLabel = new JLabel(new ImageIcon(url));
                     panelCenter.add(homeLabel);
                     panelCenter.updateUI();
@@ -130,8 +136,7 @@ public class SetupCard extends JPanel {
                 } else if (selectedBuilding.equals("Commercial")) {
 
                     panelCenter.removeAll();
-                    URL url = this.getClass().getClassLoader()
-                            .getResource("commercial.jpg");
+                    URL url = BuildingList.getBuilding(1).getImage();
                     JLabel commercialLabel = new JLabel(new ImageIcon(url));
                     panelCenter.add(commercialLabel);
                     panelCenter.updateUI();

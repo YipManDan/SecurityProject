@@ -1,6 +1,7 @@
 package project.security;
 
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 public class Building {
 
     private BufferedImage image;
+    private URL imageURL;
     private int buildingId;
     //private SubAreas sub;
     private ArrayList<SubAreas> subAreaList;
@@ -43,12 +45,12 @@ public class Building {
         mainSystem.setPassword(password);
     }
 
-    public BufferedImage getImage() {
-        return image;
+    public URL getImage() {
+        return imageURL;
     }
 
-    public void setImage(BufferedImage image) {
-        this.image = image;
+    public void setImage(URL image) {
+        this.imageURL = image;
     }
 
     public int getBuildingId() {
