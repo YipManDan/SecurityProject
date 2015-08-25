@@ -7,12 +7,9 @@ import java.awt.event.*;
 
 public class MainFrame extends JFrame {
 
-    JButton setupBtn, scheduleBtn, billBtn, demoBtn;
-    CardLayout cards;
     JPanel buttonPanel, cardPanel;
-    JPanel setupCard, passCard;
+    JPanel setupPane, passPane;
     JTabbedPane tabbedPane;
-    //new Change
 
     public MainFrame() {
         setTitle("Project");
@@ -20,45 +17,19 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        setupBtn = new JButton("Setup");
-        scheduleBtn = new JButton("Schedule");
+        tabbedPane = new JTabbedPane();
 
-        buttonPanel= new JPanel(new FlowLayout());
-        cardPanel = new JPanel();
+        setupPane = new SetupCard();
+        setupPane.setBackground(Color.GRAY);
 
-        cards = new CardLayout();
-        cardPanel.setLayout(cards);
-        cards.show(cardPanel, "Setup");
+        passPane = new JPanel();
+        passPane.setBackground(Color.blue);
 
-        setupCard = new JPanel();
-        //setupCard - new SetupCard(Color.WHITE);
-        setupCard.setBackground(Color.GRAY);
-
-        passCard = new JPanel();
-        //passCard = new PassCard(Color.WHITE);
-        passCard.setBackground(Color.blue);
-
-        cardPanel.add(setupCard, "Setup");
-        cardPanel.add(passCard, "Schedule");
-
-        //buttonPanel.setBorder(outline);
-        JButton switchCardsBtn = new JButton("Switch Card");
-        switchCardsBtn.setActionCommand("Switch Card");
-        switchCardsBtn.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent event)
-            {
-                //navigate to the next component
-                cards.next(cardPanel);
-            }
-        });
-
-        buttonPanel.add(switchCardsBtn);
+        tabbedPane.addTab("Setup", setupPane);
+        tabbedPane.addTab("Schedule", passPane);
 
 
-        this.add(buttonPanel,BorderLayout.NORTH);
-        this.add(cardPanel,BorderLayout.CENTER);
+        this.add(tabbedPane);
         this.setVisible(true);
     }
     ///////////////////////////////////////////////////
