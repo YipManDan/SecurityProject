@@ -71,7 +71,7 @@ public class Schedule {
         if(setting == Setting.manual)
             return;
         this.time = Clock.getTime();
-        sortByOn();
+        //sortByOn();
         for(Sensor temp: sensors) {
             if(!temp.getOnTime(setting).isAfter(time)) {
                 temp.setOn(true);
@@ -79,7 +79,7 @@ public class Schedule {
                 break;
             }
         }
-        sortByOff();
+        //sortByOff();
         for(Sensor temp: sensors) {
             if(!temp.getOffTime(setting).isBefore(time)) {
                 temp.setOn(false);
@@ -90,9 +90,11 @@ public class Schedule {
     }
     public void addSensor(Sensor aSensor) {
         sensors.add(aSensor);
+        sortById();
     }
     public void removeSensor(Sensor aSensor) {
         sensors.remove(aSensor);
+        sortById();
     }
     public void setSetting(Schedule.Setting setting) {
         this.setting = setting;
@@ -131,15 +133,19 @@ public class Schedule {
     private void sortByOff() {
         Collections.sort(sensors, ByOffTime);
     }
-    /*
     private void sortById() {
-        Collections.sort(sensors, ByOnTime);
+        Collections.sort(sensors, BySensorId);
     }
-    */
     private final Comparator<Sensor> ByOnTime = new Comparator<Sensor>() {
         @Override
         public int compare(Sensor o1, Sensor o2) {
             return o1.getOnTime(setting).compareTo(o2.getOnTime(setting));
+        }
+    };
+    private final Comparator<Sensor> BySensorId= new Comparator<Sensor>() {
+        @Override
+        public int compare(Sensor o1, Sensor o2) {
+            return o1.getSensorID().compareTo(o2.getSensorID());
         }
     };
     private final Comparator<Sensor> ByOffTime = new Comparator<Sensor>() {

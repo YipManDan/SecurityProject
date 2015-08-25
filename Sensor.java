@@ -21,6 +21,9 @@ public abstract class Sensor {
         this.roomID = roomID;
         on = true;
     }
+    public Integer getSensorID() {
+        return sensorID;
+    }
     public LocalTime getOnTime(Schedule.Setting setting) {
         this.setting = setting;
         switch (setting) {
