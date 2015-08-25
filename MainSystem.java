@@ -17,15 +17,17 @@ public class MainSystem {
         //Clock.setTime(LocalTime.now());
         new Clock();
     }
-
+    public Schedule getSchedule() {
+        return schedule;
+    }
     public void setPassword(String password) {
         this.password = password;
     }
     public void setPhone1(int phone1) {
-        this.phone1 = phone1;
+        MainSystem.phone1 = phone1;
     }
     public void setPhone2(int phone2) {
-        this.phone2 = phone2;
+        MainSystem.phone2 = phone2;
     }
     public void enablePhone1(Boolean enabled) {
         usePhone1 = enabled;
