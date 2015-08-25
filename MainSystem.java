@@ -23,6 +23,9 @@ public class MainSystem {
     public void setPassword(String password) {
         this.password = password;
     }
+    public String getPassword() {
+        return password;
+    }
     public void setPhone1(int phone1) {
         MainSystem.phone1 = phone1;
     }

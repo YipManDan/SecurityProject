@@ -22,8 +22,7 @@ public class MainFrame extends JFrame {
         setupPane = new SetupCard();
         setupPane.setBackground(Color.GRAY);
 
-        passPane = new JPanel();
-        passPane.setBackground(Color.blue);
+        passPane = new SchedulePane();
 
         tabbedPane.addTab("Setup", setupPane);
         tabbedPane.addTab("Schedule", passPane);

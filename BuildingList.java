@@ -10,7 +10,14 @@ public class BuildingList {
 
 
     BuildingList() {
-        buildings.add(new Building(10));
+        buildings.add(new Building(1));
+        buildings.get(0).createSubAreas(10);
+        buildings.get(0).setSystemPass("0000");
     }
+    public static Building getBuilding(int index) {
+        return buildings.get(index);
+    }
+
+
 
 }

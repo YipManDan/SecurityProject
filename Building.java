@@ -36,6 +36,12 @@ public class Building {
         }
         return null;
     }
+    public String getSystemPass() {
+        return mainSystem.getPassword();
+    }
+    public void setSystemPass(String password) {
+        mainSystem.setPassword(password);
+    }
 
     public BufferedImage getImage() {
         return image;
