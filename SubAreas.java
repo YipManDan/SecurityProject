@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 public class SubAreas {
     private int subAreaId;
-    private boolean fireCheck;
-    private int fireCount;
-    private boolean motionCheck;
-    private int motionCount;
 
-    SubAreas() {
+    Schedule schedule;
+    FireSensor fs = null;
+    MotionSensor ms = null;
 
+    SubAreas(int subAreaId, Schedule schedule) {
+        this.subAreaId = subAreaId;
+        this.schedule = schedule;
     }
 
     public int getSubAreaId() {
@@ -21,41 +22,54 @@ public class SubAreas {
         this.subAreaId = subAreaId;
     }
 
-    public void addFire(int subAreaId) {
-
-        if (fireCheck = false) {
-            fireCount++;
-            fireCheck = true;
-        } else {
-            System.out.println(" Maximum number of fire sensor reached");
-        }
+    public boolean createFireSensor() {
+        if (fs != null)
+            return false;
+        int sensorID = subAreaId*2-1;
+        fs = new FireSensor(sensorID, subAreaId);
+        //Adds a sensor to the schedule list
+        schedule.addSensor(fs);
+        return true;
     }
-
-    public void deleteFire(int subAreaId) {
-
-        if (fireCheck = true) {
-            fireCount--;
-        }
-
+    public boolean createMotionSensor() {
+        if (ms != null)
+            return false;
+        int sensorID = subAreaId*2;
+        ms = new MotionSensor(sensorID, subAreaId);
+        schedule.addSensor(ms);
+        return true;
     }
-
-
-    public void addMotion(int subAreaId) {
-        motionCheck = false;
-        if (motionCheck = false) {
-            motionCount++;
-            motionCheck = true;
-        } else {
-            System.out.println(" Maximum number of motion sensor reached");
-        }
+    public boolean hasFireSensor() {
+        return fs != null;
     }
-
-    public void deleteMotion(int subAreaId) {
-
-        if (motionCheck = true) {
-            motionCount--;
-        }
-
+    public boolean hasMotionSensor() {
+        return ms != null;
+    }
+    public boolean removeFireSensor() {
+        if (fs == null)
+            return false;
+        schedule.removeSensor(fs);
+        fs = null;
+        return true;
+    }
+    public boolean removeMotionSensor() {
+        if (ms == null)
+            return false;
+        schedule.removeSensor(ms);
+        ms = null;
+        return true;
+    }
+    public void setFireSensorOn(){
+        fs.setOn(true);
+    }
+    public void setFireSensorOff() {
+        fs.setOn(false);
+    }
+    public void setMotionSensorOn() {
+        ms.setOn(true);
+    }
+    public void setMotionSensorOff() {
+        ms.setOn(false);
     }
 
 }
