@@ -9,6 +9,7 @@ import java.awt.*;
 public class LogPane extends JPanel{
     private JPanel left, right, center;
     LogPane() {
+        /*
         setLayout(new BorderLayout());
         left = new JPanel();
         left.setBackground(Color.BLACK);
@@ -21,6 +22,12 @@ public class LogPane extends JPanel{
         this.add(left, BorderLayout.LINE_START);
         this.add(right, BorderLayout.LINE_END);
         this.add(center, BorderLayout.CENTER);
+        */
+        left = new JPanel();
+        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+        left.add(new JLabel("HelloWorld"));
+        this.add(left);
+
         setVisible(true);
     }
 }

@@ -7,7 +7,9 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.TextAttribute;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by Daniel on 8/25/2015.
@@ -17,7 +19,7 @@ public class SchedulePane extends JPanel{
     private JPanel bottomPanel;
     private JPanel passCard, scheduleCard;
     private JPanel sensorCard, optionCard, sensors;
-    private JPanel  cardPanel;
+    private JPanel  cardPanel, right;
     private CardLayout  cards;
     JFormattedTextField passTF;
     JTextField roomID, results;
@@ -48,22 +50,25 @@ public class SchedulePane extends JPanel{
         cardPanel = new JPanel();
         cardPanel.setLayout(cards);
         cardPanel.setPreferredSize(new Dimension(200, 100));
+        right = new JPanel();
+        right.setPreferredSize(new Dimension(200,100));
 
         passCard = new JPanel(new FlowLayout());
 
         scheduleCard = new JPanel(new BorderLayout());
         scheduleCard.add(bottomPanel, BorderLayout.SOUTH);
 
-        //sensorCard = new JPanel(new BoxLayout(sensorCard, BoxLayout.Y_AXIS));
-        sensors = new JPanel(new GridLayout(0,1,10,10));
-        sensors.setPreferredSize(new Dimension(175, 300));
-        //sensorCard = new JPanel(new BoxLayout(sensorCard, BoxLayout.Y_AXIS));
-        sensors.setBackground(Color.PINK);
+        sensors = new JPanel();
+        sensors.setLayout(new BoxLayout(sensors, BoxLayout.Y_AXIS));
+        //sensors.setBackground(Color.PINK);
         sensors.add(new JLabel("   Hello World"));
 
-        sensorCard = new JPanel(new BorderLayout());
-        sensorCard.setBackground(Color.BLACK);
-        sensorCard.add(sensors, BorderLayout.CENTER);
+        //sensorCard = new JPanel(new BorderLayout());
+        //sensorCard.add(sensors, BorderLayout.CENTER);
+        sensorCard = new JPanel();
+        sensorCard.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        sensorCard.add(sensors, gbc);
         optionCard = new JPanel();
         optionCard.setBackground(Color.CYAN);
 
@@ -88,6 +93,7 @@ public class SchedulePane extends JPanel{
         cardPanel.add(optionCard, "options");
 
         scheduleCard.add(cardPanel, BorderLayout.LINE_START);
+        scheduleCard.add(right, BorderLayout.LINE_END);
 
 
     }
@@ -128,21 +134,49 @@ public class SchedulePane extends JPanel{
                 System.out.println("Exception: " + exc);
             }
             sensors.removeAll();
-            sensors.add(new JLabel("Subarea: " + input));
+            JLabel roomLbl = new JLabel("Subarea: " + input);
+            roomLbl.setFont(new Font("Arial", Font.BOLD, 20));
+            Font font = roomLbl.getFont();
+            Map attributes = font.getAttributes();
+            attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+            roomLbl.setFont(font.deriveFont(attributes));
+
+            sensors.add(roomLbl);
+            sensors.add(Box.createRigidArea(new Dimension(0,5)));
             SubAreas temp = BuildingList.getBuilding(0).getSubArea(room);
+            /*
+            JLabel fireSensor;
             if(temp.hasFireSensor()) {
-                JLabel fireSensor = new JLabel("Has a firesensor");
-                sensors.add(fireSensor);
+                fireSensor = new JLabel("Has a firesensor");
             } else {
-                JLabel fireSensor = new JLabel("Has no firesensor");
-                sensors.add(fireSensor);
+                fireSensor = new JLabel("Has no firesensor");
             }
+            fireSensor.setFont(new Font("Arial", Font.PLAIN, 14));
+            sensors.add(fireSensor);
+            sensors.add(Box.createRigidArea(new Dimension(0,4)));
+            JLabel motionSensor;
             if(temp.hasMotionSensor()) {
-                JLabel motionSensor = new JLabel("Has a motionsensor");
-                sensors.add(motionSensor);
+                motionSensor = new JLabel("Has a motionsensor");
             } else {
-                JLabel motionSensor = new JLabel("Has no motionsensor");
-                sensors.add(motionSensor);
+                motionSensor = new JLabel("Has no motionsensor");
+            }
+            motionSensor.setFont(new Font("Arial", Font.PLAIN, 14));
+            sensors.add(motionSensor);
+            */
+            if(temp.hasFireSensor()) {
+                JButton fireSensorBtn;
+                fireSensorBtn = new JButton("Fire Sensor");
+                //fireSensorBtn.setPreferredSize(new Dimension(200, 26));
+                fireSensorBtn.setMaximumSize(new Dimension(120, 26));
+                sensors.add(fireSensorBtn);
+            }
+            sensors.add(Box.createRigidArea(new Dimension(90,4)));
+            if(temp.hasMotionSensor()) {
+                JButton motionSensorBtn;
+                motionSensorBtn = new JButton("Motion Sensor");
+                //motionSensorBtn.setPreferredSize(new Dimension(200, 26));
+                motionSensorBtn.setMaximumSize(new Dimension(120, 26));
+                sensors.add(motionSensorBtn);
             }
             sensorCard.updateUI();
 
