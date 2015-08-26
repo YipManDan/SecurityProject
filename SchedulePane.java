@@ -123,65 +123,55 @@ public class SchedulePane extends JPanel{
         this.remove(passCard);
         this.add(scheduleCard);
     }
+    private void checkForSensor() {
+        String input = roomID.getText();
+        int room = 0;
+        try {
+            room = Integer.parseInt(roomID.getText());
+        } catch (NumberFormatException exc) {
+            System.out.println("Exception: " + exc);
+        }
+        sensors.removeAll();
+        JLabel roomLbl = new JLabel("Subarea: " + input);
+        roomLbl.setFont(new Font("Arial", Font.BOLD, 20));
+        Font font = roomLbl.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        roomLbl.setFont(font.deriveFont(attributes));
+
+        sensors.add(roomLbl);
+        sensors.add(Box.createRigidArea(new Dimension(0, 5)));
+        SubAreas temp = BuildingList.getBuilding(0).getSubArea(room);
+
+        if (temp.hasFireSensor()) {
+            JButton fireSensorBtn;
+            fireSensorBtn = new JButton("Fire Sensor");
+            //fireSensorBtn.setPreferredSize(new Dimension(200, 26));
+            fireSensorBtn.setMaximumSize(new Dimension(120, 26));
+            sensors.add(fireSensorBtn);
+        }
+        sensors.add(Box.createRigidArea(new Dimension(90, 4)));
+        if (temp.hasMotionSensor()) {
+            JButton motionSensorBtn;
+            motionSensorBtn = new JButton("Motion Sensor");
+            //motionSensorBtn.setPreferredSize(new Dimension(200, 26));
+            motionSensorBtn.setMaximumSize(new Dimension(120, 26));
+            sensors.add(motionSensorBtn);
+        }
+        else if (!temp.hasMotionSensor() && !temp.hasFireSensor()) {
+            JLabel none = new JLabel("There are no sensors");
+            none.setFont(new Font("Arial", Font.PLAIN, 14));
+            sensors.add(none);
+        }
+        sensorCard.updateUI();
+
+
+    }
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            String input= roomID.getText();
-            int room = 0;
-            try {
-                room = Integer.parseInt(roomID.getText());
-            } catch(NumberFormatException exc)
-            {
-                System.out.println("Exception: " + exc);
+            if(e.getActionCommand() == "enter") {
+                checkForSensor();
             }
-            sensors.removeAll();
-            JLabel roomLbl = new JLabel("Subarea: " + input);
-            roomLbl.setFont(new Font("Arial", Font.BOLD, 20));
-            Font font = roomLbl.getFont();
-            Map attributes = font.getAttributes();
-            attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-            roomLbl.setFont(font.deriveFont(attributes));
-
-            sensors.add(roomLbl);
-            sensors.add(Box.createRigidArea(new Dimension(0,5)));
-            SubAreas temp = BuildingList.getBuilding(0).getSubArea(room);
-            /*
-            JLabel fireSensor;
-            if(temp.hasFireSensor()) {
-                fireSensor = new JLabel("Has a firesensor");
-            } else {
-                fireSensor = new JLabel("Has no firesensor");
-            }
-            fireSensor.setFont(new Font("Arial", Font.PLAIN, 14));
-            sensors.add(fireSensor);
-            sensors.add(Box.createRigidArea(new Dimension(0,4)));
-            JLabel motionSensor;
-            if(temp.hasMotionSensor()) {
-                motionSensor = new JLabel("Has a motionsensor");
-            } else {
-                motionSensor = new JLabel("Has no motionsensor");
-            }
-            motionSensor.setFont(new Font("Arial", Font.PLAIN, 14));
-            sensors.add(motionSensor);
-            */
-            if(temp.hasFireSensor()) {
-                JButton fireSensorBtn;
-                fireSensorBtn = new JButton("Fire Sensor");
-                //fireSensorBtn.setPreferredSize(new Dimension(200, 26));
-                fireSensorBtn.setMaximumSize(new Dimension(120, 26));
-                sensors.add(fireSensorBtn);
-            }
-            sensors.add(Box.createRigidArea(new Dimension(90,4)));
-            if(temp.hasMotionSensor()) {
-                JButton motionSensorBtn;
-                motionSensorBtn = new JButton("Motion Sensor");
-                //motionSensorBtn.setPreferredSize(new Dimension(200, 26));
-                motionSensorBtn.setMaximumSize(new Dimension(120, 26));
-                sensors.add(motionSensorBtn);
-            }
-            sensorCard.updateUI();
-
-
-
         }
     }
 }
