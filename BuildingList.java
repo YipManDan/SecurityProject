@@ -12,7 +12,7 @@ public class BuildingList {
 
     BuildingList() {
         Building temp = new Building(1);
-        temp.createSubAreas(10);
+        temp.createSubAreas(4);
         temp.setSystemPass("0000");
         URL url = this.getClass().getClassLoader()
                 .getResource("singleHouse.jpg");
@@ -28,6 +28,22 @@ public class BuildingList {
     }
     public static Building getBuilding(int index) {
         return buildings.get(index);
+    }
+    public static void generateDefaults() {
+        Building temp = BuildingList.getBuilding(0);
+        SubAreas temp2 = temp.getSubArea(1);
+        temp2.createFireSensor();
+        if(temp2.hasFireSensor())
+            System.out.println("subarea 1 has fire sensor");
+        else
+            System.out.println("uh oh");
+        temp2 = temp.getSubArea(2);
+        temp2.createMotionSensor();
+        temp2 = temp.getSubArea(3);
+        temp2.createMotionSensor();
+        temp2.createFireSensor();
+
+
     }
 
 

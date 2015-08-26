@@ -2,6 +2,7 @@ package project.security;
 
 import javax.smartcardio.Card;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,9 +16,9 @@ public class SchedulePane extends JPanel{
     MainSystem system;
     private JPanel bottomPanel;
     private JPanel passCard, scheduleCard;
-    private JPanel sensorCard, optionCard;
-    private JPanel cardPanel, cardPanel2;
-    private CardLayout cards, cards2;
+    private JPanel sensorCard, optionCard, sensors;
+    private JPanel  cardPanel;
+    private CardLayout  cards;
     JFormattedTextField passTF;
     JTextField roomID, results;
     JButton enter, enterID;
@@ -25,6 +26,7 @@ public class SchedulePane extends JPanel{
     JLabel numRooms;
 
     public SchedulePane() {
+        setLayout(new BorderLayout());
         //roomID = new JFormattedTextField(createFormatter("##"));
         //results = new JTextField("Null");
         //results.setPreferredSize(new Dimension(100, 30));
@@ -45,10 +47,7 @@ public class SchedulePane extends JPanel{
         cards = new CardLayout();
         cardPanel = new JPanel();
         cardPanel.setLayout(cards);
-        //this.setLayout(cards);
-        cards2 = new CardLayout();
-        cardPanel2 = new JPanel();
-        cardPanel2.setLayout(cards2);
+        cardPanel.setPreferredSize(new Dimension(200, 100));
 
         passCard = new JPanel(new FlowLayout());
 
@@ -56,9 +55,15 @@ public class SchedulePane extends JPanel{
         scheduleCard.add(bottomPanel, BorderLayout.SOUTH);
 
         //sensorCard = new JPanel(new BoxLayout(sensorCard, BoxLayout.Y_AXIS));
-        sensorCard = new JPanel(new GridLayout(0,1));
-        sensorCard.setBackground(Color.PINK);
-        sensorCard.add(new JLabel("Hello World"));
+        sensors = new JPanel(new GridLayout(0,1,10,10));
+        sensors.setPreferredSize(new Dimension(175, 300));
+        //sensorCard = new JPanel(new BoxLayout(sensorCard, BoxLayout.Y_AXIS));
+        sensors.setBackground(Color.PINK);
+        sensors.add(new JLabel("   Hello World"));
+
+        sensorCard = new JPanel(new BorderLayout());
+        sensorCard.setBackground(Color.BLACK);
+        sensorCard.add(sensors, BorderLayout.CENTER);
         optionCard = new JPanel();
         optionCard.setBackground(Color.CYAN);
 
@@ -77,16 +82,12 @@ public class SchedulePane extends JPanel{
         passCard.add(passTF);
         passCard.add(enter);
 
-        cardPanel.add(passCard, "password");
-        //this.add(passCard, "password");
-        cardPanel.add(scheduleCard, "schedule");
-        //this.add(scheduleCard, "schedule");
-        cardPanel2.add(sensorCard, "sensors");
-        cardPanel2.add(optionCard, "options");
 
-        this.add(cardPanel);
-        scheduleCard.add(cardPanel2, BorderLayout.LINE_START);
-        //this.add(cardPanel2, BorderLayout.EAST);
+        this.add(passCard);
+        cardPanel.add(sensorCard, "sensors");
+        cardPanel.add(optionCard, "options");
+
+        scheduleCard.add(cardPanel, BorderLayout.LINE_START);
 
 
     }
@@ -106,14 +107,19 @@ public class SchedulePane extends JPanel{
         public void actionPerformed(ActionEvent e) {
             String inputPass = passTF.getText();
             if(BuildingList.getBuilding(0).getSystemPass().equals(inputPass))
-                cards.next(cardPanel);
+                validPassWord();
+                //cards.next(cardPanel);
                 //cards.next(this);
 
         }
     }
+    private void validPassWord() {
+        this.remove(passCard);
+        this.add(scheduleCard);
+    }
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            String input= passTF.getText();
+            String input= roomID.getText();
             int room = 0;
             try {
                 room = Integer.parseInt(roomID.getText());
@@ -121,20 +127,22 @@ public class SchedulePane extends JPanel{
             {
                 System.out.println("Exception: " + exc);
             }
+            sensors.removeAll();
+            sensors.add(new JLabel("Subarea: " + input));
             SubAreas temp = BuildingList.getBuilding(0).getSubArea(room);
             if(temp.hasFireSensor()) {
                 JLabel fireSensor = new JLabel("Has a firesensor");
-                sensorCard.add(fireSensor);
+                sensors.add(fireSensor);
             } else {
                 JLabel fireSensor = new JLabel("Has no firesensor");
-                sensorCard.add(fireSensor);
+                sensors.add(fireSensor);
             }
             if(temp.hasMotionSensor()) {
                 JLabel motionSensor = new JLabel("Has a motionsensor");
-                sensorCard.add(motionSensor);
+                sensors.add(motionSensor);
             } else {
                 JLabel motionSensor = new JLabel("Has no motionsensor");
-                sensorCard.add(motionSensor);
+                sensors.add(motionSensor);
             }
             sensorCard.updateUI();
 

@@ -11,7 +11,6 @@ public class Building {
     private BufferedImage image;
     private URL imageURL;
     private int buildingId;
-    //private SubAreas sub;
     private ArrayList<SubAreas> subAreaList;
     private MainSystem mainSystem;
 
@@ -51,6 +50,9 @@ public class Building {
 
     public void setImage(URL image) {
         this.imageURL = image;
+    }
+    public int numSubAreas() {
+        return subAreaList.size();
     }
 
     public int getBuildingId() {

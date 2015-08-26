@@ -8,12 +8,13 @@ import java.awt.event.*;
 public class MainFrame extends JFrame {
 
     JPanel buttonPanel, cardPanel;
-    JPanel setupPane, passPane;
+    JPanel setupPane, passPane, logPane;
     JTabbedPane tabbedPane;
 
     public MainFrame() {
         setTitle("Project");
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setMinimumSize(new Dimension(1320, 990));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -24,8 +25,11 @@ public class MainFrame extends JFrame {
 
         passPane = new SchedulePane();
 
+        logPane = new LogPane();
+
         tabbedPane.addTab("Setup", setupPane);
         tabbedPane.addTab("Schedule", passPane);
+        tabbedPane.addTab("Log", logPane);
 
 
         this.add(tabbedPane);

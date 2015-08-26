@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 public class SubAreas {
     private int subAreaId;
-
-    Schedule schedule;
-    FireSensor fs = null;
-    MotionSensor ms = null;
+    private Schedule schedule;
+    private FireSensor fs = null;
+    private MotionSensor ms = null;
+    private Boolean fireSensorExists = false;
+    private Boolean motionSensorExists = false;
 
     SubAreas(int subAreaId, Schedule schedule) {
         this.subAreaId = subAreaId;
@@ -29,6 +30,7 @@ public class SubAreas {
         fs = new FireSensor(sensorID, subAreaId);
         //Adds a sensor to the schedule list
         schedule.addSensor(fs);
+        fireSensorExists = true;
         return true;
     }
     public boolean createMotionSensor() {
@@ -37,19 +39,21 @@ public class SubAreas {
         int sensorID = subAreaId*2;
         ms = new MotionSensor(sensorID, subAreaId);
         schedule.addSensor(ms);
+        motionSensorExists = true;
         return true;
     }
     public boolean hasFireSensor() {
-        return fs != null;
+        return fireSensorExists;
     }
     public boolean hasMotionSensor() {
-        return ms != null;
+        return motionSensorExists;
     }
     public boolean removeFireSensor() {
         if (fs == null)
             return false;
         schedule.removeSensor(fs);
         fs = null;
+        fireSensorExists = false;
         return true;
     }
     public boolean removeMotionSensor() {
@@ -57,6 +61,7 @@ public class SubAreas {
             return false;
         schedule.removeSensor(ms);
         ms = null;
+        motionSensorExists = false;
         return true;
     }
     public void setFireSensorOn(){
