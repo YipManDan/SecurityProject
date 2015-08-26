@@ -12,7 +12,7 @@ public class MainFrame extends JFrame {
     JTabbedPane tabbedPane;
 
     public MainFrame() {
-        setTitle("Project");
+        setTitle("Home Security System");
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setMinimumSize(new Dimension(1320, 990));
         setLocationRelativeTo(null);

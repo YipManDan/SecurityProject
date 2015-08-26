@@ -33,6 +33,12 @@ public class SubAreas {
         fireSensorExists = true;
         return true;
     }
+    public Sensor getFireSensor() {
+        return fs;
+    }
+    public Sensor getMotionSensor() {
+        return ms;
+    }
     public boolean createMotionSensor() {
         if (ms != null)
             return false;

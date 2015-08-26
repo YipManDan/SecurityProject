@@ -1,5 +1,7 @@
 package project.security;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -9,23 +11,32 @@ public abstract class Sensor {
     protected int sensorID;
     protected int roomID;
     protected int passCode;
-    Boolean on;
-    LocalTime onTime, offTime;
-    LocalTime weekdayOn, weekdayOff;
-    LocalTime weekendOn, weekendOff;
-    LocalTime vacationOn, vacationOff;
-    Boolean manualOn;
+    protected Boolean on;
+    //protected LocalTime onTime, offTime;
+    protected LocalTime weekdayOn, weekdayOff;
+    protected LocalTime weekendOn, weekendOff;
+    protected LocalTime vacationOn, vacationOff;
+    protected Boolean manualOn;
     Schedule.Setting setting = Schedule.Setting.weekday;
     public Sensor(int sensorID, int roomID) {
         this.sensorID = sensorID;
         this.roomID = roomID;
         on = true;
+        manualOn = true;
+        weekdayOn = LocalTime.of(19,0);
+        weekdayOff = LocalTime.of(8,30);
+        weekendOn = LocalTime.of(16,0);
+        weekendOff = LocalTime.of(10,0);
+        vacationOn = LocalTime.MIN;
+        vacationOff = LocalTime.MAX;
     }
     public Integer getSensorID() {
         return sensorID;
     }
-    public LocalTime getOnTime(Schedule.Setting setting) {
+    public void setSetting(Schedule.Setting setting) {
         this.setting = setting;
+    }
+    public LocalTime getOnTime(Schedule.Setting setting) {
         switch (setting) {
             case weekday:
                 return weekdayOn;
@@ -34,12 +45,11 @@ public abstract class Sensor {
             case vacation:
                 return vacationOn;
             default:
-                return onTime;
+                return LocalTime.MIN;
         }
     }
 
     public LocalTime getOffTime(Schedule.Setting setting) {
-        this.setting = setting;
         switch (setting) {
             case weekday:
                 return weekdayOff;
@@ -48,7 +58,7 @@ public abstract class Sensor {
             case vacation:
                 return vacationOff;
             default:
-                return offTime;
+                return LocalTime.MAX;
         }
     }
     public Boolean isOn() {
@@ -60,9 +70,15 @@ public abstract class Sensor {
     public void setManualOn(Boolean manualOn) {
         this.manualOn = manualOn;
     }
+    public Boolean getManualOn() {
+        return manualOn;
+    }
     public void manualMode() {
         if(manualOn)
             on = true;
+    }
+    public int getRoomID() {
+        return roomID;
     }
     abstract void raiseAlarm();
 }

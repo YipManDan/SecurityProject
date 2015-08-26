@@ -33,10 +33,7 @@ public class BuildingList {
         Building temp = BuildingList.getBuilding(0);
         SubAreas temp2 = temp.getSubArea(1);
         temp2.createFireSensor();
-        if(temp2.hasFireSensor())
-            System.out.println("subarea 1 has fire sensor");
-        else
-            System.out.println("uh oh");
+        temp2.createMotionSensor();
         temp2 = temp.getSubArea(2);
         temp2.createMotionSensor();
         temp2 = temp.getSubArea(3);

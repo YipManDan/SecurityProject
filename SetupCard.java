@@ -1,15 +1,22 @@
 package project.security;
 
-import javax.swing.*;
+
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,20 +28,26 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.*;
 
 public class SetupCard extends JPanel {
 
     private JComboBox combo;
-    private JPanel panelRight, panelLeft, topPanel, panelCenter;
+    private JPanel panelRight, panelLeft, topPanel;
+    //public JPanel panelCenter;
+    PanelCenter panelCenter = new PanelCenter();
     private JTextField enterNumber1, enterNumber2;
     private JLabel firstNumber, secondNumber;
     private JButton savePhoneNumbers, saveSensor, cancelSensor;
     private JCheckBox fireSensor, motionSensor;
     private JLabel xLabel, yLabel;
-    private MouseEventAdapterA meaA;
+    //private MouseEventAdapterA meaA;
     private String xStr, yStr;
     BufferedImage image;
     String soundName = "yourSound.wav";
+    //DisplayBluePrint pic = new DisplayBluePrint();
+
+
 
     SetupCard() {
         setLayout(new BorderLayout());
@@ -45,12 +58,16 @@ public class SetupCard extends JPanel {
         topPanel.setPreferredSize(new Dimension(700, 30));
         panelLeft = new JPanel(new FlowLayout());
 
-        panelCenter = new JPanel();
+        //panelCenter = new JPanel();
 
         add(topPanel, BorderLayout.NORTH);
         add(panelRight, BorderLayout.LINE_END);
         add(panelLeft, BorderLayout.LINE_START);
-        add(panelCenter, BorderLayout.CENTER);
+        //add(panelCenter, BorderLayout.CENTER);
+
+
+        // Create an Rectangular house structure
+
 
         combo = new JComboBox();
         combo.addItem("Select a building");
@@ -66,7 +83,7 @@ public class SetupCard extends JPanel {
         panelLeft.setBackground(Color.cyan);
         panelLeft.setPreferredSize(new Dimension(200, 30));
 
-        panelCenter.setBackground(Color.white);
+        //panelCenter.setBackground(Color.white);
 
         firstNumber = new JLabel(" Enter First Phone number", JLabel.RIGHT);
         enterNumber1 = new JTextField();
@@ -119,17 +136,23 @@ public class SetupCard extends JPanel {
                 String selectedBuilding = (String) combo.getSelectedItem();
 
                 if (selectedBuilding.equals("Single House")) {
-                    panelCenter.removeAll();
-                    URL url = BuildingList.getBuilding(0).getImage();
-                    JLabel homeLabel = new JLabel(new ImageIcon(url));
-                    panelCenter.add(homeLabel);
-                    panelCenter.updateUI();
-                    return;
+					/*panelCenter.removeAll();
+					URL url = this.getClass().getClassLoader()
+							.getResource("singleHouse.jpg");
+					JLabel homeLabel = new JLabel(new ImageIcon(url));
+					panelCenter.add(homeLabel);
+					panelCenter.updateUI();
+					return;*/
+                    createHouse();
+
+                    //pic.singleHouse();
 
                 } else if (selectedBuilding.equals("Commercial")) {
 
+                    //pic.commercial();
                     panelCenter.removeAll();
-                    URL url = BuildingList.getBuilding(1).getImage();
+                    URL url = this.getClass().getClassLoader()
+                            .getResource("commercial.jpg");
                     JLabel commercialLabel = new JLabel(new ImageIcon(url));
                     panelCenter.add(commercialLabel);
                     panelCenter.updateUI();
@@ -138,6 +161,7 @@ public class SetupCard extends JPanel {
                 }
                 else if (selectedBuilding.equals("Select a building")) {
 
+                    //pic.selection();
                     panelCenter.removeAll();
                     panelCenter.updateUI();
                 }
@@ -179,48 +203,16 @@ public class SetupCard extends JPanel {
         xLabel = new JLabel("");
         yLabel = new JLabel("");
 
-        // panelCenter.add( xLabel );
-        // panelCenter.add( yLabel);
         panelLeft.add(xLabel);
         panelLeft.add(yLabel);
 
-        // An instance of MouseAdapter listens to the mouse events
-        addMouseListener(new MouseEventAdapterA());
-        setVisible(true);
 
     }
 
-    class MouseEventAdapterA extends MouseAdapter {
-        public void mouseClicked(MouseEvent e) {
-
-            int x = e.getX();
-            int y = e.getY();
-            xStr = new String("<html><h2><font color=blue size=10>" + "X: ");
-            xStr = xStr + x + "</font></h2></html>";
-
-            yStr = new String("<html><h2><font color=green size=10>" + "Y: ");
-            yStr = yStr + y + "</font></h2></html>";
-
-            if (x >= 433 && x <= 762 && y >= 67 && y <= 210) {
-
-                JOptionPane.showMessageDialog(null, "Room number 1");
-            } else if (x >= 431 && x <= 674 && y >= 229 && y <= 632) {
-                JOptionPane.showMessageDialog(null, "Room number 2");
-
-            } else if (x >= 684 && x <= 1165 && y >= 229 && y <= 372) {
-                JOptionPane.showMessageDialog(null, "Room number 3");
-
-            }
-
-            else if (x >= 763 && x <= 1165 && y >= 382 && y <= 629) {
-                JOptionPane.showMessageDialog(null, "Room number 4");
-
-            }
-
-            xLabel.setText(xStr);
-            yLabel.setText(yStr);
-
-        }
+    private void createHouse() {
+        System.out.println("inside method");
+        this.add(panelCenter, BorderLayout.CENTER);
+        this.updateUI();
+        //this.add(panelCenter);
     }
-
 }

@@ -37,6 +37,12 @@ public class Building {
         }
         return null;
     }
+    public int getSize() {
+        return subAreaList.size();
+    }
+    public ArrayList<SubAreas> getSubAreaList() {
+        return subAreaList;
+    }
     public String getSystemPass() {
         return mainSystem.getPassword();
     }
