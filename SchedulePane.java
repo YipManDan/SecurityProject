@@ -569,14 +569,24 @@ public class SchedulePane extends JPanel{
         class optionsBtnHandler implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 if(e.getActionCommand() == "save") {
+                    sensor.setManualOn(manCB.isSelected());
+                    sensor.setOnTime(Schedule.Setting.weekday, parseString(weekdayOnTF.getText()));
+                    sensor.setOffTime(Schedule.Setting.weekday, parseString(weekdayOffTF.getText()));
+                    sensor.setOnTime(Schedule.Setting.weekend, parseString(weekendOnTF.getText()));
+                    sensor.setOffTime(Schedule.Setting.weekend, parseString(weekendOffTF.getText()));
+                    sensor.setOnTime(Schedule.Setting.vacation, parseString(vacationOnTF.getText()));
+                    sensor.setOffTime(Schedule.Setting.vacation, parseString(vacationOffTF.getText()));
 
                 }
                 if(e.getActionCommand() == "cancel") {
+                    cards.show(cardPanel, "sensors");
 
                 }
 
             }
         }
+        optionSaveBtn1.addActionListener(new optionsBtnHandler());
+        cancelBtn1.addActionListener(new optionsBtnHandler());
     }
     private LocalTime parseString(String string) {
         String sub1 = string.substring(0, 2);
