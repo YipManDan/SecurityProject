@@ -70,6 +70,12 @@ public class SubAreas {
         motionSensorExists = false;
         return true;
     }
+    public void setSetting(Schedule.Setting setting) {
+        if(hasFireSensor())
+            fs.setSetting(setting);
+        if(hasMotionSensor())
+            ms.setSetting(setting);
+    }
     public void setFireSensorOn(){
         fs.setOn(true);
     }

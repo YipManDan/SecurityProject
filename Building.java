@@ -74,7 +74,11 @@ public class Building {
         this.buildingId = buildingId;
     }
 
-
+    public void updateSettings(Schedule.Setting setting) {
+        for(SubAreas s: subAreaList) {
+            s.setSetting(setting);
+        }
+    }
 
 
 }
