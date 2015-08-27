@@ -1,6 +1,7 @@
 package project.security;
 
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +25,6 @@ public class BuildingList {
                 .getResource("commercial.jpg");
         temp.setImage(url);
         buildings.add(temp);
-        //temp.setImage(this.getClass().getClassLoader().getResource("singleHouse.jpg"));
     }
     public static Building getBuilding(int index) {
         return buildings.get(index);

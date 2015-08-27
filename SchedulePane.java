@@ -1,8 +1,6 @@
 package project.security;
 
-import javax.smartcardio.Card;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +10,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -20,22 +19,38 @@ import java.util.Map;
  */
 public class SchedulePane extends JPanel{
     MainSystem system;
+    private JFrame allSensors;
     private JPanel bottomPanel;
-    private JPanel passCard, scheduleCard;
+    private JPanel passPanel, scheduleCard;
     private JPanel sensorCard, optionCard, sensors;
     private JPanel  cardPanel, right;
     private CardLayout  cards;
     private JFormattedTextField passTF;
     private JTextField roomID, results;
-    private JButton enter, enterID, showAll;
+    private JButton enter, enterID, showAll, saveBtn;
     private GridBagConstraints c = new GridBagConstraints();
     private DateFormat format;
+    private DateTimeFormatter formatter;
+
+    private ArrayList<Sensor> sensorArray;
+    private ArrayList<JCheckBox> manualCBs;
+    private ArrayList<JFormattedTextField> weekdayOn;
+    private ArrayList<JFormattedTextField> weekdayOff;
+    private ArrayList<JFormattedTextField> weekendOn;
+    private ArrayList<JFormattedTextField> weekendOff;
+    private ArrayList<JFormattedTextField> vacationOn;
+    private ArrayList<JFormattedTextField> vacationOff;
 
     JLabel numRooms;
 
     public SchedulePane() {
         setLayout(new BorderLayout());
-        format = new SimpleDateFormat("hh:mm");
+        format = new SimpleDateFormat("HH:mm");
+        formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        saveBtn = new JButton("Save");
+        saveBtn.setActionCommand("save");
+        saveBtn.addActionListener(new ButtonHandler());
 
         roomID = new JTextField();
         roomID.setPreferredSize(new Dimension(100, 30));
@@ -63,7 +78,7 @@ public class SchedulePane extends JPanel{
         right = new JPanel();
         right.setPreferredSize(new Dimension(200,100));
 
-        passCard = new JPanel(new FlowLayout());
+        passPanel = new JPanel(new FlowLayout());
 
         scheduleCard = new JPanel(new BorderLayout());
         scheduleCard.add(bottomPanel, BorderLayout.SOUTH);
@@ -93,11 +108,11 @@ public class SchedulePane extends JPanel{
         scheduleCard.add(homeLabel, BorderLayout.CENTER);
 
 
-        passCard.add(passTF);
-        passCard.add(enter);
+        passPanel.add(passTF);
+        passPanel.add(enter);
 
 
-        this.add(passCard);
+        this.add(passPanel);
         cardPanel.add(sensorCard, "sensors");
         cardPanel.add(optionCard, "options");
 
@@ -129,7 +144,7 @@ public class SchedulePane extends JPanel{
         }
     }
     private void validPassWord() {
-        this.remove(passCard);
+        this.remove(passPanel);
         this.add(scheduleCard);
     }
     private void checkForSensor() {
@@ -182,139 +197,100 @@ public class SchedulePane extends JPanel{
 
     }
     private void showAllSensors() {
-        JFrame allSensors = new JFrame();
+        allSensors = new JFrame();
         allSensors.setPreferredSize(new Dimension(1000, 750));
         allSensors.setMinimumSize(new Dimension(1000, 750));
         allSensors.setTitle("All Sensors");
 
+        Font font = new Font("Serif", Font.BOLD, 14);
+        Map attributes = font.getAttributes();
+        font = font.deriveFont(attributes);
+
+
         //JScrollPane sensorList = new JScrollPane();
-        //JPanel sensorList = new JPanel(new GridLayout(8,6));
         JPanel sensorList = new JPanel(new GridBagLayout());
         c.fill = GridBagConstraints.HORIZONTAL;
-        //c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 0;
-        sensorList.add(new JLabel("   SubArea Id   "), c);
+        JLabel label = new JLabel(" SubArea Id  ");
+        label.setFont(font);
+        sensorList.add(label, c);
         c.gridx = 1;
-        sensorList.add(new JLabel("   Sensor Type   "), c);
+        label = new JLabel(" Sensor Type  ");
+        label.setFont(font);
+        sensorList.add(label, c);
         c.gridx++;
-        sensorList.add(new JLabel("  Manual On/Off  "), c);
+        label = new JLabel(" Sensor On/Off  ");
+        label.setFont(font);
+        sensorList.add(label, c);
         c.gridx++;
-        sensorList.add(new JLabel("   Weekday On   "), c);
+        label = new JLabel(" Weekday On  ");
+        label.setFont(font);
+        sensorList.add(label, c);
         c.gridx++;
-        sensorList.add(new JLabel("   Weekday Off   "), c);
+        label = new JLabel(" Weekday Off  ");
+        label.setFont(font);
+        sensorList.add(label, c);
         c.gridx++;
-        sensorList.add(new JLabel("   Weekend On   "), c);
+        label = new JLabel(" Weekend On  ");
+        label.setFont(font);
+        sensorList.add(label, c);
         c.gridx++;
-        sensorList.add(new JLabel("   Weekend Off   "), c);
+        label = new JLabel(" Weekend Off  ");
+        label.setFont(font);
+        sensorList.add(label, c);
         c.gridx++;
-        sensorList.add(new JLabel("   Vacation On   "), c);
+        label = new JLabel(" Vacation On  ");
+        label.setFont(font);
+        sensorList.add(label, c);
         c.gridx++;
-        sensorList.add(new JLabel("   Vacation Off   "), c);
+        label = new JLabel(" Vacation Off  ");
+        label.setFont(font);
+        sensorList.add(label, c);
 
-        //sensorList.add(new JLabel("Hello World"), c);
         ArrayList<SubAreas> areaList = BuildingList.getBuilding(0).getSubAreaList();
-        ArrayList<Sensor> sensorArray = new ArrayList<>(0);
+        sensorArray = new ArrayList<>(0);
         int size=0;
         for(SubAreas temp : areaList) {
             if(temp.hasMotionSensor()) {
                 size++;
                 sensorArray.add(temp.getMotionSensor());
-                System.out.println(temp.getSubAreaId() + " has a motion sensor");
             }
             if(temp.hasFireSensor()) {
                 ++size;
                 sensorArray.add(temp.getFireSensor());
-                System.out.println(temp.getSubAreaId() + " has a fire sensor");
             }
         }
-        ArrayList<JLabel> sensorIds = new ArrayList<>(size);
-        ArrayList<JCheckBox> manualCBs = new ArrayList<>(size);
-        ArrayList<JFormattedTextField> weekdayOn = new ArrayList<>(size);
-        ArrayList<JFormattedTextField> weekdayOff= new ArrayList<>(size);
-        ArrayList<JFormattedTextField> weekendOn = new ArrayList<>(size);
-        ArrayList<JFormattedTextField> weekendOff = new ArrayList<>(size);
-        ArrayList<JFormattedTextField> vacationOn = new ArrayList<>(size);
-        ArrayList<JFormattedTextField> vacationOff = new ArrayList<>(size);
+        manualCBs = new ArrayList<>(size);
+        weekdayOn = new ArrayList<>(size);
+        weekdayOff= new ArrayList<>(size);
+        weekendOn = new ArrayList<>(size);
+        weekendOff = new ArrayList<>(size);
+        vacationOn = new ArrayList<>(size);
+        vacationOff = new ArrayList<>(size);
         for(Sensor temp : sensorArray) {
-            sensorIds.add(new JLabel("   " + temp.getSensorID() + "   "));
             JCheckBox tempBox = new JCheckBox();
             tempBox.setSelected(temp.getManualOn());
             manualCBs.add(tempBox);
             JFormattedTextField weekdayOnTF = new JFormattedTextField(format);
-            weekdayOnTF.setText(temp.getOnTime(Schedule.Setting.weekend).toString());
+            weekdayOnTF.setText(temp.getOnTime(Schedule.Setting.weekday).toString());
             weekdayOn.add(weekdayOnTF);
             JFormattedTextField weekdayOffTF = new JFormattedTextField(format);
-            weekdayOffTF.setText(temp.getOnTime(Schedule.Setting.weekend).toString());
+            weekdayOffTF.setText(temp.getOffTime(Schedule.Setting.weekday).toString());
             weekdayOff.add(weekdayOffTF);
             JFormattedTextField weekendOnTF = new JFormattedTextField(format);
             weekendOnTF.setText(temp.getOnTime(Schedule.Setting.weekend).toString());
             weekendOn.add(weekendOnTF);
             JFormattedTextField weekendOffTF = new JFormattedTextField(format);
-            weekendOffTF.setText(temp.getOnTime(Schedule.Setting.weekend).toString());
+            weekendOffTF.setText(temp.getOffTime(Schedule.Setting.weekend).toString());
             weekendOff.add(weekendOffTF);
             JFormattedTextField vacationOnTF = new JFormattedTextField(format);
-            vacationOnTF.setText(temp.getOnTime(Schedule.Setting.weekend).toString());
+            vacationOnTF.setText(temp.getOnTime(Schedule.Setting.vacation).toString());
             vacationOn.add(vacationOnTF);
             JFormattedTextField vacationOffTF = new JFormattedTextField(format);
-            vacationOffTF.setText(temp.getOnTime(Schedule.Setting.weekend).toString());
+            vacationOffTF.setText(temp.getOffTime(Schedule.Setting.vacation).toString());
             vacationOff.add(vacationOffTF);
         }
-        /*
-        for(SubAreas temp : areaList) {
-            if(temp.hasFireSensor()) {
-                Sensor fs = temp.getFireSensor();
-                sensorIds.add(new JLabel("   " + fs.getSensorID() + "   "));
-                JCheckBox tempBox = new JCheckBox();
-                tempBox.setSelected(fs.getManualOn());
-                manualCBs.add(tempBox);
-                JFormattedTextField weekdayOnTF = new JFormattedTextField(format);
-                weekdayOnTF.setText(fs.getOnTime(Schedule.Setting.weekend).toString());
-                weekdayOn.add(weekdayOnTF);
-                JFormattedTextField weekdayOffTF = new JFormattedTextField(format);
-                weekdayOffTF.setText(fs.getOnTime(Schedule.Setting.weekend).toString());
-                weekdayOff.add(weekdayOffTF);
-                JFormattedTextField weekendOnTF = new JFormattedTextField(format);
-                weekendOnTF.setText(fs.getOnTime(Schedule.Setting.weekend).toString());
-                weekendOn.add(weekendOnTF);
-                JFormattedTextField weekendOffTF = new JFormattedTextField(format);
-                weekendOffTF.setText(fs.getOnTime(Schedule.Setting.weekend).toString());
-                weekendOff.add(weekendOffTF);
-                JFormattedTextField vacationOnTF = new JFormattedTextField(format);
-                vacationOnTF.setText(fs.getOnTime(Schedule.Setting.weekend).toString());
-                vacationOn.add(vacationOnTF);
-                JFormattedTextField vacationOffTF = new JFormattedTextField(format);
-                vacationOffTF.setText(fs.getOnTime(Schedule.Setting.weekend).toString());
-                vacationOff.add(vacationOffTF);
-            }
-            if(temp.hasMotionSensor()) {
-                Sensor ms = temp.getMotionSensor();
-                sensorIds.add(new JLabel("   " + ms.getSensorID() + "   "));
-                JCheckBox tempBox = new JCheckBox();
-                tempBox.setSelected(ms.getManualOn());
-                manualCBs.add(tempBox);
-                JFormattedTextField weekdayOnTF = new JFormattedTextField(format);
-                weekdayOnTF.setText(ms.getOnTime(Schedule.Setting.weekend).toString());
-                weekdayOn.add(weekdayOnTF);
-                JFormattedTextField weekdayOffTF = new JFormattedTextField(format);
-                weekdayOffTF.setText(ms.getOnTime(Schedule.Setting.weekend).toString());
-                weekdayOff.add(weekdayOffTF);
-                JFormattedTextField weekendOnTF = new JFormattedTextField(format);
-                weekendOnTF.setText(ms.getOnTime(Schedule.Setting.weekend).toString());
-                weekendOn.add(weekendOnTF);
-                JFormattedTextField weekendOffTF = new JFormattedTextField(format);
-                weekendOffTF.setText(ms.getOnTime(Schedule.Setting.weekend).toString());
-                weekendOff.add(weekendOffTF);
-                JFormattedTextField vacationOnTF = new JFormattedTextField(format);
-                vacationOnTF.setText(ms.getOnTime(Schedule.Setting.weekend).toString());
-                vacationOn.add(vacationOnTF);
-                JFormattedTextField vacationOffTF = new JFormattedTextField(format);
-                vacationOffTF.setText(ms.getOnTime(Schedule.Setting.weekend).toString());
-                vacationOff.add(vacationOffTF);
-            }
-        }
-        */
-        //for(int i=0; i < size; i++) {
         int i = 0;
         for(Sensor temp: sensorArray) {
             c.gridy = i+1;
@@ -323,19 +299,57 @@ public class SchedulePane extends JPanel{
             c.gridx++;
             String type;
             if(FireSensor.class.equals(temp.getClass())) {
-                type = "Fire Sensor";
+                type = "Fire Sensor     ";
             } else {
-                type = "Motion Sensor";
+                type = "Motion Sensor     ";
             }
             sensorList.add(new JLabel("   " + type + "   "),c);
-
+            c.gridx++;
+            sensorList.add(manualCBs.get(i),c);
+            c.gridx++;
+            sensorList.add(weekdayOn.get(i), c);
+            c.gridx++;
+            sensorList.add(weekdayOff.get(i), c);
+            c.gridx++;
+            sensorList.add(weekendOn.get(i), c);
+            c.gridx++;
+            sensorList.add(weekendOff.get(i), c);
+            c.gridx++;
+            sensorList.add(vacationOn.get(i), c);
+            c.gridx++;
+            sensorList.add(vacationOff.get(i), c);
             i++;
         }
 
+        c.gridy = i+3;
+        c.gridx = 5;
+        sensorList.add(saveBtn, c);
 
         allSensors.add(sensorList);
-
         allSensors.setVisible(true);
+    }
+    private void generateOptionCard() {
+
+    }
+    private LocalTime parseString(String string) {
+        String sub1 = string.substring(0, 2);
+        String sub2 = string.substring(3, 5);
+        LocalTime time = LocalTime.of(Integer.parseInt(sub1), Integer.parseInt(sub2));
+        return time;
+    }
+    private void saveTextFields() {
+        int i=0;
+        for(Sensor temp: sensorArray) {
+            temp.setManualOn(manualCBs.get(i).isSelected());
+            temp.setOnTime(Schedule.Setting.weekday, parseString(weekdayOn.get(i).getText()));
+            temp.setOffTime(Schedule.Setting.weekday, parseString(weekdayOff.get(i).getText()));
+            temp.setOnTime(Schedule.Setting.weekend, parseString(weekendOn.get(i).getText()));
+            temp.setOffTime(Schedule.Setting.weekend, parseString(weekendOff.get(i).getText()));
+            temp.setOnTime(Schedule.Setting.vacation, parseString(vacationOn.get(i).getText()));
+            temp.setOffTime(Schedule.Setting.vacation, parseString(vacationOff.get(i).getText()));
+            i++;
+        }
+        allSensors.dispose();
 
     }
     private class ButtonHandler implements ActionListener {
@@ -347,6 +361,7 @@ public class SchedulePane extends JPanel{
                 showAllSensors();
             }
             if(e.getActionCommand() == "fire") {
+                generateOptionCard();
                 cards.next(cardPanel);
 
             }
@@ -354,10 +369,13 @@ public class SchedulePane extends JPanel{
 
             }
             if(e.getActionCommand() == "save") {
-
+                saveTextFields();
             }
             if(e.getActionCommand() == "cancel") {
                 cards.next(cardPanel);
+            }
+            if(e.getActionCommand() == "cancel2") {
+
             }
         }
     }

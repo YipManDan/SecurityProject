@@ -23,12 +23,13 @@ public abstract class Sensor {
         this.roomID = roomID;
         on = true;
         manualOn = true;
+        //Arbitrary defaults
         weekdayOn = LocalTime.of(19,0);
         weekdayOff = LocalTime.of(8,30);
         weekendOn = LocalTime.of(16,0);
         weekendOff = LocalTime.of(10,0);
         vacationOn = LocalTime.MIN;
-        vacationOff = LocalTime.MAX;
+        vacationOff = LocalTime.of(23,59);
     }
     public Integer getSensorID() {
         return sensorID;
@@ -60,6 +61,38 @@ public abstract class Sensor {
             default:
                 return LocalTime.MAX;
         }
+    }
+    public void setOnTime(Schedule.Setting setting, LocalTime time) {
+        switch (setting) {
+            case weekday:
+                weekdayOn = time;
+                return;
+            case weekend:
+                weekendOn = time;
+                return;
+            case vacation:
+                vacationOn = time;
+                return;
+            default:
+                return;
+        }
+
+    }
+    public void setOffTime(Schedule.Setting setting, LocalTime time) {
+        switch (setting) {
+            case weekday:
+                weekdayOff = time;
+                return;
+            case weekend:
+                weekendOff = time;
+                return;
+            case vacation:
+                vacationOff = time;
+                return;
+            default:
+                return;
+        }
+
     }
     public Boolean isOn() {
         return on;
