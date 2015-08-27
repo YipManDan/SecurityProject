@@ -60,7 +60,12 @@ public class Building {
     public int numSubAreas() {
         return subAreaList.size();
     }
-
+    public void setPhone1(int phone1) {
+        mainSystem.setPhone1(phone1);
+    }
+    public void setPhone2(int phone2) {
+        mainSystem.setPhone2(phone2);
+    }
     public int getBuildingId() {
         return buildingId;
     }

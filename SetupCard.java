@@ -42,7 +42,8 @@ public class SetupCard extends JPanel {
         setLayout(new BorderLayout());
 
         // panelRight = new JPanel(new FlowLayout(FlowLayout.LEADING, 15, 6));
-        panelRight = new JPanel(new FlowLayout());
+//        panelRight = new JPanel(new FlowLayout());
+        panelRight = new JPanel(new GridBagLayout());
         topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(700, 30));
         panelLeft = new JPanel(new GridBagLayout());
@@ -72,32 +73,62 @@ public class SetupCard extends JPanel {
         panelRight.setPreferredSize(new Dimension(300, 100));
 
         panelLeft.setBackground(Color.GRAY);
-        panelLeft.setPreferredSize(new Dimension(200, 30));
+        panelLeft.setPreferredSize(new Dimension(300, 30));
 
         panelCenter.setBackground(Color.white);
 
-        firstNumber = new JLabel(" Enter First Phone number", JLabel.RIGHT);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        firstNumber = new JLabel(" Enter First Phone number:", JLabel.LEFT);
+        firstNumber.setFont(new Font("Serif", Font.BOLD, 15));
         enterNumber1 = new JTextField();
         enterNumber1.setPreferredSize(new Dimension(100, 30));
+        enterNumber1.setMaximumSize(new Dimension(150, 30));
         enterNumber1.setEditable(true);
 
-        panelRight.add(firstNumber);
-        panelRight.add(enterNumber1);
+        panelRight.add(firstNumber, gbc);
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        panelRight.add(enterNumber1, gbc);
 
-        secondNumber = new JLabel(" Enter Second Phone number ", JLabel.RIGHT);
+        gbc.gridy++;
+        panelRight.add(Box.createRigidArea(new Dimension(150, 8)), gbc);
+
+        secondNumber = new JLabel(" Enter Second Phone number:", JLabel.LEFT);
+        secondNumber.setFont(new Font("Serif", Font.BOLD, 15));
         enterNumber2 = new JTextField();
         enterNumber2.setPreferredSize(new Dimension(100, 30));
+        enterNumber2.setMaximumSize(new Dimension(50, 30));
         enterNumber2.setEditable(true);
 
-        panelRight.add(secondNumber);
-        panelRight.add(enterNumber2);
+        gbc.gridwidth = 1;
+        gbc.gridy++;
+        panelRight.add(secondNumber, gbc);
+        gbc.gridwidth = 2;
+        gbc.gridy++;
+        panelRight.add(enterNumber2, gbc);
+
+        gbc.gridy++;
+        panelRight.add(Box.createRigidArea(new Dimension(150, 12)), gbc);
 
         savePhoneNumbers = new JButton("Save");
         savePhoneNumbers.setPreferredSize(new Dimension(100, 30));
-        panelRight.add(savePhoneNumbers);
+        gbc.gridwidth = 1;
+        gbc.gridx = 1;
+        gbc.gridy++;
+        panelRight.add(savePhoneNumbers, gbc);
+
         savePhoneNumbers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                if(!enterNumber1.getText().equals(""))
+                    BuildingList.getBuilding(0).setPhone1(Integer.parseInt(enterNumber1.getText()));
+                if(!enterNumber2.getText().equals(""))
+                    BuildingList.getBuilding(0).setPhone2(Integer.parseInt(enterNumber2.getText()));
+                /*
                 try {
                     // Open an audio input stream.
                     URL url = this.getClass().getClassLoader()
@@ -117,6 +148,7 @@ public class SetupCard extends JPanel {
                 } catch (LineUnavailableException e3) {
                     e3.printStackTrace();
                 }
+                */
 
             }
         });
