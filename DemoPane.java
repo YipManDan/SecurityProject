@@ -440,6 +440,8 @@ public class DemoPane extends JPanel{
         SubAreas subArea = BuildingList.getBuilding(0).getSubArea(roomNum);
         String event = "";
         Sensor sensor;
+        LocalTime time = getTime();
+        BuildingList.getBuilding(0).updateTime(time);
         /*Switch does:
             Determines type of event.
             Determine if appropriate sensor is available.
@@ -476,8 +478,6 @@ public class DemoPane extends JPanel{
             default:
                 return;
         }
-        LocalTime time = getTime();
-        BuildingList.getBuilding(0).updateTime(time);
 
 
         JFrame alertFrame = new JFrame();
