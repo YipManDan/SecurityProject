@@ -6,7 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -20,7 +24,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
@@ -41,6 +44,8 @@ public class DemoPane extends JPanel{
     private JPanel panelMiddle;
     PanelCenter panelCenter = new PanelCenter(new RoomHandler());
 
+    File toFile;
+
 
     private BuildingList.roomRef currentRef;
     private Schedule.Setting currentMode ;
@@ -48,6 +53,7 @@ public class DemoPane extends JPanel{
     private eventType thisEvent;
     JFormattedTextField currentTime;
     Boolean isWeekend;
+    String dayIs;
 
 
     String soundName = "yourSound.wav";
@@ -63,8 +69,13 @@ public class DemoPane extends JPanel{
         setLayout(new BorderLayout());
         currentMode = Schedule.Setting.manual;
         isWeekend = true;
+        toFile = new File("LogFile.txt");
         format = new SimpleDateFormat("HH:mm");
         formatter = DateTimeFormatter.ofPattern("HH:mm");
+        dayIs = "sunday";
+
+        currentMode = Schedule.Setting.manual;
+        BuildingList.getBuilding(0).updateSettings(Schedule.Setting.manual);
 
         panelRight = new JPanel(new GridBagLayout());
         topPanel = new JPanel(new FlowLayout());
@@ -266,6 +277,7 @@ public class DemoPane extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String s = (String) mode.getSelectedItem();
+                dayIs = e.getActionCommand();
                 if(e.getActionCommand() == "sunday" || e.getActionCommand() == "saturday") {
                     isWeekend = true;
                     System.out.println("Hey! It's the weekend!");
@@ -390,6 +402,9 @@ public class DemoPane extends JPanel{
     }
 
     private void emergencyEvent(BuildingList.roomRef input) {
+        writeText("Event Occurred on " + dayIs.toString()  + " at " + getTime().toString());
+        writeText("System mode: " + currentMode.toString());
+
         String room = "";
         int roomNum = 0;
         switch (input) {
@@ -433,12 +448,15 @@ public class DemoPane extends JPanel{
             case FIRE:
                 if(!subArea.hasFireSensor()) {
                     System.out.println(input + " has no fire sensor");
+                    writeText("A fire went undetected");
+                    writeText(" ");
                     return;
                 }
                 sensor = subArea.getFireSensor();
-                //sensor.setSetting(currentMode);
                 if(!sensor.isOn()) {
                     System.out.println(input + " fire sensor is off");
+                    writeText("A fire went undetected");
+                    writeText(" ");
                     return;
                 }
                 event = " fire";
@@ -446,15 +464,18 @@ public class DemoPane extends JPanel{
             case INTRUDER:
                 if(!subArea.hasMotionSensor()) {
                     System.out.println(input + " has no motion sensor");
+                    writeText("An intrusion went undetected");
+                    writeText(" ");
                     return;
                 }
                 sensor = subArea.getMotionSensor();
-                //sensor.setSetting(currentMode);
                 if(!sensor.isOn()) {
                     System.out.println(input + " motion sensor is off");
+                    writeText("An intrusion went undetected");
+                    writeText(" ");
                     return;
                 }
-                event = "n intrustion";
+                event = "n intrusion";
                 break;
             default:
                 return;
@@ -488,6 +509,7 @@ public class DemoPane extends JPanel{
         alertFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         //alertFrame.dispose();
 
+
         JPanel eventPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -496,9 +518,22 @@ public class DemoPane extends JPanel{
 
         JLabel message1 = new JLabel("A" + event + " was detected in " + room);
         eventPanel.add(message1, c);
+        writeText(message1.getText());
+
+        if(MainSystem.phone1IsEnabled()) {
+            JLabel phoneMessage1 = new JLabel("Emergency Number Called: " + MainSystem.getPhone1());
+            c.gridy++;
+            eventPanel.add(phoneMessage1, c);
+            writeText(phoneMessage1.getText());
+        }
+        if(MainSystem.phone2IsEnabled()) {
+            JLabel phoneMessage2 = new JLabel("Emergency Number Called: " + MainSystem.getPhone2());
+            c.gridy++;
+            eventPanel.add(phoneMessage2, c);
+            writeText(phoneMessage2.getText());
+        }
 
         JLabel pinLbl = new JLabel("Enter pin to stop alarm (DEFAULT: 123):  ");
-        //pinLbl.setFont(new Font("Serif", Font.BOLD, 12));
         JLabel responseLbl = new JLabel("");
 
         JTextField pinTF = new JTextField(5);
@@ -528,10 +563,35 @@ public class DemoPane extends JPanel{
         c.gridx--;
         eventPanel.add(responseLbl, c);
 
+
+
+        writeText(" ");
+
         alertFrame.add(eventPanel);
         alertFrame.setVisible(true);
     }
 
+    public void writeText(String s){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(toFile, true));
+            PrintWriter out = new PrintWriter(writer);
+            out.println(s);
+            //writer.write(s);
+            //writer.newLine();
+            writer.close();
+        } catch (IOException e) {
+            System.err.print(e);
+            System.exit(1);
+        }
+        /*
+        try {
+            Files.write(Paths.get("LogFile.txt"), s.getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            System.err.print(e);
+            System.exit(1);
+        }
+        */
+    }
     private LocalTime getTime() {
         String string = currentTime.getText();
         String sub1 = string.substring(0, 2);

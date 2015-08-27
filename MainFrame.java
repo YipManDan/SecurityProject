@@ -42,7 +42,6 @@ public class MainFrame extends JFrame {
         tabbedPane.addTab("Log", logPane);
         tabbedPane.addTab("Demo", demoPane);
 
-
         //this.add(tabbedPane);
         this.setVisible(true);
     }
