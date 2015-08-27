@@ -219,8 +219,8 @@ public class SchedulePane extends JPanel{
     }
     private void showAllSensors() {
         allSensors = new JFrame();
-        allSensors.setPreferredSize(new Dimension(1000, 750));
-        allSensors.setMinimumSize(new Dimension(1000, 750));
+        allSensors.setPreferredSize(new Dimension(1000, 350));
+        allSensors.setMinimumSize(new Dimension(1000, 350));
         allSensors.setTitle("All Sensors");
         allSensors.setLocationRelativeTo(null);
 

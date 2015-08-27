@@ -46,6 +46,7 @@ public class DemoPane extends JPanel{
     private Schedule.Setting currentMode ;
     private enum eventType {FIRE, INTRUDER}
     private eventType thisEvent;
+    JFormattedTextField currentTime;
 
 
     String soundName = "yourSound.wav";
@@ -167,7 +168,7 @@ public class DemoPane extends JPanel{
         JComboBox mode = new JComboBox(modes);
         mode.setFont(new Font("Serif", Font.BOLD, 14));
 
-        JLabel modeLbl = new JLabel("Modes: ");
+        JLabel modeLbl = new JLabel("Mode: ");
         modeLbl.setFont(new Font("Serif", Font.BOLD, 14));
 
         c.gridx = 7;
@@ -239,7 +240,7 @@ public class DemoPane extends JPanel{
         bottomPanel.add(timeLbl, c);
 
 
-        JFormattedTextField currentTime= new JFormattedTextField(format);
+        currentTime= new JFormattedTextField(format);
         /*
         String time = LocalTime.now().toString();
         currentTime.setText(LocalTime.parse(time, formatter).toString());
@@ -429,6 +430,8 @@ public class DemoPane extends JPanel{
             default:
                 return;
         }
+        LocalTime time = getTime();
+        BuildingList.getBuilding(0).updateTime(time);
 
 
         JFrame alertFrame = new JFrame();
@@ -481,6 +484,15 @@ public class DemoPane extends JPanel{
 
         alertFrame.add(eventPanel);
         alertFrame.setVisible(true);
+    }
+
+    private LocalTime getTime() {
+        String string = currentTime.getText();
+        String sub1 = string.substring(0, 2);
+        String sub2 = string.substring(3, 5);
+        LocalTime time = LocalTime.of(Integer.parseInt(sub1), Integer.parseInt(sub2));
+        System.out.println("The current time is: " + time);
+        return time;
     }
 
     private class RoomHandler implements ActionListener {

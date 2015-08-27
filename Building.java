@@ -2,6 +2,7 @@ package project.security;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -77,6 +78,11 @@ public class Building {
     public void updateSettings(Schedule.Setting setting) {
         for(SubAreas s: subAreaList) {
             s.setSetting(setting);
+        }
+    }
+    public void updateTime(LocalTime time) {
+        for(SubAreas s: subAreaList) {
+            s.setTime(time);
         }
     }
 

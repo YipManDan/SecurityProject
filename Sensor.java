@@ -37,6 +37,13 @@ public abstract class Sensor {
     public void setSetting(Schedule.Setting setting) {
         this.setting = setting;
     }
+    public void setTime(LocalTime time) {
+        //update on status
+        if(time.isAfter(getOnTime(setting)))
+            on = true;
+        if(time.isBefore(getOffTime(setting)))
+            on = false;
+    }
     public LocalTime getOnTime(Schedule.Setting setting) {
         switch (setting) {
             case weekday:

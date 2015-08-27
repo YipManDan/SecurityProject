@@ -1,5 +1,6 @@
 package project.security;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SubAreas {
@@ -75,6 +76,12 @@ public class SubAreas {
             fs.setSetting(setting);
         if(hasMotionSensor())
             ms.setSetting(setting);
+    }
+    public void setTime(LocalTime time) {
+        if(hasFireSensor())
+            fs.setTime(time);
+        if(hasMotionSensor())
+            ms.setTime(time);
     }
     public void setFireSensorOn(){
         fs.setOn(true);
