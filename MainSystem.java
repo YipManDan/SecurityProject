@@ -34,10 +34,10 @@ public class MainSystem {
     public void setPhone2(int phone2) {
         MainSystem.phone2 = phone2;
     }
-    public void enablePhone1(Boolean enabled) {
+    public static void enablePhone1(Boolean enabled) {
         usePhone1 = enabled;
     }
-    public void enablePhone2(Boolean enabled) {
+    public static void enablePhone2(Boolean enabled) {
         usePhone2 = enabled;
     }
     public static Boolean phone1IsEnabled() {

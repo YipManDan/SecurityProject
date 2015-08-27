@@ -80,6 +80,9 @@ public class SetupCard extends JPanel {
 
         panelCenter.setBackground(Color.white);
 
+        JCheckBox enablePhone1 = new JCheckBox();
+        JCheckBox enablePhone2 = new JCheckBox();
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
@@ -93,8 +96,13 @@ public class SetupCard extends JPanel {
         enterNumber1.setMaximumSize(new Dimension(150, 30));
         enterNumber1.setEditable(true);
 
+        gbc.gridx = 1;
         panelRight.add(firstNumber, gbc);
         gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 1;
+        panelRight.add(enablePhone1, gbc);
+        gbc.gridx++;
         gbc.gridwidth = 2;
         panelRight.add(enterNumber1, gbc);
 
@@ -109,10 +117,15 @@ public class SetupCard extends JPanel {
         enterNumber2.setEditable(true);
 
         gbc.gridwidth = 1;
+        gbc.gridx = 1;
         gbc.gridy++;
         panelRight.add(secondNumber, gbc);
-        gbc.gridwidth = 2;
         gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 1;
+        panelRight.add(enablePhone2, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 2;
         panelRight.add(enterNumber2, gbc);
 
         gbc.gridy++;
@@ -127,10 +140,20 @@ public class SetupCard extends JPanel {
 
         savePhoneNumbers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(!enterNumber1.getText().equals(""))
+                if(!enterNumber1.getText().equals("")) {
                     BuildingList.getBuilding(0).setPhone1(Integer.parseInt(enterNumber1.getText()));
-                if(!enterNumber2.getText().equals(""))
+                    if(enablePhone1.isSelected())
+                        MainSystem.enablePhone1(true);
+                    else
+                        MainSystem.enablePhone1(false);
+                }
+                if(!enterNumber2.getText().equals("")) {
                     BuildingList.getBuilding(0).setPhone2(Integer.parseInt(enterNumber2.getText()));
+                    if(enablePhone2.isSelected())
+                        MainSystem.enablePhone2(true);
+                    else
+                        MainSystem.enablePhone2(false);
+                }
                 /*
                 try {
                     // Open an audio input stream.
