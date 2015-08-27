@@ -249,26 +249,34 @@ public class DemoPane extends JPanel{
         bottomPanel.add(currentTime, c);
 
 
-                mode.addActionListener(new ActionListener() {
-                                           public void actionPerformed(ActionEvent e) {
-                                               String s = (String) mode.getSelectedItem();
-                                               switch (s) {
-                                                   case "Manual":
-                                                       currentMode = Schedule.Setting.manual;
-                                                       return;
-                                                   case "Weekday":
-                                                       currentMode = Schedule.Setting.weekday;
-                                                       return;
-                                                   case "Weekend":
-                                                       currentMode = Schedule.Setting.weekend;
-                                                       return;
-                                                   case "Vacation":
-                                                       currentMode = Schedule.Setting.vacation;
-                                                       return;
-                                               }
-                                           }
-                                       }
-                );
+        Building building = BuildingList.getBuilding(0);
+        /* Mode will:
+            update all sensors settings by calling the building's updateSettings method [This method will call setSetting in all internal subAreas]
+         */
+        mode.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+               String s = (String) mode.getSelectedItem();
+               switch (s) {
+                   case "Manual":
+                       currentMode = Schedule.Setting.manual;
+                       building.updateSettings(Schedule.Setting.manual);
+                       return;
+                   case "Weekday":
+                       currentMode = Schedule.Setting.weekday;
+                       building.updateSettings(Schedule.Setting.weekday);
+                       return;
+                   case "Weekend":
+                       currentMode = Schedule.Setting.weekend;
+                       building.updateSettings(Schedule.Setting.weekend);
+                       return;
+                   case "Vacation":
+                       currentMode = Schedule.Setting.vacation;
+                       building.updateSettings(Schedule.Setting.vacation);
+                       return;
+               }
+           }
+        }
+        );
         bottomPanel.updateUI();
     }
     private void createCBuilding() {
@@ -354,11 +362,82 @@ public class DemoPane extends JPanel{
     }
 
     private void emergencyEvent(BuildingList.roomRef input) {
+        String room = "";
+        int roomNum = 0;
+        switch (input) {
+            case ROOM1:
+                roomNum = 1;
+                room = "bedroom 1";
+                break;
+            case CLOSET:
+                roomNum = 2;
+                room = "the closet";
+                break;
+            case KITCHEN:
+                roomNum = 3;
+                room = "the kitchen";
+                break;
+            case ROOM2:
+                roomNum = 4;
+                room = "bedroom 2";
+                break;
+            case LIVINGROOM:
+                roomNum = 5;
+                room = "living room";
+                break;
+            case BATHROOM:
+                roomNum = 6;
+                room = "the bathroom";
+                break;
+        }
+        SubAreas subArea = BuildingList.getBuilding(0).getSubArea(roomNum);
+        String event = "";
+        Sensor sensor;
+        /*Switch does:
+            Determines type of event.
+            Determine if appropriate sensor is available.
+            (?)Update individual sensor setting.
+            Determine if appropriate sensor is on.
+         */
+        switch (thisEvent) {
+            case FIRE:
+                if(!subArea.hasFireSensor()) {
+                    System.out.println(input + " has no fire sensor");
+                    return;
+                }
+                sensor = subArea.getFireSensor();
+                //sensor.setSetting(currentMode);
+                if(!sensor.isOn()) {
+                    System.out.println(input + " fire sensor is off");
+                    return;
+                }
+                event = " fire";
+                break;
+            case INTRUDER:
+                if(!subArea.hasMotionSensor()) {
+                    System.out.println(input + " has no motion sensor");
+                    return;
+                }
+                sensor = subArea.getMotionSensor();
+                //sensor.setSetting(currentMode);
+                if(!sensor.isOn()) {
+                    System.out.println(input + " motion sensor is off");
+                    return;
+                }
+                event = "n intrustion";
+                break;
+            default:
+                return;
+        }
+
+
         JFrame alertFrame = new JFrame();
         alertFrame.setPreferredSize(new Dimension(800, 450));
         alertFrame.setMinimumSize(new Dimension(800, 450));
         alertFrame.setTitle("Emergency Detected");
         alertFrame.setLocationRelativeTo(null);
+        alertFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        //alertFrame.dispose();
 
         JPanel eventPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -366,39 +445,40 @@ public class DemoPane extends JPanel{
         c.gridx = 0;
         c.gridy = 0;
 
-        String event = "";
-        switch (thisEvent) {
-            case FIRE:
-                event = " fire";
-                break;
-            case INTRUDER:
-                event = "n intrustion";
-                break;
-        }
-        String room = "";
-        switch (input) {
-            case ROOM1:
-                room = "bedroom 1";
-                break;
-            case CLOSET:
-                room = "the closet";
-                break;
-            case KITCHEN:
-                room = "the kitchen";
-                break;
-            case ROOM2:
-                room = "bedroom 2";
-                break;
-            case LIVINGROOM:
-                room = "living room";
-                break;
-            case BATHROOM:
-                room = "the bathroom";
-                break;
-
-        }
-        JLabel message1 = new JLabel("A" + event + " has occurred in " + room);
+        JLabel message1 = new JLabel("A" + event + " was detected in " + room);
         eventPanel.add(message1, c);
+
+        JLabel pinLbl = new JLabel("Enter pin to stop alarm (DEFAULT: 123):  ");
+        //pinLbl.setFont(new Font("Serif", Font.BOLD, 12));
+        JLabel responseLbl = new JLabel("");
+
+        JTextField pinTF = new JTextField(5);
+
+        JButton pinBtn = new JButton("Enter");
+        pinBtn.setActionCommand("pin");
+        pinBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pinTF.getText().equals("123"))
+                    alertFrame.dispose();
+                else {
+                    responseLbl.setText("The pin entered is incorrect.");
+                }
+            }
+        });
+
+        c.gridx = 0;
+        c.gridy++;
+        eventPanel.add(pinLbl, c);
+        c.gridx++;
+        eventPanel.add(pinTF, c);
+        c.gridx++;
+        eventPanel.add(pinBtn, c);
+        c.gridwidth = 3;
+        c.gridy++;
+        c.gridx--;
+        eventPanel.add(responseLbl, c);
+
         alertFrame.add(eventPanel);
         alertFrame.setVisible(true);
     }
