@@ -40,6 +40,11 @@ public class BuildingList {
         temp2 = temp.getSubArea(3);
         temp2.createMotionSensor();
         temp2.createFireSensor();
+        temp2 = temp.getSubArea(5);
+        temp2.createFireSensor();
+        temp2 = temp.getSubArea(6);
+        temp2.createFireSensor();
+        temp2.createMotionSensor();
 
 
     }
