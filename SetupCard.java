@@ -217,6 +217,29 @@ public class SetupCard extends JPanel {
     }
     private class roomHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            if(e.getActionCommand() == "kitchen") {
+                System.out.println("Yay!");
+            }
+            if(e.getActionCommand() == "living room") {
+                System.out.println("Yay!");
+
+            }
+            if(e.getActionCommand() == "closet") {
+                System.out.println("Yay!");
+
+            }
+            if(e.getActionCommand() == "room1") {
+                System.out.println("Yay!");
+
+            }
+            if(e.getActionCommand() == "room2") {
+                System.out.println("Yay!");
+
+            }
+            if(e.getActionCommand() == "bathroom") {
+                System.out.println("Yay!");
+
+            }
 
         }
     }
