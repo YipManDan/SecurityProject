@@ -8,7 +8,7 @@ import java.awt.event.*;
 public class MainFrame extends JFrame {
 
     JPanel buttonPanel, cardPanel;
-    JPanel setupPane, passPane, logPane;
+    JPanel setupPane, passPane, logPane, billPane;
     JTabbedPane tabbedPane;
 
     public MainFrame() {
@@ -24,10 +24,11 @@ public class MainFrame extends JFrame {
         setupPane.setBackground(Color.GRAY);
 
         passPane = new SchedulePane();
-
         logPane = new LogPane();
+        billPane = new BillCard();
 
         tabbedPane.addTab("Setup", setupPane);
+        tabbedPane.addTab("Bill", billPane);
         tabbedPane.addTab("Schedule", passPane);
         tabbedPane.addTab("Log", logPane);
 
