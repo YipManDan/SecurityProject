@@ -469,13 +469,13 @@ public class SchedulePane extends JPanel{
         bc.gridx++;
         weekdayCard.add(weekdayOffTF, bc);
 
-        /* Generate fields in weekendCard */
+        /* Generate fields in weekendCard*/
         bc.fill = GridBagConstraints.HORIZONTAL;
         bc.gridwidth = 1;
         bc.gridx = 0;
         bc.gridy = 0;
         JLabel weekendLbl = new JLabel("Weekend Settings");
-        weekdayLbl.setFont(new Font("Serif", Font.BOLD, 15));
+        weekendLbl.setFont(new Font("Serif", Font.BOLD, 15));
 
         JFormattedTextField weekendOnTF = new JFormattedTextField(format);
         weekendOnTF.setText(sensor.getOnTime(Schedule.Setting.weekend).toString());
@@ -504,6 +504,44 @@ public class SchedulePane extends JPanel{
         weekendCard.add(weekendOffLbl, bc);
         bc.gridx++;
         weekendCard.add(weekendOffTF, bc);
+
+        /* Generate fields in vacationCard*/
+        bc.fill = GridBagConstraints.HORIZONTAL;
+        bc.gridwidth = 1;
+        bc.gridx = 0;
+        bc.gridy = 0;
+        JLabel vacationLbl = new JLabel("Vacation Settings");
+        vacationLbl.setFont(new Font("Serif", Font.BOLD, 15));
+
+        JFormattedTextField vacationOnTF= new JFormattedTextField(format);
+        vacationOnTF.setText(sensor.getOnTime(Schedule.Setting.vacation).toString());
+        JFormattedTextField vacationOffTF = new JFormattedTextField(format);
+        vacationOffTF.setText(sensor.getOffTime(Schedule.Setting.vacation).toString());
+        JLabel vacationOnLbl = new JLabel("On time:");
+        JLabel vacationOffLbl = new JLabel("Off time:");
+
+        vacationCard.add(Box.createRigidArea(new Dimension(0, 6)), bc);
+        bc.gridy++;
+        bc.gridwidth = 2;
+        vacationCard.add(vacationLbl, bc);
+        bc.gridwidth = 1;
+        bc.gridy++;
+        vacationCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
+        bc.gridy++;
+        vacationCard.add(vacationOnLbl, bc);
+        bc.gridx++;
+        vacationCard.add(vacationOnTF, bc);
+        bc.gridwidth = 2;
+        bc.gridx = 0;
+        bc.gridy++;
+        vacationCard.add(Box.createRigidArea(new Dimension(100, 6)), bc);
+        bc.gridwidth = 1;
+        bc.gridy++;
+        vacationCard.add(vacationOffLbl, bc);
+        bc.gridx++;
+        vacationCard.add(vacationOffTF, bc);
+
+
 
         mode.addActionListener(new ActionListener() {
                                    public void actionPerformed(ActionEvent e) {
