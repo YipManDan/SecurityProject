@@ -12,14 +12,6 @@ import java.util.Date;
 public class FireSensor extends Sensor{
     public FireSensor(int sensorID, int roomID) {
         super(sensorID, roomID);
-        /*
-        protected LocalTime onTime, offTime;
-        protected LocalTime weekdayOn, weekdayOff;
-        protected LocalTime weekendOn, weekendOff;
-        protected LocalTime vacationOn, vacationOff;
-        protected Boolean manualOn;
-        */
-
     }
 
     public void raiseAlarm() {
