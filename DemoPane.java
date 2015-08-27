@@ -7,6 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import java.awt.*;
@@ -35,24 +40,28 @@ public class DemoPane extends JPanel{
     private JPanel panelRight, panelLeft, topPanel, bottomPanel;
     private JPanel panelMiddle;
     PanelCenter panelCenter = new PanelCenter(new RoomHandler());
-    private JTextField enterNumber1, enterNumber2;
-    private JLabel firstNumber, secondNumber;
-    private JButton savePhoneNumbers, saveSensor, cancelSensor;
-    private JCheckBox fireSensor, motionSensor;
-    private JLabel xLabel, yLabel;
-    //private MouseEventAdapterA meaA;
-    private String xStr, yStr;
-    BufferedImage image;
+
+
     private BuildingList.roomRef currentRef;
     private Schedule.Setting currentMode ;
+    private enum eventType {FIRE, INTRUDER}
+    private eventType thisEvent;
+
+
     String soundName = "yourSound.wav";
     //DisplayBluePrint pic = new DisplayBluePrint();
+
+
+    private DateFormat format;
+    private DateTimeFormatter formatter;
 
 
 
     DemoPane() {
         setLayout(new BorderLayout());
         currentMode = Schedule.Setting.manual;
+        format = new SimpleDateFormat("HH:mm");
+        formatter = DateTimeFormatter.ofPattern("HH:mm");
 
         panelRight = new JPanel(new GridBagLayout());
         topPanel = new JPanel(new FlowLayout());
@@ -93,6 +102,8 @@ public class DemoPane extends JPanel{
         /*Left Panel*/
         panelLeft.setPreferredSize(new Dimension(270, 30));
         panelLeft.setMaximumSize(new Dimension(270, 100));
+        thisEvent = eventType.FIRE;
+        generateLeft();
 
 
         /*Center Panel*/
@@ -228,26 +239,36 @@ public class DemoPane extends JPanel{
         bottomPanel.add(timeLbl, c);
 
 
-        mode.addActionListener(new ActionListener() {
-                                   public void actionPerformed(ActionEvent e) {
-                                       String s = (String) mode.getSelectedItem();
-                                       switch (s) {
-                                           case "Manual":
-                                               currentMode = Schedule.Setting.manual;
-                                               return;
-                                           case "Weekday":
-                                               currentMode = Schedule.Setting.weekday;
-                                               return;
-                                           case "Weekend":
-                                               currentMode = Schedule.Setting.weekend;
-                                               return;
-                                           case "Vacation":
-                                               currentMode = Schedule.Setting.vacation;
-                                               return;
+        JFormattedTextField currentTime= new JFormattedTextField(format);
+        /*
+        String time = LocalTime.now().toString();
+        currentTime.setText(LocalTime.parse(time, formatter).toString());
+        */
+        currentTime.setText("17:23");
+        c.gridx++;
+        bottomPanel.add(currentTime, c);
+
+
+                mode.addActionListener(new ActionListener() {
+                                           public void actionPerformed(ActionEvent e) {
+                                               String s = (String) mode.getSelectedItem();
+                                               switch (s) {
+                                                   case "Manual":
+                                                       currentMode = Schedule.Setting.manual;
+                                                       return;
+                                                   case "Weekday":
+                                                       currentMode = Schedule.Setting.weekday;
+                                                       return;
+                                                   case "Weekend":
+                                                       currentMode = Schedule.Setting.weekend;
+                                                       return;
+                                                   case "Vacation":
+                                                       currentMode = Schedule.Setting.vacation;
+                                                       return;
+                                               }
+                                           }
                                        }
-                                   }
-                               }
-        );
+                );
         bottomPanel.updateUI();
     }
     private void createCBuilding() {
@@ -273,187 +294,126 @@ public class DemoPane extends JPanel{
         this.add(panelMiddle, BorderLayout.CENTER);
         this.updateUI();
     }
-    private void generateLeft(BuildingList.roomRef input) {
+    //private void generateLeft(BuildingList.roomRef input) {
+    private void generateLeft() {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
-        int room = 0;
-        String title = "";
-        switch (input) {
-            case ROOM1:
-                room = 1;
-                title = "Bedroom1";
-                break;
-            case CLOSET:
-                room = 2;
-                title = "Closet";
-                break;
-            case KITCHEN:
-                room = 3;
-                title = "Kitchen";
-                break;
-            case ROOM2:
-                room = 4;
-                title = "Bedroom2";
-                break;
-            case LIVINGROOM:
-                room = 5;
-                title = "Living Room";
-                break;
-            case BATHROOM:
-                room = 6;
-                title = "Bathroom";
-                break;
-        }
-        currentRef = input;
-        panelLeft.removeAll();
-        JLabel roomLbl = new JLabel("Subarea: " + title);
-        roomLbl.setFont(new Font("Arial", Font.BOLD, 16));
-        Font font = roomLbl.getFont();
-        Map attributes = font.getAttributes();
-        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        roomLbl.setFont(font.deriveFont(attributes));
+
+
+        JLabel leftTitle = new JLabel("Select a situation: " );
+        leftTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        //Font font = leftTitle.getFont();
+        //Map attributes = font.getAttributes();
+        //attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        //leftTitle.setFont(font.deriveFont(attributes));
 
         c.gridwidth = 2;
-        panelLeft.add(roomLbl, c);
+        panelLeft.add(leftTitle, c);
         c.gridy++;
         panelLeft.add(Box.createRigidArea(new Dimension(150, 5)), c);
 
-        SubAreas temp = BuildingList.getBuilding(0).getSubArea(room);
+        JRadioButton fireEvent = new JRadioButton("Fire");
+        fireEvent.setMnemonic(KeyEvent.VK_B);
+        fireEvent.setActionCommand("fire");
+        fireEvent.setSelected(true);
 
+        JRadioButton thiefEvent = new JRadioButton("Intruder");
+        thiefEvent.setMnemonic(KeyEvent.VK_B);
+        thiefEvent.setActionCommand("thief");
 
-
-        panelLeft.updateUI();
-    }
-    private void addSensors(BuildingList.roomRef input) {
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 0;
-        int room = 0;
-        String title = "";
-        switch (input) {
-            case ROOM1:
-                room = 1;
-                title = "Bedroom1";
-                break;
-            case CLOSET:
-                room = 2;
-                title = "Closet";
-                break;
-            case KITCHEN:
-                room = 3;
-                title = "Kitchen";
-                break;
-            case ROOM2:
-                room = 4;
-                title = "Bedroom2";
-                break;
-            case LIVINGROOM:
-                room = 5;
-                title = "Living Room";
-                break;
-            case BATHROOM:
-                room = 6;
-                title = "Bathroom";
-                break;
-        }
-        currentRef = input;
-        panelLeft.removeAll();
-        JLabel roomLbl = new JLabel("Subarea: " + title);
-        roomLbl.setFont(new Font("Arial", Font.BOLD, 16));
-        Font font = roomLbl.getFont();
-        Map attributes = font.getAttributes();
-        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        roomLbl.setFont(font.deriveFont(attributes));
-
-        c.gridwidth = 2;
-        panelLeft.add(roomLbl, c);
-        c.gridy++;
-        panelLeft.add(Box.createRigidArea(new Dimension(150, 5)), c);
-
-        SubAreas temp = BuildingList.getBuilding(0).getSubArea(room);
-
-        fireSensor = new JCheckBox("Fire Sensor");
-        //fireSensor.setBackground(Color.GRAY);
-        //fireSensor.setMnemonic(KeyEvent.VK_C);
-        fireSensor.setSelected(temp.hasFireSensor());
-
-
-        motionSensor = new JCheckBox("Motion Sensor");
-        //motionSensor.setBackground(Color.GRAY);
-        //motionSensor.setMnemonic(KeyEvent.VK_G);
-        motionSensor.setSelected(temp.hasMotionSensor());
+        ButtonGroup events = new ButtonGroup();
+        events.add(fireEvent);
+        events.add(thiefEvent);
 
         c.gridy++;
-        panelLeft.add(fireSensor, c);
+        panelLeft.add(fireEvent, c);
+
         c.gridy++;
-        panelLeft.add(motionSensor, c);
+        panelLeft.add(thiefEvent, c);
 
-        JButton saveBtn = new JButton("Save");
-        JButton cancelBtn = new JButton("Cancel");
-
-        class ButtonHandler implements ActionListener {
+        class eventSelector implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                if(e.getActionCommand() == "save") {
-                    if(temp.hasFireSensor() && !fireSensor.isSelected())
-                        temp.removeFireSensor();
-                    else if(!temp.hasFireSensor() && fireSensor.isSelected())
-                        temp.createFireSensor();
-                    if(temp.hasMotionSensor() && !motionSensor.isSelected())
-                        temp.removeMotionSensor();
-                    else if(!temp.hasMotionSensor() && motionSensor.isSelected())
-                        temp.createMotionSensor();
+                if(e.getActionCommand() == "fire") {
+                    thisEvent = eventType.FIRE;
+
                 }
-                if(e.getActionCommand() == "cancel") {
-                    panelLeft.removeAll();
-                    panelLeft.updateUI();
+                if(e.getActionCommand() == "thief") {
+
+                    thisEvent = eventType.INTRUDER;
                 }
+
             }
         }
 
-
-        saveBtn.setActionCommand("save");
-        saveBtn.addActionListener(new ButtonHandler());
-        saveBtn.setMaximumSize(new Dimension(50, 20));
-
-        cancelBtn.setActionCommand("cancel");
-        cancelBtn.addActionListener(new ButtonHandler());
-        cancelBtn.setMaximumSize(new Dimension(50, 20));
-
-        c.gridwidth = 2;
-        c.gridy++;
-        panelLeft.add(Box.createRigidArea(new Dimension(150, 5)), c);
-
-        c.gridwidth = 1;
-        c.gridy++;
-        panelLeft.add(saveBtn, c);
-        c.gridx++;
-        panelLeft.add(cancelBtn, c);
+        fireEvent.addActionListener(new eventSelector());
+        thiefEvent.addActionListener(new eventSelector());
 
         panelLeft.updateUI();
+    }
+
+    private void emergencyEvent(BuildingList.roomRef input) {
+        JFrame alertFrame = new JFrame();
+        alertFrame.setPreferredSize(new Dimension(1000, 750));
+        alertFrame.setMinimumSize(new Dimension(1000, 750));
+        alertFrame.setTitle("Emergency Detected");
+        alertFrame.setLocationRelativeTo(null);
+        String event = "";
+        switch (thisEvent) {
+            case FIRE:
+                event = " fire";
+                break;
+            case INTRUDER:
+                event = "n intrustion";
+                break;
+        }
+        String room = "";
+        switch (input) {
+            case ROOM1:
+                room = "bedroom 1";
+                break;
+            case CLOSET:
+                room = "the closet";
+                break;
+            case KITCHEN:
+                room = "the kitchen";
+                break;
+            case ROOM2:
+                room = "bedroom 2";
+                break;
+            case LIVINGROOM:
+                room = "living room";
+                break;
+            case BATHROOM:
+                room = "the bathroom";
+                break;
+
+        }
+        JLabel message1 = new JLabel("A" + event + " has occurred in " + room);
+        alertFrame.add(message1);
+        alertFrame.setVisible(true);
     }
 
     private class RoomHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand() == "room1") {
-                generateLeft(BuildingList.roomRef.ROOM1);
+                emergencyEvent(BuildingList.roomRef.ROOM1);
             }
             if(e.getActionCommand() == "closet") {
-                generateLeft(BuildingList.roomRef.CLOSET);
+                emergencyEvent(BuildingList.roomRef.CLOSET);
             }
             if(e.getActionCommand() == "kitchen") {
-                generateLeft(BuildingList.roomRef.KITCHEN);
+                emergencyEvent(BuildingList.roomRef.KITCHEN);
             }
             if(e.getActionCommand() == "room2") {
-                generateLeft(BuildingList.roomRef.ROOM2);
+                emergencyEvent(BuildingList.roomRef.ROOM2);
             }
             if(e.getActionCommand() == "living room") {
-                generateLeft(BuildingList.roomRef.LIVINGROOM);
+                emergencyEvent(BuildingList.roomRef.LIVINGROOM);
             }
             if(e.getActionCommand() == "bathroom") {
-                generateLeft(BuildingList.roomRef.BATHROOM);
+                emergencyEvent(BuildingList.roomRef.BATHROOM);
             }
 
         }
