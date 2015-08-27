@@ -80,7 +80,8 @@ public class LogPane extends JPanel{
         String line = null;
         c.gridx=0;
         c.gridwidth = 2;
-        center.add(Box.createRigidArea(new Dimension(200, 8)), c);
+        c.gridy++;
+        center.add(Box.createRigidArea(new Dimension(200, 10)), c);
         while ((line=reader.readLine()) != null) {
             c.gridy++;
             center.add(new JLabel(line), c);

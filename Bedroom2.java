@@ -24,6 +24,7 @@ public class Bedroom2 extends JPanel {
 
         //set up image in the picture panel
         setBedroom2Panel();
+        add(label1);
         add(room2);
 
     }
@@ -42,6 +43,11 @@ public class Bedroom2 extends JPanel {
         room2.setLocation(0, 0);
         room2.setSize(105, 30);
         room2.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
+        label1 = new JLabel();
+        label1.setPreferredSize(new Dimension(100, 100));
+        label1.setLocation(0, 0);
+        label1.setSize(120, 160);
+        Util.setPicturetoLabel(label1, "/images/bedroom2.jpg") ;
 
 
 

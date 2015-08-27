@@ -1,7 +1,6 @@
 package project.security;
 
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -26,6 +25,7 @@ public class Closet extends JPanel {
 
         //set up image in the picture panel
         setClosetPanel();
+        add(label1);
         add(closet);
 
     }
@@ -44,6 +44,11 @@ public class Closet extends JPanel {
         closet.setLocation(0, 0);
         closet.setSize(95, 30);
         closet.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
+        label1 = new JLabel();
+        label1.setPreferredSize(new Dimension(100, 100));
+        label1.setLocation(0, 0);
+        label1.setSize(120, 160);
+        Util.setPicturetoLabel(label1, "/images/closet.jpg") ;
 
     }
     public void setActionListener(ActionListener listener) {

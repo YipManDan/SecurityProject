@@ -50,6 +50,7 @@ public class SetupCard extends JPanel {
         panelMiddle = new JPanel();
 
         panelMiddle.setBackground(Color.white);
+        //panelRight.setBackground(Color.CYAN);
 
         add(topPanel, BorderLayout.NORTH);
         add(panelRight, BorderLayout.LINE_END);
@@ -154,28 +155,6 @@ public class SetupCard extends JPanel {
                     else
                         MainSystem.enablePhone2(false);
                 }
-                /*
-                try {
-                    // Open an audio input stream.
-                    URL url = this.getClass().getClassLoader()
-                            .getResource("myplay.wav");
-                    AudioInputStream audioIn = AudioSystem
-                            .getAudioInputStream(url);
-                    // Get a sound clip resource.
-                    Clip clip = AudioSystem.getClip();
-                    // Open audio clip and load samples from the audio input
-                    // stream.
-                    clip.open(audioIn);
-                    clip.start();
-                } catch (UnsupportedAudioFileException e2) {
-                    e2.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (LineUnavailableException e3) {
-                    e3.printStackTrace();
-                }
-                */
-
             }
         });
 

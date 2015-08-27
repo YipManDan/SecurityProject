@@ -68,7 +68,7 @@ public class BillCard extends JPanel {
         c.gridy = 1;
         c1.gridy = 16;
 
-        setBackground(Color.WHITE);
+        //setBackground(Color.WHITE);
 
         contractIDLabel = new JLabel("Contract ID ");
         contractIDLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));

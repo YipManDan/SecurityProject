@@ -24,6 +24,7 @@ public class Bathroom extends JPanel {
 
         //set up image in the picture panel
         setBathroomPanel();
+        add(label1);
         add(bathroom);
 
     }
@@ -42,6 +43,12 @@ public class Bathroom extends JPanel {
         bathroom.setLocation(0, 0);
         bathroom.setSize(95, 30);
         bathroom.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
+
+        label1 = new JLabel();
+        label1.setPreferredSize(new Dimension(100, 100));
+        label1.setLocation(0, 0);
+        label1.setSize(120, 160);
+        Util.setPicturetoLabel(label1, "/images/bathroom.jpg") ;
 
     }
     public void setActionListener(ActionListener listener) {
