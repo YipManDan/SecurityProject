@@ -143,14 +143,23 @@ public class SchedulePane extends JPanel{
         this.remove(passPanel);
         this.add(scheduleCard);
     }
-    private void checkForSensor() {
-        String input = roomID.getText();
+    private void checkForSensor(BuildingList.roomRef input) {
         int room = 0;
         try {
             room = Integer.parseInt(roomID.getText());
         } catch (NumberFormatException exc) {
             System.out.println("Exception: " + exc);
         }
+        switch (input) {
+            case KITCHEN:
+                room = 1;
+        }
+
+
+
+
+
+
         sensors.removeAll();
         JLabel roomLbl = new JLabel("Subarea: " + input);
         roomLbl.setFont(new Font("Arial", Font.BOLD, 20));
@@ -607,7 +616,6 @@ public class SchedulePane extends JPanel{
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand() == "enter") {
-                checkForSensor();
                 cards.show(cardPanel, "sensors");
             }
             if(e.getActionCommand() == "all") {
@@ -636,28 +644,33 @@ public class SchedulePane extends JPanel{
     }
     private class roomHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if(e.getActionCommand() == "kitchen") {
-                System.out.println("Yay!");
-            }
-            if(e.getActionCommand() == "living room") {
-                System.out.println("Yay!");
-
+            if(e.getActionCommand() == "room1") {
+                checkForSensor(BuildingList.roomRef.ROOM1);
+                cards.show(cardPanel, "sensors");
             }
             if(e.getActionCommand() == "closet") {
-                System.out.println("Yay!");
-
+                checkForSensor(BuildingList.roomRef.CLOSET);
+                cards.show(cardPanel, "sensors");
             }
-            if(e.getActionCommand() == "room1") {
-                System.out.println("Yay!");
-
+            if(e.getActionCommand() == "kitchen") {
+                checkForSensor(BuildingList.roomRef.KITCHEN);
+                cards.show(cardPanel, "sensors");
             }
             if(e.getActionCommand() == "room2") {
-                System.out.println("Yay!");
-
+                checkForSensor(BuildingList.roomRef.ROOM2);
+                cards.show(cardPanel, "sensors");
+            }
+            if(e.getActionCommand() == "living room") {
+                checkForSensor(BuildingList.roomRef.LIVINGROOM);
+                cards.show(cardPanel, "sensors");
+            }
+            if(e.getActionCommand() == "room2") {
+                checkForSensor(BuildingList.roomRef.ROOM2);
+                cards.show(cardPanel, "sensors");
             }
             if(e.getActionCommand() == "bathroom") {
-                System.out.println("Yay!");
-
+                checkForSensor(BuildingList.roomRef.BATHROOM);
+                cards.show(cardPanel, "sensors");
             }
 
         }

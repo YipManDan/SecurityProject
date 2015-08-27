@@ -9,11 +9,12 @@ import java.util.ArrayList;
  */
 public class BuildingList {
     public static ArrayList<Building> buildings = new ArrayList<>(2);
+    public enum roomRef {KITCHEN, LIVINGROOM, CLOSET, ROOM1, ROOM2, BATHROOM}
 
 
     BuildingList() {
         Building temp = new Building(1);
-        temp.createSubAreas(4);
+        temp.createSubAreas(6);
         temp.setSystemPass("0000");
         URL url = this.getClass().getClassLoader()
                 .getResource("singleHouse.jpg");
