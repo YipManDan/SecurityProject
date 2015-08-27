@@ -14,6 +14,8 @@ public class MainSystem {
     //Clock clock;
     public MainSystem () {
         schedule = new Schedule();
+        usePhone1 = false;
+        usePhone2 = false;
         //Clock.setTime(LocalTime.now());
         new Clock();
     }
