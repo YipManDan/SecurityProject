@@ -10,7 +10,7 @@ import java.io.IOException;
 public class MainFrame extends JFrame {
 
     JPanel buttonPanel, cardPanel;
-    JPanel setupPane, passPane, logPane, billPane;
+    JPanel setupPane, passPane, logPane, billPane, demoPane;
     JPanel registerPanel;
     JTabbedPane tabbedPane;
 
@@ -18,7 +18,8 @@ public class MainFrame extends JFrame {
         setTitle("Home Security System");
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //this.setMinimumSize(new Dimension(1320, 990));
-        this.setMinimumSize(new Dimension(1200, 900));
+        //this.setMinimumSize(new Dimension(1200, 900));
+        this.setMinimumSize(new Dimension(1200, 870));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -28,18 +29,18 @@ public class MainFrame extends JFrame {
 
 
         tabbedPane = new JTabbedPane();
-
         setupPane = new SetupCard();
         setupPane.setBackground(Color.GRAY);
-
         passPane = new SchedulePane();
         logPane = new LogPane();
         billPane = new BillCard();
+        demoPane = new DemoPane();
 
         tabbedPane.addTab("Setup", setupPane);
         tabbedPane.addTab("Bill", billPane);
         tabbedPane.addTab("Schedule", passPane);
         tabbedPane.addTab("Log", logPane);
+        tabbedPane.addTab("Demo", demoPane);
 
 
         //this.add(tabbedPane);
