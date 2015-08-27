@@ -177,7 +177,7 @@ public class SchedulePane extends JPanel{
         currentRef = input;
         sensors.removeAll();
         JLabel roomLbl = new JLabel("Subarea: " + title);
-        roomLbl.setFont(new Font("Arial", Font.BOLD, 14));
+        roomLbl.setFont(new Font("Arial", Font.BOLD, 16));
         Font font = roomLbl.getFont();
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
