@@ -448,14 +448,14 @@ public class DemoPane extends JPanel{
             case FIRE:
                 if(!subArea.hasFireSensor()) {
                     System.out.println(input + " has no fire sensor");
-                    writeText("A fire went undetected");
+                    writeText("A fire went undetected in " + room);
                     writeText(" ");
                     return;
                 }
                 sensor = subArea.getFireSensor();
                 if(!sensor.isOn()) {
                     System.out.println(input + " fire sensor is off");
-                    writeText("A fire went undetected");
+                    writeText("A fire went undetected in " + room);
                     writeText(" ");
                     return;
                 }
@@ -464,14 +464,14 @@ public class DemoPane extends JPanel{
             case INTRUDER:
                 if(!subArea.hasMotionSensor()) {
                     System.out.println(input + " has no motion sensor");
-                    writeText("An intrusion went undetected");
+                    writeText("An intrusion went undetected in " + room);
                     writeText(" ");
                     return;
                 }
                 sensor = subArea.getMotionSensor();
                 if(!sensor.isOn()) {
                     System.out.println(input + " motion sensor is off");
-                    writeText("An intrusion went undetected");
+                    writeText("An intrusion went undetected in " + room);
                     writeText(" ");
                     return;
                 }
