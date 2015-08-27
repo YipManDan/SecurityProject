@@ -28,7 +28,6 @@ public class SchedulePane extends JPanel{
     private JFormattedTextField passTF;
     private JTextField roomID, results;
     private JButton enter, enterID, showAll, saveBtn;
-    private JButton cancelBtn, optionSaveBtn;
     private GridBagConstraints c = new GridBagConstraints();
     private DateFormat format;
     private DateTimeFormatter formatter;
@@ -352,11 +351,17 @@ public class SchedulePane extends JPanel{
         modeCard.add(weekdayCard, "weekday");
         modeCard.add(weekendCard, "weekend");
         modeCard.add(vacationCard, "vacation");
+        JButton cancelBtn1, optionSaveBtn1;
+        /*
+        JButton cancelBtn2, optionSaveBtn2;
+        JButton cancelBtn3, optionSaveBtn3;
+        JButton cancelBtn4, optionSaveBtn4;
+        */
 
-        optionSaveBtn = new JButton("Save");
-        optionSaveBtn.setActionCommand("save");
-        cancelBtn = new JButton("Cancel");
-        cancelBtn.setActionCommand("cancel");
+        optionSaveBtn1 = new JButton("Save");
+        optionSaveBtn1.setActionCommand("save");
+        cancelBtn1 = new JButton("Cancel");
+        cancelBtn1.setActionCommand("cancel");
 
         Sensor sensor;
         if(type == 0) {
@@ -402,6 +407,13 @@ public class SchedulePane extends JPanel{
         bc.gridy++;
         bc.gridwidth = 3;
         optionCard.add(modeCard, bc);
+        bc.gridy++;
+        optionCard.add(Box.createRigidArea(new Dimension(0, 8)), bc);
+        bc.gridwidth = 1;
+        bc.gridy++;
+        optionCard.add(optionSaveBtn1, bc);
+        bc.gridx++;
+        optionCard.add(cancelBtn1, bc);
 
         /* Generate fields inside manualCard*/
         bc.fill = GridBagConstraints.HORIZONTAL;
@@ -420,14 +432,8 @@ public class SchedulePane extends JPanel{
         manualCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
         bc.gridy++;
         manualCard.add(manCB, bc);
-        bc.gridy++;
-        manualCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
-        bc.gridy++;
-        manualCard.add(optionSaveBtn, bc);
-        bc.gridx++;
-        manualCard.add(cancelBtn, bc);
 
-        /* Generate fields in weekdayCard
+        /* Generate fields in weekdayCard */
         bc.fill = GridBagConstraints.HORIZONTAL;
         bc.gridwidth = 1;
         bc.gridx = 0;
@@ -435,20 +441,69 @@ public class SchedulePane extends JPanel{
         JLabel weekdayLbl = new JLabel("Weekday Settings");
         weekdayLbl.setFont(new Font("Serif", Font.BOLD, 15));
 
+        JFormattedTextField weekdayOnTF = new JFormattedTextField(format);
+        weekdayOnTF.setText(sensor.getOnTime(Schedule.Setting.weekday).toString());
+        JFormattedTextField weekdayOffTF = new JFormattedTextField(format);
+        weekdayOffTF.setText(sensor.getOffTime(Schedule.Setting.weekday).toString());
+        JLabel weekdayOnLbl = new JLabel("On time:");
+        JLabel weekdayOffLbl = new JLabel("Off time:");
+
         weekdayCard.add(Box.createRigidArea(new Dimension(0, 6)), bc);
         bc.gridy++;
-        weekdayCard.add(manLbl, bc);
+        bc.gridwidth = 2;
+        weekdayCard.add(weekdayLbl, bc);
+        bc.gridwidth = 1;
         bc.gridy++;
         weekdayCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
         bc.gridy++;
-        weekdayCard.add(manCB, bc);
-        bc.gridy++;
-        weekdayCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
-        bc.gridy++;
-        weekdayCard.add(optionSaveBtn, bc);
+        weekdayCard.add(weekdayOnLbl, bc);
         bc.gridx++;
-        weekdayCard.add(cancelBtn, bc);
-        */
+        weekdayCard.add(weekdayOnTF, bc);
+        bc.gridwidth = 2;
+        bc.gridx = 0;
+        bc.gridy++;
+        weekdayCard.add(Box.createRigidArea(new Dimension(100, 6)), bc);
+        bc.gridwidth = 1;
+        bc.gridy++;
+        weekdayCard.add(weekdayOffLbl, bc);
+        bc.gridx++;
+        weekdayCard.add(weekdayOffTF, bc);
+
+        /* Generate fields in weekendCard */
+        bc.fill = GridBagConstraints.HORIZONTAL;
+        bc.gridwidth = 1;
+        bc.gridx = 0;
+        bc.gridy = 0;
+        JLabel weekendLbl = new JLabel("Weekend Settings");
+        weekdayLbl.setFont(new Font("Serif", Font.BOLD, 15));
+
+        JFormattedTextField weekendOnTF = new JFormattedTextField(format);
+        weekendOnTF.setText(sensor.getOnTime(Schedule.Setting.weekend).toString());
+        JFormattedTextField weekendOffTF = new JFormattedTextField(format);
+        weekendOffTF.setText(sensor.getOffTime(Schedule.Setting.weekend).toString());
+        JLabel weekendOnLbl = new JLabel("On time:");
+        JLabel weekendOffLbl = new JLabel("Off time:");
+
+        weekendCard.add(Box.createRigidArea(new Dimension(0, 6)), bc);
+        bc.gridy++;
+        bc.gridwidth = 2;
+        weekendCard.add(weekendLbl, bc);
+        bc.gridwidth = 1;
+        bc.gridy++;
+        weekendCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
+        bc.gridy++;
+        weekendCard.add(weekendOnLbl, bc);
+        bc.gridx++;
+        weekendCard.add(weekendOnTF, bc);
+        bc.gridwidth = 2;
+        bc.gridx = 0;
+        bc.gridy++;
+        weekendCard.add(Box.createRigidArea(new Dimension(100, 6)), bc);
+        bc.gridwidth = 1;
+        bc.gridy++;
+        weekendCard.add(weekendOffLbl, bc);
+        bc.gridx++;
+        weekendCard.add(weekendOffTF, bc);
 
         mode.addActionListener(new ActionListener() {
                                    public void actionPerformed(ActionEvent e) {
