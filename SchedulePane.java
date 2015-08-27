@@ -54,14 +54,16 @@ public class SchedulePane extends JPanel{
         saveBtn.setActionCommand("save");
         saveBtn.addActionListener(new ButtonHandler());
 
+        /*
         roomID = new JTextField();
         roomID.setPreferredSize(new Dimension(100, 30));
         enterID = new JButton("Enter");
         enterID.setActionCommand("enter");
         enterID.addActionListener(new ButtonHandler());
+        */
         bottomPanel = new JPanel(new FlowLayout());
-        bottomPanel.add(roomID);
-        bottomPanel.add(enterID);
+        //bottomPanel.add(roomID);
+        //bottomPanel.add(enterID);
         //bottomPanel.add(results);
 
         showAll = new JButton("Show All");
@@ -75,9 +77,9 @@ public class SchedulePane extends JPanel{
         cards = new CardLayout();
         cardPanel = new JPanel();
         cardPanel.setLayout(cards);
-        cardPanel.setPreferredSize(new Dimension(200, 100));
+        cardPanel.setPreferredSize(new Dimension(300, 100));
         right = new JPanel();
-        right.setPreferredSize(new Dimension(200,100));
+        right.setPreferredSize(new Dimension(300,100));
 
         passPanel = new JPanel(new FlowLayout());
 
@@ -220,6 +222,7 @@ public class SchedulePane extends JPanel{
         allSensors.setPreferredSize(new Dimension(1000, 750));
         allSensors.setMinimumSize(new Dimension(1000, 750));
         allSensors.setTitle("All Sensors");
+        allSensors.setLocationRelativeTo(null);
 
         Font font = new Font("Serif", Font.BOLD, 14);
         Map attributes = font.getAttributes();
@@ -643,9 +646,11 @@ public class SchedulePane extends JPanel{
     }
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            /*
             if(e.getActionCommand() == "enter") {
                 cards.show(cardPanel, "sensors");
             }
+            */
             if(e.getActionCommand() == "all") {
                 showAllSensors();
             }

@@ -45,7 +45,7 @@ public class SetupCard extends JPanel {
 //        panelRight = new JPanel(new FlowLayout());
         panelRight = new JPanel(new GridBagLayout());
         topPanel = new JPanel(new FlowLayout());
-        topPanel.setPreferredSize(new Dimension(700, 30));
+        topPanel.setPreferredSize(new Dimension(700, 35));
         panelLeft = new JPanel(new GridBagLayout());
         panelMiddle = new JPanel();
 
@@ -66,14 +66,17 @@ public class SetupCard extends JPanel {
         combo.addItem("Single House");
         combo.addItem("Commercial");
 
-        combo.setMinimumSize(new Dimension(200, 30));
+        combo.setMinimumSize(new Dimension(200, 25));
+        combo.setMaximumSize(new Dimension(200, 25));
         topPanel.add(combo);
 
-        panelRight.setBackground(Color.GRAY);
-        panelRight.setPreferredSize(new Dimension(300, 100));
+        //panelRight.setBackground(Color.GRAY);
+        panelRight.setPreferredSize(new Dimension(270, 100));
+        panelRight.setMaximumSize(new Dimension(270, 100));
 
-        panelLeft.setBackground(Color.GRAY);
-        panelLeft.setPreferredSize(new Dimension(300, 30));
+        //panelLeft.setBackground(Color.GRAY);
+        panelLeft.setPreferredSize(new Dimension(270, 30));
+        panelLeft.setMaximumSize(new Dimension(270, 100));
 
         panelCenter.setBackground(Color.white);
 
@@ -252,13 +255,13 @@ public class SetupCard extends JPanel {
         SubAreas temp = BuildingList.getBuilding(0).getSubArea(room);
 
         fireSensor = new JCheckBox("Fire Sensor");
-        fireSensor.setBackground(Color.GRAY);
+        //fireSensor.setBackground(Color.GRAY);
         //fireSensor.setMnemonic(KeyEvent.VK_C);
         fireSensor.setSelected(temp.hasFireSensor());
 
 
         motionSensor = new JCheckBox("Motion Sensor");
-        motionSensor.setBackground(Color.GRAY);
+        //motionSensor.setBackground(Color.GRAY);
         //motionSensor.setMnemonic(KeyEvent.VK_G);
         motionSensor.setSelected(temp.hasMotionSensor());
 

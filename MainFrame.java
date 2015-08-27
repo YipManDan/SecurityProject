@@ -17,7 +17,8 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         setTitle("Home Security System");
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setMinimumSize(new Dimension(1320, 990));
+        //this.setMinimumSize(new Dimension(1320, 990));
+        this.setMinimumSize(new Dimension(1200, 900));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 

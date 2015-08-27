@@ -17,8 +17,7 @@ import java.util.Date;
  */
 public class LogPane extends JPanel{
     private JPanel left, right, center;
-
-
+    private static GridBagConstraints c = new GridBagConstraints();
 
     LogPane() {
         /*
@@ -35,12 +34,22 @@ public class LogPane extends JPanel{
         this.add(right, BorderLayout.LINE_END);
         this.add(center, BorderLayout.CENTER);
         */
-        left = new JPanel();
-        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-        left.add(new JLabel("HelloWorld"));
+        center = new JPanel();
+        //left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+        center.setLayout(new GridBagLayout());
 
-        this.add(left);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy = 0;
+        c.gridx = 0;
 
+        center.add(new JLabel("HelloWorld"), c);
+
+        this.add(center);
         setVisible(true);
     }
+    /*
+    public static void logText(String text) {
+        this.add(Box.createRigidArea(new Dimension(290, 5)), c);
+    }
+    */
 }
