@@ -143,9 +143,4 @@ public class RegisterPane extends JPanel {
         emailField.setText(reader.readLine());
         reader.close();
     }
-    public void write(String s, File toFile) throws IOException{
-        BufferedWriter writer = new BufferedWriter(new FileWriter(toFile));
-        writer.write(s);
-        writer.close();
-    }
 }
