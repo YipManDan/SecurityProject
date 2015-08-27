@@ -39,10 +39,14 @@ public abstract class Sensor {
     }
     public void setTime(LocalTime time) {
         //update on status
-        if(time.isAfter(getOnTime(setting)))
-            on = true;
-        if(time.isBefore(getOffTime(setting)))
-            on = false;
+        LocalTime onTime = getOnTime(setting);
+        LocalTime offTime = getOffTime(setting);
+        if(onTime.isBefore(offTime)) {
+            on = onTime.isBefore(time) && offTime.isAfter(time);
+        }
+        else {
+            on = !(offTime.isBefore(time) && onTime.isAfter(time));
+        }
     }
     public LocalTime getOnTime(Schedule.Setting setting) {
         switch (setting) {
