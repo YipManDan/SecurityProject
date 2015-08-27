@@ -1,217 +1,202 @@
 package project.security;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
-import javax.swing.Box;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+
 
 public class BillCard extends JPanel {
 
-    private JLabel contractIDLabel, nameLabel,addressLabel,contact1Label, contact2Label;
-    private JLabel emailLabel,dateLabel,fireSensorLabel, motionSensorLabel,pricePerFireLabel;
-    private JLabel pricePerMotionLabel,priceOfFireLabel,priceOfMotionLabel,totalPriceLabel;
-    private JTextField contractIDField,nameField,addressField,contact1Field,contact2Field;
-    private JTextField emailField,fireSensorField,motionSensorField, pricePerFireField;
-    private JTextField pricePerMotionLField,priceOfFireField,priceOfMotionField,totalPriceField;
+    private JLabel contractIDLabel, nameLabel, addressLabel, contact1Label, contact2Label, emailLabel, dateLabel, fireSensorLabel, motionSensorLabel, pricePerFireLabel, pricePerMotionLabel, priceOfFireLabel, priceOfMotionLabel, totalPriceLabel;
+    private JTextField contractIDField, nameField, addressField, contact1Field, contact2Field, emailField, fireSensorField, motionSensorField, pricePerFireField, pricePerMotionLField, priceOfFireField, priceOfMotionField, totalPriceField;
     private JFormattedTextField dateField;
-    private JPanel labelPane, fieldPane;
-    private GridBagConstraints c = new GridBagConstraints();
+    private JPanel centerPanel, panelRight, panelLeft;
+    private JButton save;
+    //private GridBagConstraints c = new GridBagConstraints();
 
-    public static final int FONT_SIZE = 16;
+    public static final int FONTSIZE = 20;
     DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
     BillCard() {
-        this.setLayout(new GridBagLayout());
-        /*
-        labelPane = new JPanel(new GridLayout(0,1));
-        labelPane.setBackground(Color.WHITE);
-        fieldPane = new JPanel(new GridLayout(0,1));
-        fieldPane.setBackground(Color.WHITE)3
-        */
-        //setBoxLayout1();
-
-        //setBackground(Color.WHITE);
-
-        generateLabels();
-        generateTextFields();
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 1;
-        c.gridx = 0;
-        c.gridy = 0;
-
-        this.add(Box.createRigidArea(new Dimension(130, 10)), c);
-        c.gridy++;
-        this.add(contractIDLabel, c);
-        c.gridx++;
-        this.add(contractIDField, c);
-        c.gridx=0;
-        c.gridy++;
-        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
-        c.gridy++;
-        this.add(nameLabel, c);
-        c.gridx++;
-        this.add(nameField, c);
-        c.gridx=0;
-        c.gridy++;
-        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
-        c.gridy++;
-        this.add(addressLabel, c);
-        c.gridx++;
-        this.add(addressField, c);
-        c.gridx=0;
-        c.gridy++;
-        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
-        c.gridy++;
-        this.add(contact1Label, c);
-        c.gridx++;
-        this.add(contact1Field, c);
-        c.gridx=0;
-        c.gridy++;
-        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
-        c.gridy++;
-        this.add(contact2Label, c);
-        c.gridx++;
-        this.add(contact2Field, c);
-        c.gridx=0;
-        c.gridy++;
-        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
-        c.gridy++;
-        this.add(emailLabel, c);
-        c.gridx++;
-        this.add(emailField, c);
-        c.gridx=0;
-        c.gridy++;
-        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
-        c.gridy++;
-        this.add(dateLabel, c);
-        c.gridx++;
-        this.add(dateField, c);
-        c.gridx=0;
-        c.gridy++;
 
 
-        /*
+        GridBagLayout gbl_panel_1 = new GridBagLayout();
+		/*gbl_panel_1.columnWidths = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0,0 };
+
+		gbl_panel_1.rowHeights = new int[] { 0, 0, 0 ,0,0 ,0,0};
+		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0,0.0, Double.MIN_VALUE };
+		gbl_panel_1.rowWeights = new double[] { 0, 0,0,0,0,0,Double.MIN_VALUE };*/
 
 
-        labelPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        labelPane.add(contractIDLabel);
-        labelPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        labelPane.add(nameLabel);
-        labelPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        labelPane.add(addressLabel);
-        labelPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        labelPane.add(contact1Label);
-        labelPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        labelPane.add(contact2Label);
-        labelPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        labelPane.add(emailLabel);
-        labelPane.add(Box.createRigidArea(new Dimension(0, 10)));
-        labelPane.add(dateLabel);
-        labelPane.add(Box.createRigidArea(new Dimension(0, 10)));
+        gbl_panel_1.columnWidths = new int[]{1};
 
-        fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
-        fieldPane.add(contractIDField);
-        fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
-        fieldPane.add(nameField);
-        fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
-        fieldPane.add(addressField);
-        fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
-        fieldPane.add(contact1Field);
-        fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
-        fieldPane.add(contact2Field);
-        fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
-        fieldPane.add(emailField);
-        fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
-        fieldPane.add(dateField);
-        fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
-        */
-    }
+        gbl_panel_1.rowHeights = new int[]{0};
+        //gbl_panel_1.columnWeights = new double[] { 0.5};
+        //gbl_panel_1.rowWeights = new double[] { 0};
+
+        setLayout(gbl_panel_1);
+
+        final GridBagConstraints c = new GridBagConstraints();
+        final GridBagConstraints c1 = new GridBagConstraints();
+
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c1.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.gridy = 1;
+        c1.gridy = 16;
 
 
-    private void generateLabels() {
+        //centerPanel.setPreferredSize(new Dimension(200, 100));
+
+
+        setBackground(Color.WHITE);
+
         contractIDLabel = new JLabel("Contract ID ");
-        contractIDLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        nameLabel = new JLabel("User Name ");
-        nameLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        addressLabel = new JLabel("Address");
-        addressLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        contact1Label = new JLabel("Contact no. 1");
-        contact1Label.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        contact2Label = new JLabel("Contact no. 2");
-        contact2Label.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        emailLabel = new JLabel("Email ");
-        emailLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        dateLabel = new JLabel("Date ");
-        dateLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        fireSensorLabel = new JLabel("No of Firesensors ");
-        fireSensorLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        motionSensorLabel = new JLabel("No of Motionsensors ");
-        motionSensorLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        pricePerFireLabel = new JLabel("Price per FireSensor");
-        pricePerFireLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        pricePerMotionLabel = new JLabel("Price per MotionSensor");
-        pricePerMotionLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        priceOfFireLabel = new JLabel("Total Price of Firesensors");
-        priceOfFireLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        priceOfMotionLabel = new JLabel("Total Price of Motionsensors");
-        priceOfMotionLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-        totalPriceLabel = new JLabel("Total Price");
-        totalPriceLabel.setFont(new Font("ARIAL", Font.BOLD, FONT_SIZE));
-    }
-    private void generateTextFields() {
+        contractIDLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         contractIDField = new JTextField(10);
-        contractIDField.setPreferredSize(new Dimension(200, FONT_SIZE));
+        contractIDField.setPreferredSize(new Dimension(500, FONTSIZE));
+
+        this.add(Box.createRigidArea(new Dimension(290, 10)), c);
+        c.gridy++;
+        add(contractIDLabel, c);
+        add(contractIDField, c);
+        c.gridy++;
+
+        nameLabel = new JLabel("User Name ");
+        nameLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         nameField = new JTextField(10);
+        nameField.setPreferredSize(new Dimension(300, FONTSIZE));
+
+
+        add(nameLabel, c);
+        add(nameField, c);
+        c.gridy++;
+
+        addressLabel = new JLabel("Address");
+        addressLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         addressField = new JTextField(10);
+        addressField.setPreferredSize(new Dimension(300, FONTSIZE));
+
+        add(addressLabel, c);
+        add(addressField, c);
+        c.gridy++;
+
+        contact1Label = new JLabel("Contact no. 1");
+        contact1Label.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         contact1Field = new JTextField(10);
+        contact1Field.setPreferredSize(new Dimension(300, FONTSIZE));
+
+        add(contact1Label, c);
+        add(contact1Field, c);
+        c.gridy++;
+
+        contact2Label = new JLabel("Contact no. 2");
+        contact2Label.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         contact2Field = new JTextField(10);
+        contact2Field.setPreferredSize(new Dimension(300, FONTSIZE));
+
+        add(contact2Label, c);
+        add(contact2Field, c);
+        c.gridy++;
+
+        emailLabel = new JLabel("Email ");
+        emailLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         emailField = new JTextField(10);
+        emailField.setPreferredSize(new Dimension(300, FONTSIZE));
+
+        add(emailLabel, c);
+        add(emailField, c);
+        c.gridy++;
+
+        dateLabel = new JLabel("Date ");
+        dateLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         dateField = new JFormattedTextField((format));
+        dateField.setPreferredSize(new Dimension(150, FONTSIZE));
+
+        add(dateLabel, c);
+        add(dateField, c);
+        c.gridy++;
+
+        fireSensorLabel = new JLabel("No of Firesensors ");
+        fireSensorLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         fireSensorField = new JTextField(10);
+        fireSensorField.setPreferredSize(new Dimension(100, FONTSIZE));
+
+        add(fireSensorLabel, c);
+        add(fireSensorField, c);
+        c.gridy++;
+
+        motionSensorLabel = new JLabel("No of Motionsensors ");
+        motionSensorLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         motionSensorField = new JTextField(10);
+        motionSensorField.setPreferredSize(new Dimension(100, FONTSIZE));
+
+        add(motionSensorLabel, c);
+        add(motionSensorField, c);
+        c.gridy++;
+
+        pricePerFireLabel = new JLabel("Price per FireSensor");
+        pricePerFireLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         pricePerFireField = new JTextField(10);
+        pricePerFireField.setPreferredSize(new Dimension(100, FONTSIZE));
+
+        add(pricePerFireLabel, c);
+        add(pricePerFireField, c);
+        c.gridy++;
+
+        pricePerMotionLabel = new JLabel("Price per MotionSensor");
+        pricePerMotionLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         pricePerMotionLField = new JTextField(10);
+        pricePerMotionLField.setPreferredSize(new Dimension(100, FONTSIZE));
+
+        add(pricePerMotionLabel, c);
+        add(pricePerMotionLField, c);
+        c.gridy++;
+
+        priceOfFireLabel = new JLabel("Total Price of Firesensors");
+        priceOfFireLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
         priceOfFireField = new JTextField(10);
-        priceOfMotionField= new JTextField(10);
-        totalPriceField  = new JTextField(10);
-    }
+        priceOfFireField.setPreferredSize(new Dimension(100, FONTSIZE));
 
-    public void setBoxLayout1(){
-    	/* c.fill = GridBagConstraints.HORIZONTAL;
-         c.gridwidth = 2;
-         c.gridx = 0;
-         c.gridy = 0;
-         this.add(labelPane, c);
-         c.fill = GridBagConstraints.HORIZONTAL;
-         c.gridwidth = 1;
-         c.gridx = 0;
-         c.gridy = 1;
-         this.add(fieldPane, c);*/
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 1;
-        c.gridx = 0;
-        c.gridy = 1;
-        this.add(labelPane, c);
-        c.fill = GridBagConstraints.HORIZONTAL;
+        add(priceOfFireLabel, c);
+        add(priceOfFireField, c);
+        c.gridy++;
 
-        c.gridx = 1;
-        c.gridy = 1;
-        this.add(fieldPane, c);
+        priceOfMotionLabel = new JLabel("Total Price of Motionsensors");
+        priceOfMotionLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
+        priceOfMotionField = new JTextField(10);
+        priceOfMotionField.setPreferredSize(new Dimension(100, FONTSIZE));
 
+        add(priceOfMotionLabel, c);
+        add(priceOfMotionField, c);
+        c.gridy++;
+
+
+        totalPriceLabel = new JLabel("Total Price");
+        totalPriceLabel.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
+        totalPriceField = new JTextField(10);
+        totalPriceField.setPreferredSize(new Dimension(100, FONTSIZE));
+
+        add(totalPriceLabel, c);
+        add(totalPriceField, c);
+        c.gridy++;
+        c.gridy++;
+
+        save = new JButton("Save as PDF");
+        save.setFont(new Font("ARIAL", Font.BOLD, FONTSIZE));
+        add(save, c1);
+        c1.gridy++;
 
 
     }
 }
+
 
 
