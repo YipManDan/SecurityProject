@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -102,7 +101,7 @@ public class SchedulePane extends JPanel{
         enter.setActionCommand("enter");
         enter.addActionListener(new PassHandler());
 
-        centerPanel = new PanelCenter(new roomHandler());
+        centerPanel = new PanelCenter(new RoomHandler());
         scheduleCard.add(centerPanel, BorderLayout.CENTER);
 
         passPanel.add(new JLabel("Enter 4-digit Password: "));
@@ -671,7 +670,7 @@ public class SchedulePane extends JPanel{
             }
         }
     }
-    private class roomHandler implements ActionListener {
+    private class RoomHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand() == "room1") {
                 checkForSensor(BuildingList.roomRef.ROOM1);
@@ -691,10 +690,6 @@ public class SchedulePane extends JPanel{
             }
             if(e.getActionCommand() == "living room") {
                 checkForSensor(BuildingList.roomRef.LIVINGROOM);
-                cards.show(cardPanel, "sensors");
-            }
-            if(e.getActionCommand() == "room2") {
-                checkForSensor(BuildingList.roomRef.ROOM2);
                 cards.show(cardPanel, "sensors");
             }
             if(e.getActionCommand() == "bathroom") {
