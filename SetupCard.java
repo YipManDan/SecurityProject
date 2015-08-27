@@ -1,28 +1,16 @@
 package project.security;
 
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -35,7 +23,7 @@ public class SetupCard extends JPanel {
     private JComboBox combo;
     private JPanel panelRight, panelLeft, topPanel;
     //public JPanel panelCenter;
-    PanelCenter panelCenter = new PanelCenter(new roomHandler());
+    PanelCenter panelCenter = new PanelCenter(new RoomHandler());
     private JTextField enterNumber1, enterNumber2;
     private JLabel firstNumber, secondNumber;
     private JButton savePhoneNumbers, saveSensor, cancelSensor;
@@ -44,6 +32,7 @@ public class SetupCard extends JPanel {
     //private MouseEventAdapterA meaA;
     private String xStr, yStr;
     BufferedImage image;
+    private BuildingList.roomRef currentRef;
     String soundName = "yourSound.wav";
     //DisplayBluePrint pic = new DisplayBluePrint();
 
@@ -56,7 +45,9 @@ public class SetupCard extends JPanel {
         panelRight = new JPanel(new FlowLayout());
         topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(700, 30));
-        panelLeft = new JPanel(new FlowLayout());
+        //panelLeft = new JPanel(new FlowLayout());
+        panelLeft = new JPanel(new GridBagLayout());
+
 
         //panelCenter = new JPanel();
 
@@ -77,13 +68,13 @@ public class SetupCard extends JPanel {
         combo.setMinimumSize(new Dimension(200, 30));
         topPanel.add(combo);
 
-        panelRight.setBackground(Color.cyan);
+        panelRight.setBackground(Color.GRAY);
         panelRight.setPreferredSize(new Dimension(300, 100));
 
-        panelLeft.setBackground(Color.cyan);
+        panelLeft.setBackground(Color.GRAY);
         panelLeft.setPreferredSize(new Dimension(200, 30));
 
-        //panelCenter.setBackground(Color.white);
+        panelCenter.setBackground(Color.white);
 
         firstNumber = new JLabel(" Enter First Phone number", JLabel.RIGHT);
         enterNumber1 = new JTextField();
@@ -169,7 +160,7 @@ public class SetupCard extends JPanel {
 
             }
         });
-
+        /*
         fireSensor = new JCheckBox("Fire Sensor");
         fireSensor.setMnemonic(KeyEvent.VK_C);
         fireSensor.setSelected(false);
@@ -205,7 +196,7 @@ public class SetupCard extends JPanel {
 
         panelLeft.add(xLabel);
         panelLeft.add(yLabel);
-
+        */
 
     }
 
@@ -215,19 +206,134 @@ public class SetupCard extends JPanel {
         this.updateUI();
         //this.add(panelCenter);
     }
-    private class roomHandler implements ActionListener {
+    private void addSensors(BuildingList.roomRef input) {
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        int room = 0;
+        String title = "";
+        switch (input) {
+            case ROOM1:
+                room = 1;
+                title = "Bedroom1";
+                break;
+            case CLOSET:
+                room = 2;
+                title = "Closet";
+                break;
+            case KITCHEN:
+                room = 3;
+                title = "Kitchen";
+                break;
+            case ROOM2:
+                room = 4;
+                title = "Bedroom2";
+                break;
+            case LIVINGROOM:
+                room = 5;
+                title = "Living Room";
+                break;
+            case BATHROOM:
+                room = 6;
+                title = "Bathroom";
+                break;
+        }
+        currentRef = input;
+        panelLeft.removeAll();
+        JLabel roomLbl = new JLabel("Subarea: " + title);
+        roomLbl.setFont(new Font("Arial", Font.BOLD, 16));
+        Font font = roomLbl.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        roomLbl.setFont(font.deriveFont(attributes));
+
+        c.gridwidth = 2;
+        panelLeft.add(roomLbl, c);
+        c.gridy++;
+        panelLeft.add(Box.createRigidArea(new Dimension(150, 5)), c);
+
+        SubAreas temp = BuildingList.getBuilding(0).getSubArea(room);
+
+        fireSensor = new JCheckBox("Fire Sensor");
+        fireSensor.setBackground(Color.GRAY);
+        //fireSensor.setMnemonic(KeyEvent.VK_C);
+        fireSensor.setSelected(temp.hasFireSensor());
+
+
+        motionSensor = new JCheckBox("Motion Sensor");
+        motionSensor.setBackground(Color.GRAY);
+        //motionSensor.setMnemonic(KeyEvent.VK_G);
+        motionSensor.setSelected(temp.hasMotionSensor());
+
+        c.gridy++;
+        panelLeft.add(fireSensor, c);
+        c.gridy++;
+        panelLeft.add(motionSensor, c);
+
+        JButton saveBtn = new JButton("Save");
+        JButton cancelBtn = new JButton("Cancel");
+
+        class ButtonHandler implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getActionCommand() == "save") {
+                    if(temp.hasFireSensor() && !fireSensor.isSelected())
+                        temp.removeFireSensor();
+                    else if(!temp.hasFireSensor() && fireSensor.isSelected())
+                        temp.createFireSensor();
+                    if(temp.hasMotionSensor() && !motionSensor.isSelected())
+                        temp.removeMotionSensor();
+                    else if(!temp.hasMotionSensor() && motionSensor.isSelected())
+                        temp.createMotionSensor();
+                }
+                if(e.getActionCommand() == "cancel") {
+                    panelLeft.removeAll();
+                    panelLeft.updateUI();
+                }
+            }
+        }
+
+
+        saveBtn.setActionCommand("save");
+        saveBtn.addActionListener(new ButtonHandler());
+        saveBtn.setMaximumSize(new Dimension(50, 20));
+
+        cancelBtn.setActionCommand("cancel");
+        cancelBtn.addActionListener(new ButtonHandler());
+        cancelBtn.setMaximumSize(new Dimension(50, 20));
+
+        c.gridwidth = 2;
+        c.gridy++;
+        panelLeft.add(Box.createRigidArea(new Dimension(150, 5)), c);
+
+        c.gridwidth = 1;
+        c.gridy++;
+        panelLeft.add(saveBtn, c);
+        c.gridx++;
+        panelLeft.add(cancelBtn, c);
+
+        panelLeft.updateUI();
+    }
+
+    private class RoomHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand() == "room1") {
+                addSensors(BuildingList.roomRef.ROOM1);
             }
             if(e.getActionCommand() == "closet") {
+                addSensors(BuildingList.roomRef.CLOSET);
             }
             if(e.getActionCommand() == "kitchen") {
+                addSensors(BuildingList.roomRef.KITCHEN);
             }
             if(e.getActionCommand() == "room2") {
+                addSensors(BuildingList.roomRef.ROOM2);
             }
             if(e.getActionCommand() == "living room") {
+                addSensors(BuildingList.roomRef.LIVINGROOM);
             }
             if(e.getActionCommand() == "bathroom") {
+                addSensors(BuildingList.roomRef.BATHROOM);
             }
 
         }
