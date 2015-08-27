@@ -28,6 +28,7 @@ public class SchedulePane extends JPanel{
     private JFormattedTextField passTF;
     private JTextField roomID, results;
     private JButton enter, enterID, showAll, saveBtn;
+    private JButton cancelBtn, optionSaveBtn;
     private GridBagConstraints c = new GridBagConstraints();
     private DateFormat format;
     private DateTimeFormatter formatter;
@@ -94,7 +95,8 @@ public class SchedulePane extends JPanel{
         GridBagConstraints gbc = new GridBagConstraints();
         sensorCard.add(sensors, gbc);
         optionCard = new JPanel();
-        optionCard.setBackground(Color.CYAN);
+        //optionCard.setLayout(new BoxLayout(optionCard, BoxLayout.Y_AXIS));
+        optionCard.setLayout(new GridBagLayout());
 
         passTF = new JFormattedTextField(createFormatter("####"));
         passTF.setPreferredSize(new Dimension(100, 30));
@@ -220,7 +222,7 @@ public class SchedulePane extends JPanel{
         label.setFont(font);
         sensorList.add(label, c);
         c.gridx++;
-        label = new JLabel(" Sensor On/Off  ");
+        label = new JLabel(" Manual On/Off  ");
         label.setFont(font);
         sensorList.add(label, c);
         c.gridx++;
@@ -271,6 +273,7 @@ public class SchedulePane extends JPanel{
         for(Sensor temp : sensorArray) {
             JCheckBox tempBox = new JCheckBox();
             tempBox.setSelected(temp.getManualOn());
+            tempBox.setToolTipText("State of sensor when in manual mode.");
             manualCBs.add(tempBox);
             JFormattedTextField weekdayOnTF = new JFormattedTextField(format);
             weekdayOnTF.setText(temp.getOnTime(Schedule.Setting.weekday).toString());
@@ -328,8 +331,159 @@ public class SchedulePane extends JPanel{
         allSensors.add(sensorList);
         allSensors.setVisible(true);
     }
-    private void generateOptionCard() {
+    private void generateOptionCard(int type) {
+        int room = 1;
+        try {
+            room = Integer.parseInt(roomID.getText());
+        } catch (NumberFormatException exc) {
+            System.out.println("Exception: " + exc);
+            return;
+        }
+        optionCard.removeAll();
 
+        CardLayout cardLayout = new CardLayout();
+        JPanel modeCard = new JPanel(cardLayout);
+        JPanel manualCard, weekdayCard, weekendCard, vacationCard;
+        manualCard = new JPanel(new GridBagLayout());
+        weekdayCard = new JPanel(new GridBagLayout());
+        weekendCard = new JPanel(new GridBagLayout());
+        vacationCard = new JPanel(new GridBagLayout());
+        modeCard.add(manualCard, "manual");
+        modeCard.add(weekdayCard, "weekday");
+        modeCard.add(weekendCard, "weekend");
+        modeCard.add(vacationCard, "vacation");
+
+        optionSaveBtn = new JButton("Save");
+        optionSaveBtn.setActionCommand("save");
+        cancelBtn = new JButton("Cancel");
+        cancelBtn.setActionCommand("cancel");
+
+        Sensor sensor;
+        if(type == 0) {
+            sensor = BuildingList.buildings.get(0).getSubArea(room).getFireSensor();
+        }
+        else if (type == 1) {
+            sensor = BuildingList.buildings.get(0).getSubArea(room).getMotionSensor();
+        }
+        else
+            return;
+        GridBagConstraints bc = new GridBagConstraints();
+        bc.fill = GridBagConstraints.HORIZONTAL;
+        bc.gridwidth = 2;
+        bc.gridx = 0;
+        bc.gridy = 0;
+        JLabel sensorIdLbl = new JLabel("Sensor Id: 0" + sensor.getSensorID());
+        sensorIdLbl.setFont(new Font("Serif", Font.BOLD, 14));
+        optionCard.add(sensorIdLbl, bc);
+        bc.gridy = 1;
+        if(type ==0) {
+            JLabel sensorType = new JLabel("Type: Fire Sensor");
+            sensorType.setFont(new Font("Serif", Font.BOLD, 14));
+            optionCard.add(sensorType, bc);
+        }
+        else {
+            JLabel sensorType = new JLabel("Type: Motion Sensor");
+            sensorType.setFont(new Font("Serif", Font.BOLD, 14));
+            optionCard.add(sensorType, bc);
+        }
+
+
+        String [] modes = {"Manual", "Weekday", "Weekend", "Vacation"};
+        JComboBox mode = new JComboBox(modes);
+        mode.setFont(new Font("Serif", Font.BOLD, 14));
+        bc.gridwidth = 1;
+        bc.gridy++;
+        JLabel modeLbl = new JLabel("Modes: ");
+        modeLbl.setFont(new Font("Serif", Font.BOLD, 14));
+        optionCard.add(modeLbl, bc);
+        bc.gridx++;
+        optionCard.add(mode, bc);
+        bc.gridx = 0;
+        bc.gridy++;
+        bc.gridwidth = 3;
+        optionCard.add(modeCard, bc);
+
+        /* Generate fields inside manualCard*/
+        bc.fill = GridBagConstraints.HORIZONTAL;
+        bc.gridwidth = 1;
+        bc.gridx = 0;
+        bc.gridy = 0;
+        JLabel manLbl = new JLabel("Manual Setting");
+        manLbl.setFont(new Font("Serif", Font.BOLD, 15));
+        JCheckBox manCB = new JCheckBox("Manual On/Off");
+        manCB.setSelected(sensor.getManualOn());
+
+        manualCard.add(Box.createRigidArea(new Dimension(0, 6)), bc);
+        bc.gridy++;
+        manualCard.add(manLbl, bc);
+        bc.gridy++;
+        manualCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
+        bc.gridy++;
+        manualCard.add(manCB, bc);
+        bc.gridy++;
+        manualCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
+        bc.gridy++;
+        manualCard.add(optionSaveBtn, bc);
+        bc.gridx++;
+        manualCard.add(cancelBtn, bc);
+
+        /* Generate fields in weekdayCard
+        bc.fill = GridBagConstraints.HORIZONTAL;
+        bc.gridwidth = 1;
+        bc.gridx = 0;
+        bc.gridy = 0;
+        JLabel weekdayLbl = new JLabel("Weekday Settings");
+        weekdayLbl.setFont(new Font("Serif", Font.BOLD, 15));
+
+        weekdayCard.add(Box.createRigidArea(new Dimension(0, 6)), bc);
+        bc.gridy++;
+        weekdayCard.add(manLbl, bc);
+        bc.gridy++;
+        weekdayCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
+        bc.gridy++;
+        weekdayCard.add(manCB, bc);
+        bc.gridy++;
+        weekdayCard.add(Box.createRigidArea(new Dimension(0, 2)), bc);
+        bc.gridy++;
+        weekdayCard.add(optionSaveBtn, bc);
+        bc.gridx++;
+        weekdayCard.add(cancelBtn, bc);
+        */
+
+        mode.addActionListener(new ActionListener() {
+                                   public void actionPerformed(ActionEvent e) {
+                                       //JComboBox cb = (JComboBox)e.getSource();
+                                       //String place = (String)cb.getSelectedItem();
+                                       String s = (String) mode.getSelectedItem();
+                                       switch (s) {
+                                           case "Manual":
+                                               cardLayout.show(modeCard, "manual");
+                                               manCB.setSelected(sensor.getManualOn());
+                                               return;
+                                           case "Weekday":
+                                               cardLayout.show(modeCard, "weekday");
+                                               return;
+                                           case "Weekend":
+                                               cardLayout.show(modeCard, "weekend");
+                                               return;
+                                           case "Vacation":
+                                               cardLayout.show(modeCard, "vacation");
+                                               return;
+                                       }
+                                   }
+                               }
+        );
+        class optionsBtnHandler implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getActionCommand() == "save") {
+
+                }
+                if(e.getActionCommand() == "cancel") {
+
+                }
+
+            }
+        }
     }
     private LocalTime parseString(String string) {
         String sub1 = string.substring(0, 2);
@@ -356,16 +510,19 @@ public class SchedulePane extends JPanel{
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand() == "enter") {
                 checkForSensor();
+                cards.show(cardPanel, "sensors");
             }
             if(e.getActionCommand() == "all") {
                 showAllSensors();
             }
             if(e.getActionCommand() == "fire") {
-                generateOptionCard();
+                generateOptionCard(0);
                 cards.next(cardPanel);
 
             }
             if(e.getActionCommand() == "motion") {
+                generateOptionCard(1);
+                cards.next(cardPanel);
 
             }
             if(e.getActionCommand() == "save") {
