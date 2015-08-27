@@ -37,10 +37,10 @@ public class LivingRoom extends JPanel {
 
 
         livingRoom = new JButton("Living Room");
-        livingRoom.setBackground(Color.BLUE);
+        livingRoom.setBackground(Color.CYAN);
         livingRoom.setLocation(0, 0);
         livingRoom.setSize(120, 30);
-        livingRoom.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 14));
+        livingRoom.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
     }
 }

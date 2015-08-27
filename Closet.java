@@ -38,10 +38,10 @@ public class Closet extends JPanel {
     public void setClosetPanel(){
 
         closet = new JButton("Closet");
-        closet.setBackground(Color.BLUE);
+        closet.setBackground(Color.CYAN);
         closet.setLocation(0, 0);
         closet.setSize(95, 30);
-        closet.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 14));
+        closet.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
     }
 

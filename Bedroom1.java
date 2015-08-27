@@ -55,11 +55,11 @@ public class Bedroom1 extends JPanel {
 
 
         //room1.setBorderPainted(false);
-        room1.setBackground(Color.BLUE);
+        room1.setBackground(Color.CYAN);
         room1.setLocation(0, 0);
         room1.setSize(105, 30);
         //room1.setForeground(Color.BLUE);
-        room1.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 14));
+        room1.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
 
         label2 = new JLabel();

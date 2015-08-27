@@ -32,10 +32,10 @@ public class Kitchen extends JPanel {
     public void setKitchenPanel() {
 
         kitchen = new JButton("Kitchen");
-        kitchen.setBackground(Color.BLUE);
+        kitchen.setBackground(Color.CYAN);
         kitchen.setLocation(0, 0);
         kitchen.setSize(105, 30);
-        kitchen.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 14));
+        kitchen.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
     }
 

@@ -36,10 +36,10 @@ public class Bedroom2 extends JPanel {
     public void setBedroom2Panel(){
 
         room2 = new JButton("Bedroom2");
-        room2.setBackground(Color.BLUE);
+        room2.setBackground(Color.CYAN);
         room2.setLocation(0, 0);
         room2.setSize(105, 30);
-        room2.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 14));
+        room2.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
 
 

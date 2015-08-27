@@ -24,6 +24,7 @@ public class SchedulePane extends JPanel{
     private JPanel passPanel, scheduleCard;
     private JPanel sensorCard, optionCard, sensors;
     private JPanel  cardPanel, right;
+    private JPanel centerPanel;
     private CardLayout  cards;
     private JFormattedTextField passTF;
     private JTextField roomID, results;
@@ -68,7 +69,6 @@ public class SchedulePane extends JPanel{
 
         numRooms = new JLabel("Number of rooms: " + String.valueOf(BuildingList.getBuilding(0).numSubAreas()));
         bottomPanel.add(numRooms);
-
         bottomPanel.add(showAll);
 
         cards = new CardLayout();
@@ -85,10 +85,7 @@ public class SchedulePane extends JPanel{
 
         sensors = new JPanel();
         sensors.setLayout(new BoxLayout(sensors, BoxLayout.Y_AXIS));
-        //sensors.setBackground(Color.PINK);
 
-        //sensorCard = new JPanel(new BorderLayout());
-        //sensorCard.add(sensors, BorderLayout.CENTER);
         sensorCard = new JPanel();
         sensorCard.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -103,10 +100,8 @@ public class SchedulePane extends JPanel{
         enter.setActionCommand("enter");
         enter.addActionListener(new PassHandler());
 
-
-        URL url = BuildingList.getBuilding(0).getImage();
-        JLabel homeLabel = new JLabel(new ImageIcon(url));
-        scheduleCard.add(homeLabel, BorderLayout.CENTER);
+        centerPanel = new PanelCenter();
+        scheduleCard.add(centerPanel, BorderLayout.CENTER);
 
 
         passPanel.add(passTF);

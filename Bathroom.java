@@ -36,10 +36,10 @@ public class Bathroom extends JPanel {
     public void setBathroomPanel(){
 
         bathroom = new JButton("Bathroom");
-        bathroom.setBackground(Color.BLUE);
+        bathroom.setBackground(Color.CYAN);
         bathroom.setLocation(0, 0);
         bathroom.setSize(95, 30);
-        bathroom.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 14));
+        bathroom.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
     }
 
