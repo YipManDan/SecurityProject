@@ -42,6 +42,8 @@ public class SchedulePane extends JPanel{
     private ArrayList<JFormattedTextField> vacationOn;
     private ArrayList<JFormattedTextField> vacationOff;
 
+    private BuildingList.roomRef currentRef;
+
     JLabel numRooms;
 
     public SchedulePane() {
@@ -145,24 +147,37 @@ public class SchedulePane extends JPanel{
     }
     private void checkForSensor(BuildingList.roomRef input) {
         int room = 0;
-        try {
-            room = Integer.parseInt(roomID.getText());
-        } catch (NumberFormatException exc) {
-            System.out.println("Exception: " + exc);
-        }
+        String title = "";
         switch (input) {
-            case KITCHEN:
+            case ROOM1:
                 room = 1;
+                title = "Bedroom1";
+                break;
+            case CLOSET:
+                room = 2;
+                title = "Closet";
+                break;
+            case KITCHEN:
+                room = 3;
+                title = "Kitchen";
+                break;
+            case ROOM2:
+                room = 4;
+                title = "Bedroom2";
+                break;
+            case LIVINGROOM:
+                room = 5;
+                title = "Living Room";
+                break;
+            case BATHROOM:
+                room = 6;
+                title = "Bathroom";
+                break;
         }
-
-
-
-
-
-
+        currentRef = input;
         sensors.removeAll();
-        JLabel roomLbl = new JLabel("Subarea: " + input);
-        roomLbl.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabel roomLbl = new JLabel("Subarea: " + title);
+        roomLbl.setFont(new Font("Arial", Font.BOLD, 14));
         Font font = roomLbl.getFont();
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
@@ -335,12 +350,26 @@ public class SchedulePane extends JPanel{
         allSensors.setVisible(true);
     }
     private void generateOptionCard(int type) {
-        int room = 1;
-        try {
-            room = Integer.parseInt(roomID.getText());
-        } catch (NumberFormatException exc) {
-            System.out.println("Exception: " + exc);
-            return;
+        int room = 0;
+        switch (currentRef) {
+            case ROOM1:
+                room = 1;
+                break;
+            case CLOSET:
+                room = 2;
+                break;
+            case KITCHEN:
+                room = 3;
+                break;
+            case ROOM2:
+                room = 4;
+                break;
+            case LIVINGROOM:
+                room = 5;
+                break;
+            case BATHROOM:
+                room = 6;
+                break;
         }
         optionCard.removeAll();
 
