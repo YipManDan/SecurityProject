@@ -3,6 +3,7 @@ package project.security;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -32,11 +33,15 @@ public class Kitchen extends JPanel {
     public void setKitchenPanel() {
 
         kitchen = new JButton("Kitchen");
+        kitchen.setActionCommand("kitchen");
         kitchen.setBackground(Color.CYAN);
         kitchen.setLocation(0, 0);
         kitchen.setSize(105, 30);
         kitchen.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
+    }
+    public void setActionListener(ActionListener listener) {
+        kitchen.addActionListener(listener);
     }
 
 }

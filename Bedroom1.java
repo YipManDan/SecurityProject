@@ -5,6 +5,7 @@ package project.security;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -56,6 +57,7 @@ public class Bedroom1 extends JPanel {
 
         //room1.setBorderPainted(false);
         room1.setBackground(Color.CYAN);
+        room1.setActionCommand("room1");
         room1.setLocation(0, 0);
         room1.setSize(105, 30);
         //room1.setForeground(Color.BLUE);
@@ -72,9 +74,9 @@ public class Bedroom1 extends JPanel {
         //label1.setForeground(Color.GRAY);
         // add image to the label
         Util.setPicturetoLabel(label2, "/images/bedroom1.jpg") ;
-
-
-
+    }
+    public void setActionListener(ActionListener listener) {
+        room1.addActionListener(listener);
     }
 
 

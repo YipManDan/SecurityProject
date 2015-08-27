@@ -5,6 +5,7 @@ package project.security;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -38,11 +39,15 @@ public class Closet extends JPanel {
     public void setClosetPanel(){
 
         closet = new JButton("Closet");
+        closet.setActionCommand("closet");
         closet.setBackground(Color.CYAN);
         closet.setLocation(0, 0);
         closet.setSize(95, 30);
         closet.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
+    }
+    public void setActionListener(ActionListener listener) {
+        closet.addActionListener(listener);
     }
 
 }

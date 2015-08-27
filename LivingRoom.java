@@ -4,6 +4,7 @@ package project.security;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -37,10 +38,14 @@ public class LivingRoom extends JPanel {
 
 
         livingRoom = new JButton("Living Room");
+        livingRoom.setActionCommand("living room");
         livingRoom.setBackground(Color.CYAN);
         livingRoom.setLocation(0, 0);
         livingRoom.setSize(120, 30);
         livingRoom.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
+    }
+    public void setActionListener(ActionListener listener) {
+        livingRoom.addActionListener(listener);
     }
 }

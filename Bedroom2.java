@@ -3,6 +3,7 @@ package project.security;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,6 +37,7 @@ public class Bedroom2 extends JPanel {
     public void setBedroom2Panel(){
 
         room2 = new JButton("Bedroom2");
+        room2.setActionCommand("room2");
         room2.setBackground(Color.CYAN);
         room2.setLocation(0, 0);
         room2.setSize(105, 30);
@@ -43,6 +45,9 @@ public class Bedroom2 extends JPanel {
 
 
 
+    }
+    public void setActionListener(ActionListener listener) {
+        room2.addActionListener(listener);
     }
 
 

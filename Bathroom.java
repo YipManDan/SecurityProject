@@ -3,6 +3,7 @@ package project.security;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,11 +37,15 @@ public class Bathroom extends JPanel {
     public void setBathroomPanel(){
 
         bathroom = new JButton("Bathroom");
+        bathroom.setActionCommand("bathroom");
         bathroom.setBackground(Color.CYAN);
         bathroom.setLocation(0, 0);
         bathroom.setSize(95, 30);
         bathroom.setFont(new Font("Courier New", Font.ITALIC + Font.BOLD, 12));
 
+    }
+    public void setActionListener(ActionListener listener) {
+        bathroom.addActionListener(listener);
     }
 
 
