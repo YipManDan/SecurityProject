@@ -355,10 +355,17 @@ public class DemoPane extends JPanel{
 
     private void emergencyEvent(BuildingList.roomRef input) {
         JFrame alertFrame = new JFrame();
-        alertFrame.setPreferredSize(new Dimension(1000, 750));
-        alertFrame.setMinimumSize(new Dimension(1000, 750));
+        alertFrame.setPreferredSize(new Dimension(800, 450));
+        alertFrame.setMinimumSize(new Dimension(800, 450));
         alertFrame.setTitle("Emergency Detected");
         alertFrame.setLocationRelativeTo(null);
+
+        JPanel eventPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 0;
+
         String event = "";
         switch (thisEvent) {
             case FIRE:
@@ -391,7 +398,8 @@ public class DemoPane extends JPanel{
 
         }
         JLabel message1 = new JLabel("A" + event + " has occurred in " + room);
-        alertFrame.add(message1);
+        eventPanel.add(message1, c);
+        alertFrame.add(eventPanel);
         alertFrame.setVisible(true);
     }
 
