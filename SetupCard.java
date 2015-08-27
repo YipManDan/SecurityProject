@@ -22,7 +22,7 @@ public class SetupCard extends JPanel {
 
     private JComboBox combo;
     private JPanel panelRight, panelLeft, topPanel;
-    //public JPanel panelCenter;
+    private JPanel panelMiddle;
     PanelCenter panelCenter = new PanelCenter(new RoomHandler());
     private JTextField enterNumber1, enterNumber2;
     private JLabel firstNumber, secondNumber;
@@ -45,15 +45,15 @@ public class SetupCard extends JPanel {
         panelRight = new JPanel(new FlowLayout());
         topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(700, 30));
-        //panelLeft = new JPanel(new FlowLayout());
         panelLeft = new JPanel(new GridBagLayout());
+        panelMiddle = new JPanel();
 
-
-        //panelCenter = new JPanel();
+        panelMiddle.setBackground(Color.white);
 
         add(topPanel, BorderLayout.NORTH);
         add(panelRight, BorderLayout.LINE_END);
         add(panelLeft, BorderLayout.LINE_START);
+        add(panelMiddle, BorderLayout.CENTER);
         //add(panelCenter, BorderLayout.CENTER);
 
 
@@ -127,84 +127,48 @@ public class SetupCard extends JPanel {
                 String selectedBuilding = (String) combo.getSelectedItem();
 
                 if (selectedBuilding.equals("Single House")) {
-					/*panelCenter.removeAll();
-					URL url = this.getClass().getClassLoader()
-							.getResource("singleHouse.jpg");
-					JLabel homeLabel = new JLabel(new ImageIcon(url));
-					panelCenter.add(homeLabel);
-					panelCenter.updateUI();
-					return;*/
                     createHouse();
-
-                    //pic.singleHouse();
-
                 } else if (selectedBuilding.equals("Commercial")) {
-
-                    //pic.commercial();
-                    panelCenter.removeAll();
-                    URL url = this.getClass().getClassLoader()
-                            .getResource("commercial.jpg");
-                    JLabel commercialLabel = new JLabel(new ImageIcon(url));
-                    panelCenter.add(commercialLabel);
-                    panelCenter.updateUI();
+                    createCBuilding();
                     return;
-
                 }
                 else if (selectedBuilding.equals("Select a building")) {
-
-                    //pic.selection();
-                    panelCenter.removeAll();
-                    panelCenter.updateUI();
+                    clearMiddle();
                 }
 
 
             }
         });
-        /*
-        fireSensor = new JCheckBox("Fire Sensor");
-        fireSensor.setMnemonic(KeyEvent.VK_C);
-        fireSensor.setSelected(false);
-
-        panelLeft.add(fireSensor);
-
-        motionSensor = new JCheckBox("Motion Sensor");
-        motionSensor.setMnemonic(KeyEvent.VK_G);
-        motionSensor.setSelected(false);
-
-        panelLeft.add(motionSensor);
-
-        saveSensor = new JButton("Save");
-        saveSensor.setPreferredSize(new Dimension(100, 30));
-        panelLeft.add(saveSensor);
-        saveSensor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        cancelSensor = new JButton("Cancel");
-        cancelSensor.setPreferredSize(new Dimension(100, 30));
-        panelLeft.add(cancelSensor);
-        cancelSensor.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        xLabel = new JLabel("");
-        yLabel = new JLabel("");
-
-        panelLeft.add(xLabel);
-        panelLeft.add(yLabel);
-        */
-
     }
 
     private void createHouse() {
-        System.out.println("inside method");
-        this.add(panelCenter, BorderLayout.CENTER);
+        this.remove(panelMiddle);
+        panelMiddle = panelCenter;
+        this.add(panelMiddle, BorderLayout.CENTER);
         this.updateUI();
-        //this.add(panelCenter);
+    }
+    private void createCBuilding() {
+        this.remove(panelMiddle);
+        panelMiddle = new JPanel();
+        panelMiddle.setBackground(Color.white);
+
+        URL url = this.getClass().getClassLoader()
+                .getResource("commercial.jpg");
+        JLabel commercialLabel = new JLabel(new ImageIcon(url));
+
+        panelMiddle.add(commercialLabel);
+
+        this.add(panelMiddle, BorderLayout.CENTER);
+        this.updateUI();
+
+    }
+    private void clearMiddle() {
+        this.remove(panelMiddle);
+        panelMiddle = new JPanel();
+        panelMiddle.setBackground(Color.white);
+
+        this.add(panelMiddle, BorderLayout.CENTER);
+        this.updateUI();
     }
     private void addSensors(BuildingList.roomRef input) {
         GridBagConstraints c = new GridBagConstraints();
