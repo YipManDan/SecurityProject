@@ -47,6 +47,7 @@ public class DemoPane extends JPanel{
     private enum eventType {FIRE, INTRUDER}
     private eventType thisEvent;
     JFormattedTextField currentTime;
+    Boolean isWeekend;
 
 
     String soundName = "yourSound.wav";
@@ -61,6 +62,7 @@ public class DemoPane extends JPanel{
     DemoPane() {
         setLayout(new BorderLayout());
         currentMode = Schedule.Setting.manual;
+        isWeekend = true;
         format = new SimpleDateFormat("HH:mm");
         formatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -164,7 +166,7 @@ public class DemoPane extends JPanel{
         c.gridx = 0;
         c.gridwidth = 1;
 
-        String [] modes = {"Manual", "Weekday", "Weekend", "Vacation"};
+        String [] modes = {"Manual", "Automatic", "Vacation"};
         JComboBox mode = new JComboBox(modes);
         mode.setFont(new Font("Serif", Font.BOLD, 14));
 
@@ -206,7 +208,7 @@ public class DemoPane extends JPanel{
 
         JRadioButton saturday = new JRadioButton("Saturday");
         saturday.setMnemonic(KeyEvent.VK_B);
-        saturday.setActionCommand("monday");
+        saturday.setActionCommand("saturday");
 
         ButtonGroup days = new ButtonGroup();
         days.add(sunday);
@@ -262,13 +264,14 @@ public class DemoPane extends JPanel{
                        currentMode = Schedule.Setting.manual;
                        building.updateSettings(Schedule.Setting.manual);
                        return;
-                   case "Weekday":
-                       currentMode = Schedule.Setting.weekday;
-                       building.updateSettings(Schedule.Setting.weekday);
-                       return;
-                   case "Weekend":
-                       currentMode = Schedule.Setting.weekend;
-                       building.updateSettings(Schedule.Setting.weekend);
+                   case "Automatic":
+                       if(isWeekend) {
+                           currentMode = Schedule.Setting.weekend;
+                           building.updateSettings(Schedule.Setting.weekend);
+                       } else {
+                           currentMode = Schedule.Setting.weekday;
+                           building.updateSettings(Schedule.Setting.weekday);
+                       }
                        return;
                    case "Vacation":
                        currentMode = Schedule.Setting.vacation;
@@ -278,6 +281,49 @@ public class DemoPane extends JPanel{
            }
         }
         );
+        class radioListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String s = (String) mode.getSelectedItem();
+                if(e.getActionCommand() == "sunday" || e.getActionCommand() == "saturday") {
+                    isWeekend = true;
+                    System.out.println("Hey! It's the weekend!");
+                    //Radio listeners need to be able to update setting between weekday and weekend
+                    if(s.equals("Automatic")) {
+                        if(isWeekend && currentMode.equals(Schedule.Setting.weekday)) {
+                            currentMode = Schedule.Setting.weekend;
+                            building.updateSettings(Schedule.Setting.weekend);
+                        } else if(!isWeekend && currentMode.equals(Schedule.Setting.weekend)){
+                            currentMode = Schedule.Setting.weekday;
+                            building.updateSettings(Schedule.Setting.weekday);
+                        }
+                    }
+                }
+                else {
+                    isWeekend = false;
+                    if(s.equals("Automatic")) {
+                        if(isWeekend && currentMode.equals(Schedule.Setting.weekday)) {
+                            currentMode = Schedule.Setting.weekend;
+                            building.updateSettings(Schedule.Setting.weekend);
+                        } else if(!isWeekend && currentMode.equals(Schedule.Setting.weekend)){
+                            currentMode = Schedule.Setting.weekday;
+                            building.updateSettings(Schedule.Setting.weekday);
+                        }
+                    }
+                    System.out.println("It's a weekday =(");
+                }
+            }
+        }
+
+        sunday.addActionListener(new radioListener());
+        monday.addActionListener(new radioListener());
+        tuesday.addActionListener(new radioListener());
+        wednesday.addActionListener(new radioListener());
+        thursday.addActionListener(new radioListener());
+        friday.addActionListener(new radioListener());
+        saturday.addActionListener(new radioListener());
+
+
         bottomPanel.updateUI();
     }
     private void createCBuilding() {

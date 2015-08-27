@@ -36,6 +36,7 @@ public abstract class Sensor {
     }
     public void setSetting(Schedule.Setting setting) {
         this.setting = setting;
+        System.out.println(sensorID + ": " + setting);
     }
     public void setTime(LocalTime time) {
         //update on status
