@@ -35,7 +35,7 @@ public class SetupCard extends JPanel {
     private JComboBox combo;
     private JPanel panelRight, panelLeft, topPanel;
     //public JPanel panelCenter;
-    PanelCenter panelCenter = new PanelCenter();
+    PanelCenter panelCenter = new PanelCenter(new roomHandler());
     private JTextField enterNumber1, enterNumber2;
     private JLabel firstNumber, secondNumber;
     private JButton savePhoneNumbers, saveSensor, cancelSensor;
@@ -214,5 +214,10 @@ public class SetupCard extends JPanel {
         this.add(panelCenter, BorderLayout.CENTER);
         this.updateUI();
         //this.add(panelCenter);
+    }
+    private class roomHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+        }
     }
 }

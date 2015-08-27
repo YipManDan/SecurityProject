@@ -37,7 +37,8 @@ public class PanelCenter extends JPanel {
     private LivingRoom livingRoom = new LivingRoom ();
 
 
-    PanelCenter() {
+    PanelCenter(ActionListener listener) {
+        setActionListener(listener);
         setBackground(Color.white);
         setVisible(true);
 
@@ -56,7 +57,7 @@ public class PanelCenter extends JPanel {
                 shapeOneHeight);
 
 
-        setPreferredSize(new Dimension(600,600));
+        setPreferredSize(new Dimension(600, 600));
 
         setLayout(null);
 
@@ -97,7 +98,12 @@ public class PanelCenter extends JPanel {
 
     }
     public void setActionListener(ActionListener listener) {
-        kitchen.
+        kitchen.setActionListener(listener);
+        bedroom1.setActionListener(listener);
+        bedroom2.setActionListener(listener);
+        bathroom.setActionListener(listener);
+        closet.setActionListener(listener);
+        livingRoom.setActionListener(listener);
     }
 
 

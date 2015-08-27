@@ -100,7 +100,7 @@ public class SchedulePane extends JPanel{
         enter.setActionCommand("enter");
         enter.addActionListener(new PassHandler());
 
-        centerPanel = new PanelCenter();
+        centerPanel = new PanelCenter(new roomHandler());
         scheduleCard.add(centerPanel, BorderLayout.CENTER);
 
 
@@ -632,6 +632,11 @@ public class SchedulePane extends JPanel{
             if(e.getActionCommand() == "cancel2") {
 
             }
+        }
+    }
+    private class roomHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
         }
     }
 }
