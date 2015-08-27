@@ -32,17 +32,77 @@ public class BillCard extends JPanel {
 
     BillCard() {
         this.setLayout(new GridBagLayout());
-
+        /*
         labelPane = new JPanel(new GridLayout(0,1));
         labelPane.setBackground(Color.WHITE);
         fieldPane = new JPanel(new GridLayout(0,1));
-        fieldPane.setBackground(Color.WHITE);
-        setBoxLayout1();
+        fieldPane.setBackground(Color.WHITE)3
+        */
+        //setBoxLayout1();
 
-        setBackground(Color.WHITE);
+        //setBackground(Color.WHITE);
 
         generateLabels();
         generateTextFields();
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 0;
+
+        this.add(Box.createRigidArea(new Dimension(130, 10)), c);
+        c.gridy++;
+        this.add(contractIDLabel, c);
+        c.gridx++;
+        this.add(contractIDField, c);
+        c.gridx=0;
+        c.gridy++;
+        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
+        c.gridy++;
+        this.add(nameLabel, c);
+        c.gridx++;
+        this.add(nameField, c);
+        c.gridx=0;
+        c.gridy++;
+        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
+        c.gridy++;
+        this.add(addressLabel, c);
+        c.gridx++;
+        this.add(addressField, c);
+        c.gridx=0;
+        c.gridy++;
+        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
+        c.gridy++;
+        this.add(contact1Label, c);
+        c.gridx++;
+        this.add(contact1Field, c);
+        c.gridx=0;
+        c.gridy++;
+        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
+        c.gridy++;
+        this.add(contact2Label, c);
+        c.gridx++;
+        this.add(contact2Field, c);
+        c.gridx=0;
+        c.gridy++;
+        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
+        c.gridy++;
+        this.add(emailLabel, c);
+        c.gridx++;
+        this.add(emailField, c);
+        c.gridx=0;
+        c.gridy++;
+        this.add(Box.createRigidArea(new Dimension(0, 10)), c);
+        c.gridy++;
+        this.add(dateLabel, c);
+        c.gridx++;
+        this.add(dateField, c);
+        c.gridx=0;
+        c.gridy++;
+
+
+        /*
+
 
         labelPane.add(Box.createRigidArea(new Dimension(0, 10)));
         labelPane.add(contractIDLabel);
@@ -75,6 +135,7 @@ public class BillCard extends JPanel {
         fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
         fieldPane.add(dateField);
         fieldPane.add(Box.createRigidArea(new Dimension(0, 1)));
+        */
     }
 
 
