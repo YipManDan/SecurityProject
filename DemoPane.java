@@ -113,25 +113,6 @@ public class DemoPane extends JPanel{
         panelCenter.setBackground(Color.white);
 
                 /*
-                try {
-                    // Open an audio input stream.
-                    URL url = this.getClass().getClassLoader()
-                            .getResource("myplay.wav");
-                    AudioInputStream audioIn = AudioSystem
-                            .getAudioInputStream(url);
-                    // Get a sound clip resource.
-                    Clip clip = AudioSystem.getClip();
-                    // Open audio clip and load samples from the audio input
-                    // stream.
-                    clip.open(audioIn);
-                    clip.start();
-                } catch (UnsupportedAudioFileException e2) {
-                    e2.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (LineUnavailableException e3) {
-                    e3.printStackTrace();
-                }
                 */
         combo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -479,6 +460,25 @@ public class DemoPane extends JPanel{
                 return;
         }
 
+        try {
+            // Open an audio input stream.
+            URL url = this.getClass().getClassLoader()
+                    .getResource("myplay.wav");
+            AudioInputStream audioIn = AudioSystem
+                    .getAudioInputStream(url);
+            // Get a sound clip resource.
+            Clip clip = AudioSystem.getClip();
+            // Open audio clip and load samples from the audio input
+            // stream.
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException e2) {
+            e2.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (LineUnavailableException e3) {
+            e3.printStackTrace();
+        }
 
         JFrame alertFrame = new JFrame();
         alertFrame.setPreferredSize(new Dimension(800, 450));
