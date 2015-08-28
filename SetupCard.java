@@ -143,6 +143,7 @@ public class SetupCard extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(!enterNumber1.getText().equals("")) {
                     BuildingList.getBuilding(0).setPhone1(Integer.parseInt(enterNumber1.getText()));
+                    System.out.println("Phone 1: " + enterNumber1.getText());
                     if(enablePhone1.isSelected())
                         MainSystem.enablePhone1(true);
                     else
@@ -150,6 +151,7 @@ public class SetupCard extends JPanel {
                 }
                 if(!enterNumber2.getText().equals("")) {
                     BuildingList.getBuilding(0).setPhone2(Integer.parseInt(enterNumber2.getText()));
+                    System.out.println("Phone 2: " + enterNumber2.getText());
                     if(enablePhone2.isSelected())
                         MainSystem.enablePhone2(true);
                     else

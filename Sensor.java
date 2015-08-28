@@ -40,8 +40,10 @@ public abstract class Sensor {
     }
     public void setTime(LocalTime time) {
         //update on status
-        if(setting == Schedule.Setting.manual)
+        if(setting == Schedule.Setting.manual) {
             on = manualOn;
+            return;
+        }
         LocalTime onTime = getOnTime(setting);
         LocalTime offTime = getOffTime(setting);
         if(onTime.isBefore(offTime)) {

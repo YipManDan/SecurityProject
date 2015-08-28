@@ -21,6 +21,7 @@ public class LogPane extends JPanel{
     private static GridBagConstraints c = new GridBagConstraints();
     File inFile;
     JButton refresh;
+    JButton clear;
 
     LogPane() {
         center = new JPanel();
@@ -52,6 +53,18 @@ public class LogPane extends JPanel{
                 }
             }
         });
+        clear = new JButton("Clear");
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    clearFile(inFile);
+                } catch (IOException exc) {
+                    System.err.println(exc);
+                    System.exit(1);
+                }
+            }
+        });
         try {
             refreshPane(inFile);
         } catch (IOException e) {
@@ -74,20 +87,45 @@ public class LogPane extends JPanel{
         c.gridx++;
         center.add(refresh, c);
 
+        c.gridx++;
+        center.add(clear, c);
+
         this.add(center);
 
         BufferedReader reader = new BufferedReader(new FileReader(inFile));
         String line = null;
         c.gridx=0;
-        c.gridwidth = 2;
+        c.gridwidth = 3;
         c.gridy++;
-        center.add(Box.createRigidArea(new Dimension(200, 10)), c);
+        center.add(Box.createRigidArea(new Dimension(100, 10)), c);
         while ((line=reader.readLine()) != null) {
             c.gridy++;
             center.add(new JLabel(line), c);
         }
         c.gridwidth = 1;
         reader.close();
+    }
+
+    public void clearFile(File inFile) throws IOException {
+        center.removeAll();
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy = 0;
+        c.gridx = 0;
+
+        JLabel title = new JLabel("Event Log: ");
+        title.setFont(new Font("Serif", Font.BOLD, 18));
+        center.add(title, c);
+        c.gridx++;
+        center.add(refresh, c);
+        c.gridx++;
+        center.add(clear, c);
+
+        this.add(center);
+
+        PrintWriter writer = new PrintWriter(inFile);
+        writer.print("");
+        writer.close();
     }
     /*
     private void logText(String text) {

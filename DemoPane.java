@@ -1,5 +1,7 @@
 package project.security;
 
+import javafx.util.converter.LocalDateStringConverter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -44,21 +47,20 @@ public class DemoPane extends JPanel{
     private JPanel panelMiddle;
     PanelCenter panelCenter = new PanelCenter(new RoomHandler());
 
-    File toFile;
+    private File toFile;
 
 
     private BuildingList.roomRef currentRef;
     private Schedule.Setting currentMode ;
     private enum eventType {FIRE, INTRUDER}
     private eventType thisEvent;
-    JFormattedTextField currentTime;
-    Boolean isWeekend;
-    String dayIs;
+    private JFormattedTextField currentTime;
+    private Boolean isWeekend;
+    private String dayIs;
+    private LocalTime thisTime;
 
 
     String soundName = "yourSound.wav";
-    //DisplayBluePrint pic = new DisplayBluePrint();
-
 
     private DateFormat format;
     private DateTimeFormatter formatter;
@@ -436,8 +438,8 @@ public class DemoPane extends JPanel{
         SubAreas subArea = BuildingList.getBuilding(0).getSubArea(roomNum);
         String event = "";
         Sensor sensor;
-        LocalTime time = getTime();
-        BuildingList.getBuilding(0).updateTime(time);
+        thisTime = getTime();
+        BuildingList.getBuilding(0).updateTime(thisTime);
         /*Switch does:
             Determines type of event.
             Determine if appropriate sensor is available.
@@ -543,8 +545,11 @@ public class DemoPane extends JPanel{
         pinBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (pinTF.getText().equals("123"))
+                if (pinTF.getText().equals("123")) {
+                    thisTime.plusMinutes(10);
+                    setTime(thisTime);
                     alertFrame.dispose();
+                }
                 else {
                     responseLbl.setText("The pin entered is incorrect.");
                 }
@@ -599,6 +604,13 @@ public class DemoPane extends JPanel{
         LocalTime time = LocalTime.of(Integer.parseInt(sub1), Integer.parseInt(sub2));
         System.out.println("The current time is: " + time);
         return time;
+    }
+    private void setTime(LocalTime time) {
+        System.out.println("New time is: " + time);
+        currentTime.setText(time.toString());
+    }
+    private void testFun() {
+        LocalTime aTime = LocalTime.now();
     }
 
     private class RoomHandler implements ActionListener {

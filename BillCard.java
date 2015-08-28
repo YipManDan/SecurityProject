@@ -27,6 +27,7 @@ public class BillCard extends JPanel {
     private JFormattedTextField dateField;
     private JPanel centerPanel, panelRight, panelLeft;
     private JButton update;
+    File inFile;
     // private SubAreas subAreas = new SubAreas() ;
     //private GridBagConstraints c = new GridBagConstraints();
 
@@ -39,7 +40,7 @@ public class BillCard extends JPanel {
 
     BillCard() {
 
-        File inFile = new File("testfile.txt");
+        inFile = new File("testfile.txt");
         ArrayList<SubAreas> areaList = BuildingList.getBuilding(0).getSubAreaList();
         motionCount =0;
         fireCount = 0;
@@ -310,6 +311,12 @@ public class BillCard extends JPanel {
     }
 
     private void update() {
+        try {
+            fillTextFields(inFile);
+        } catch (IOException e) {
+            System.err.print(e);
+            System.exit(1);
+        }
         this.updateUI();
         contact1Field.setText(String.valueOf(MainSystem.getPhone1()));
         contact2Field.setText(String.valueOf(MainSystem.getPhone2()));

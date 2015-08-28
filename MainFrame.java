@@ -13,6 +13,7 @@ public class MainFrame extends JFrame {
     JPanel setupPane, passPane, logPane, billPane, demoPane;
     JPanel registerPanel;
     JTabbedPane tabbedPane;
+    JScrollPane logPaneScroll;
 
     public MainFrame() {
         setTitle("Home Security System");
@@ -33,13 +34,15 @@ public class MainFrame extends JFrame {
         setupPane.setBackground(Color.GRAY);
         passPane = new SchedulePane();
         logPane = new LogPane();
+        logPaneScroll = new JScrollPane(logPane);
         billPane = new BillCard();
         demoPane = new DemoPane();
 
         tabbedPane.addTab("Setup", setupPane);
         tabbedPane.addTab("Bill", billPane);
         tabbedPane.addTab("Schedule", passPane);
-        tabbedPane.addTab("Log", logPane);
+        //tabbedPane.addTab("Log", logPane);
+        tabbedPane.addTab("Log", logPaneScroll);
         tabbedPane.addTab("Demo", demoPane);
 
         //this.add(tabbedPane);
