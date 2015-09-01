@@ -178,11 +178,13 @@ public class SchedulePane extends JPanel{
         currentRef = input;
         sensors.removeAll();
         JLabel roomLbl = new JLabel("Subarea: " + title);
-        roomLbl.setFont(new Font("Arial", Font.BOLD, 16));
+        roomLbl.setFont(new Font("Arial", Font.BOLD, 15));
+        /*
         Font font = roomLbl.getFont();
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         roomLbl.setFont(font.deriveFont(attributes));
+        */
 
         sensors.add(roomLbl);
         sensors.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -433,7 +435,7 @@ public class SchedulePane extends JPanel{
         mode.setFont(new Font("Serif", Font.BOLD, 14));
         bc.gridwidth = 1;
         bc.gridy++;
-        JLabel modeLbl = new JLabel("Modes: ");
+        JLabel modeLbl = new JLabel("Setting: ");
         modeLbl.setFont(new Font("Serif", Font.BOLD, 14));
         optionCard.add(modeLbl, bc);
         bc.gridx++;

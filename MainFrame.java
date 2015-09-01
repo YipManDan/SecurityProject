@@ -49,7 +49,8 @@ public class MainFrame extends JFrame {
         this.setVisible(true);
     }
     private void saveRegistration() {
-        File toFile = new File("testfile.txt");
+        //File toFile = new File("testfile.txt");
+        File toFile = new File("UserFile.txt");
         try {
             //write("Hello World again", toFile);
             RegisterPane.saveText(toFile);

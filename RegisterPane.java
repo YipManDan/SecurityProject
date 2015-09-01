@@ -23,7 +23,8 @@ public class RegisterPane extends JPanel {
 
     private GridBagConstraints c = new GridBagConstraints();
     RegisterPane(ActionListener listener) {
-        File inFile = new File("testfile.txt");
+        //File inFile = new File("testfile.txt");
+        File inFile = new File("UserFile.txt");
 
 
         setLayout(new GridBagLayout());
