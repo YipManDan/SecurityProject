@@ -8,7 +8,7 @@ import java.io.*;
 
 /**
  * LogPane allows user access to the action logs
- * Log displays events that occurred
+ * Log displays events that occurred and is stored in the text file
  * Allows user to refresh the log or clear the log which erases data from the log text file
  */
 public class LogPane extends JPanel{
@@ -100,7 +100,7 @@ public class LogPane extends JPanel{
         this.add(center);
 
         BufferedReader reader = new BufferedReader(new FileReader(inFile));
-        String line = null;
+        String line;
         c.gridx=0;
         c.gridwidth = 3;
         c.gridy++;
@@ -115,7 +115,7 @@ public class LogPane extends JPanel{
 
     /**
      * Method to clear the file, opens the file then adds a blank string
-     * @param inFile
+     * @param inFile File to obtain log information
      * @throws IOException
      */
     public void clearFile(File inFile) throws IOException {
