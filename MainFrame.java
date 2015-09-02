@@ -1,5 +1,7 @@
 package project.security;
 
+import project.security.Panels.*;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;

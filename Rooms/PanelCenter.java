@@ -1,4 +1,6 @@
-package project.security;
+package project.security.Rooms;
+
+import project.security.Rooms.*;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -32,7 +34,7 @@ public class PanelCenter extends JPanel {
      * PanelCenter creator
      * @param listener allows external access to button actions
      */
-    PanelCenter(ActionListener listener) {
+    public PanelCenter(ActionListener listener) {
         setActionListener(listener);
         setBackground(Color.white);
         setVisible(true);

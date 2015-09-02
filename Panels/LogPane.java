@@ -1,4 +1,4 @@
-package project.security;
+package project.security.Panels;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ public class LogPane extends JPanel{
      * Pane is filled with text from inFile
      * Implements refresh and clear button
      */
-    LogPane() {
+    public LogPane() {
         center = new JPanel();
         center.setLayout(new GridBagLayout());
 

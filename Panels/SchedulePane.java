@@ -1,4 +1,7 @@
-package project.security;
+package project.security.Panels;
+
+import project.security.Backend.*;
+import project.security.Rooms.PanelCenter;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;

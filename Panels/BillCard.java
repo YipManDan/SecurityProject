@@ -1,4 +1,8 @@
-package project.security;
+package project.security.Panels;
+
+import project.security.Backend.BuildingList;
+import project.security.Backend.MainSystem;
+import project.security.Backend.SubAreas;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -39,7 +43,7 @@ public class BillCard extends JPanel {
      * BillCard constructor
      * Obtains UserFile.txt, obtains list of SubAreas, and fills panel with initial values
      */
-    BillCard() {
+    public BillCard() {
         inFile = new File("UserFile.txt");
         ArrayList<SubAreas> areaList = BuildingList.getBuilding(0).getSubAreaList();
         motionCount =0;

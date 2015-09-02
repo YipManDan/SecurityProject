@@ -1,4 +1,4 @@
-package project.security;
+package project.security.Panels;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,7 @@ public class RegisterPane extends JPanel {
     private Font font = new Font("Arial", Font.PLAIN, FONTSIZE);
 
     private GridBagConstraints c = new GridBagConstraints();
-    RegisterPane(ActionListener listener) {
+    public RegisterPane(ActionListener listener) {
         File inFile = new File("UserFile.txt");
         //If inFile does not exist, it is created
         try {

@@ -1,7 +1,6 @@
-package project.security;
+package project.security.Backend;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 public class SubAreas {
     private int subAreaId;
@@ -16,7 +15,7 @@ public class SubAreas {
      * @param subAreaId new Subarea id
      * @param schedule a schedule
      */
-    SubAreas(int subAreaId, Schedule schedule) {
+    public SubAreas(int subAreaId, Schedule schedule) {
         this.subAreaId = subAreaId;
         this.schedule = schedule;
     }

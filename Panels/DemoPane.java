@@ -1,5 +1,8 @@
-package project.security;
+package project.security.Panels;
 
+
+import project.security.Backend.*;
+import project.security.Rooms.PanelCenter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,7 +56,7 @@ public class DemoPane extends JPanel{
      * DemoPane Constructor
      * Opens file to save log and creates panels
      */
-    DemoPane() {
+    public DemoPane() {
         setLayout(new BorderLayout());
         toFile = new File("LogFile.txt");
         try {

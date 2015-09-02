@@ -1,4 +1,9 @@
-package project.security;
+package project.security.Panels;
+
+import project.security.Backend.BuildingList;
+import project.security.Backend.MainSystem;
+import project.security.Rooms.PanelCenter;
+import project.security.Backend.SubAreas;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -30,7 +35,7 @@ public class SetupCard extends JPanel {
     /**
      * SetupCard Constructor
      */
-    SetupCard() {
+    public SetupCard() {
         setLayout(new BorderLayout());
 
         panelRight = new JPanel(new GridBagLayout());
@@ -297,7 +302,6 @@ public class SetupCard extends JPanel {
                 panelLeft.updateUI();
             }
         }
-
 
         saveBtn.setActionCommand("save");
         saveBtn.addActionListener(new ButtonHandler());

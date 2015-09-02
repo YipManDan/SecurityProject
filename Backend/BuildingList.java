@@ -1,7 +1,6 @@
-package project.security;
+package project.security.Backend;
 
 import java.net.URL;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +16,7 @@ public class BuildingList {
      * Creator for BuildingList
      * Cteates building, sets password, and supplies image URL
      */
-    BuildingList() {
+    public BuildingList() {
         Building temp = new Building(1);
         temp.createSubAreas(6);
         temp.setSystemPass("0000");

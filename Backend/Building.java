@@ -1,10 +1,8 @@
-package project.security;
+package project.security.Backend;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +20,7 @@ public class Building {
      * Building constructor
      * @param buildingId Numerical id of the Building
      */
-    Building(int buildingId)
+    public Building(int buildingId)
     {
         this.buildingId = buildingId;
         mainSystem = new MainSystem();

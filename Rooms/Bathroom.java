@@ -1,4 +1,4 @@
-package project.security;
+package project.security.Rooms;
 
 import java.awt.Color;
 import java.awt.Dimension;
