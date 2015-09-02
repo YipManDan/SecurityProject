@@ -4,26 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 /**
- * Created by Daniel on 8/27/2015.
+ * First panel visible to user
+ * Allows user to save user information
+ * Informatoin saved to textfile
  */
 public class RegisterPane extends JPanel {
     private JButton save;
-
     private JLabel  nameLabel, addressLabel, cityStateLabel, zipLabel, phoneLabel, emailLabel;
     private static JTextField  nameField, addressField, cityStateField, zipField, phoneField,  emailField;
-    private JFormattedTextField dateField;
 
     public static final int FONTSIZE = 16;
-    Font font = new Font("Arial", Font.PLAIN, FONTSIZE);
-    DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+    private Font font = new Font("Arial", Font.PLAIN, FONTSIZE);
 
     private GridBagConstraints c = new GridBagConstraints();
     RegisterPane(ActionListener listener) {
         File inFile = new File("UserFile.txt");
+        //If inFile does not exist, it is created
         try {
             if (!inFile.exists()) {
                 inFile.createNewFile();
@@ -35,8 +33,6 @@ public class RegisterPane extends JPanel {
             errorPanel.add(new JLabel("File not found and file unable to be created. Please create file: UserFile.txt in Jar location."));
             errorFrame.setVisible(true);
         }
-
-
         setLayout(new GridBagLayout());
         save = new JButton("Save");
         save.setActionCommand("save");
@@ -79,13 +75,13 @@ public class RegisterPane extends JPanel {
         emailField = new JTextField(15);
         addThis(emailLabel, emailField);
 
+        //calls fillTextFields method, obtains values from textfile
         try {
             fillTextFields(inFile);
         } catch (IOException e) {
             System.err.println(e);
             System.exit(1);
         }
-
         c.gridy++;
         c.gridx = 0;
         c.gridwidth = 2;
@@ -96,6 +92,11 @@ public class RegisterPane extends JPanel {
         this.add(save, c);
     }
 
+    /**
+     * Adds Jlabel and Jtextfield to panel
+     * @param label label to be addedj
+     * @param textField textfield to be added
+     */
     private void addThis(JLabel label, JTextField textField) {
         c.gridy++;
         c.gridwidth = 2;
@@ -108,26 +109,13 @@ public class RegisterPane extends JPanel {
         c.gridx = 1;
         add(textField, c);
         c.gridx = 0;
-
     }
-    /*
-    public static void copyFile3(File fromFile, File toFile) throws IOException {
-        //Scanner freader = new Scanner(fromFile);
-        BufferedWriter writer = new BufferedWriter(new FileWriter(toFile));
 
-        //... Loop as long as there are input lines.
-        String line = null;
-        while (freader.hasNextLine()) {
-            line = freader.nextLine();
-            writer.write(line);
-            writer.newLine();   // Write system dependent end of line.
-        }
-
-        //... Close reader and writer.
-        freader.close();  // Close to unlock.
-        writer.close();  // Close to unlock and flush to disk.
-    }
-    */
+    /**
+     * Method to save information written to textfile
+     * @param toFile filename
+     * @throws IOException
+     */
     public static void saveText(File toFile) throws IOException{
         BufferedWriter writer = new BufferedWriter(new FileWriter(toFile));
         writer.write(nameField.getText());
@@ -144,6 +132,12 @@ public class RegisterPane extends JPanel {
         writer.newLine();
         writer.close();
     }
+
+    /**
+     * Automatically fills textfields based on current values in textfile
+     * @param inFile textfile to source user information from
+     * @throws IOException
+     */
     public void fillTextFields(File inFile) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inFile));
         nameField.setText(reader.readLine());

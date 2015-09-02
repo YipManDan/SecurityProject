@@ -3,7 +3,8 @@ package project.security;
 import java.lang.System;
 
 /**
- * Created by Daniel on 8/14/2015.
+ * MotionSensor class which extends the abstract class sensor
+ * Specifies action of motion sensors
  */
 public class MotionSensor  extends Sensor{
     public MotionSensor(int sensorID, int roomID) {

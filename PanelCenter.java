@@ -1,7 +1,5 @@
 package project.security;
 
-
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,18 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class PanelCenter extends JPanel {
-    //private JPanel panelCenter;
-    //panelCenter = new JPanel();
-
     private Shape areaShapeOne;
     private Shape bedRoomOne;
     private Shape bedRoomTwo;
@@ -36,7 +28,10 @@ public class PanelCenter extends JPanel {
     private Closet closet = new Closet ();
     private LivingRoom livingRoom = new LivingRoom ();
 
-
+    /**
+     * PanelCenter creator
+     * @param listener allows external access to button actions
+     */
     PanelCenter(ActionListener listener) {
         setActionListener(listener);
         setBackground(Color.white);
@@ -53,19 +48,17 @@ public class PanelCenter extends JPanel {
         double shapeOneY = 50;
         double shapeOneWidth = 500;
         double shapeOneHeight = 500;
-        areaShapeOne = new Rectangle2D.Double(shapeOneX, shapeOneY, shapeOneWidth,
-                shapeOneHeight);
-
+        areaShapeOne = new Rectangle2D.Double(shapeOneX, shapeOneY, shapeOneWidth, shapeOneHeight);
 
         setPreferredSize(new Dimension(600, 600));
-
         setLayout(null);
-
-
     }
 
+    /**
+     * Paints Building and adds room images
+     * @param g graphics
+     */
     public void paintComponent(Graphics g) {
-
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
@@ -93,10 +86,12 @@ public class PanelCenter extends JPanel {
         g2.draw(closet1);
         g2.draw(bedRoomTwo);
         g2.draw(bathRoomTwo);
-
-
-
     }
+
+    /**
+     * Calls methods to add listener to all rooms
+     * @param listener actionlistener for all room buttons
+     */
     public void setActionListener(ActionListener listener) {
         kitchen.setActionListener(listener);
         bedroom1.setActionListener(listener);
