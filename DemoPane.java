@@ -73,9 +73,11 @@ public class DemoPane extends JPanel{
         formatter = DateTimeFormatter.ofPattern("HH:mm");
         dayIs = "sunday";
 
+        //Default demo mode
         currentMode = Schedule.Setting.manual;
         BuildingList.getBuilding(0).updateSettings(Schedule.Setting.manual);
 
+        //create the panels
         panelRight = new JPanel(new GridBagLayout());
         topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(700, 35));
@@ -85,13 +87,12 @@ public class DemoPane extends JPanel{
 
         panelMiddle.setBackground(Color.white);
 
+        //Add all panels, except center
         add(topPanel, BorderLayout.NORTH);
         add(panelRight, BorderLayout.LINE_END);
         add(panelLeft, BorderLayout.LINE_START);
         add(panelMiddle, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
-
-        // Create an Rectangular house structure
 
         /*Top Panel Components*/
         combo = new JComboBox();
@@ -202,6 +203,7 @@ public class DemoPane extends JPanel{
         saturday.setMnemonic(KeyEvent.VK_B);
         saturday.setActionCommand("saturday");
 
+        //Add all radial buttons to ButtonGroup
         ButtonGroup days = new ButtonGroup();
         days.add(sunday);
         days.add(monday);
@@ -312,7 +314,6 @@ public class DemoPane extends JPanel{
         friday.addActionListener(new radioListener());
         saturday.addActionListener(new radioListener());
 
-
         bottomPanel.updateUI();
     }
 
@@ -360,16 +361,15 @@ public class DemoPane extends JPanel{
 
         JLabel leftTitle = new JLabel("Select a situation: " );
         leftTitle.setFont(new Font("Arial", Font.BOLD, 16));
-        //Font font = leftTitle.getFont();
-        //Map attributes = font.getAttributes();
-        //attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        //leftTitle.setFont(font.deriveFont(attributes));
 
         c.gridwidth = 2;
         panelLeft.add(leftTitle, c);
         c.gridy++;
         panelLeft.add(Box.createRigidArea(new Dimension(150, 5)), c);
 
+        /*
+        Radio buttons for event selection
+         */
         JRadioButton fireEvent = new JRadioButton("Fire");
         fireEvent.setMnemonic(KeyEvent.VK_B);
         fireEvent.setActionCommand("fire");
@@ -417,6 +417,9 @@ public class DemoPane extends JPanel{
         writeText("Event Occurred on " + dayIs.toString()  + " at " + getTime().toString());
         writeText("System mode: " + currentMode.toString());
 
+        /*
+        Determine location of room event occured in
+         */
         String room = "";
         int roomNum = 0;
         switch (input) {
@@ -512,6 +515,7 @@ public class DemoPane extends JPanel{
             e3.printStackTrace();
         }
 
+        //Opens UI alertframe
         JFrame alertFrame = new JFrame();
         alertFrame.setPreferredSize(new Dimension(800, 450));
         alertFrame.setMinimumSize(new Dimension(800, 450));
@@ -525,6 +529,9 @@ public class DemoPane extends JPanel{
         c.gridx = 0;
         c.gridy = 0;
 
+        /*
+        Messages to alertpanel and log
+         */
         JLabel message1 = new JLabel("A" + event + " was detected in " + room);
         eventPanel.add(message1, c);
         writeText(message1.getText());

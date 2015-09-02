@@ -29,6 +29,9 @@ public class MainFrame extends JFrame {
         registerPanel = new RegisterPane(new MenuActionListener());
         getContentPane().add(registerPanel);
 
+        /*
+        Create all tabs and adds to JTabbedPane
+         */
         tabbedPane = new JTabbedPane();
         setupPane = new SetupCard();
         setupPane.setBackground(Color.GRAY);

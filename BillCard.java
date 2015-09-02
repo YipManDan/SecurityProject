@@ -27,13 +27,13 @@ public class BillCard extends JPanel {
     private JTextField contractIDField, nameField, addressField, cityStateField,zipField,phoneField,contact1Field, contact2Field, emailField, fireSensorField, motionSensorField, pricePerFireField, pricePerMotionLField, priceOfFireField, priceOfMotionField, totalPriceField;
     private JFormattedTextField dateField;
     private JButton update;
-    File inFile;
+    private File inFile;
 
     public static final int FONTSIZE = 15;
     public final int BOX_SIZE = 27;
-    DateFormat format = new SimpleDateFormat("MM-dd-yyyy");
-    int motionCount;
-    int fireCount;
+    private DateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+    private int motionCount;
+    private int fireCount;
 
     /**
      * BillCard constructor
@@ -52,6 +52,9 @@ public class BillCard extends JPanel {
                 ++fireCount;
             }
         }
+        /*
+        Formatting
+         */
         GridBagLayout gbl_panel_1 = new GridBagLayout();
 
         gbl_panel_1.columnWidths = new int[]{1};
@@ -67,12 +70,14 @@ public class BillCard extends JPanel {
         c.gridy = 1;
         c1.gridy = 16;
 
+        //Initializes textfields and labels with gridbagconstraint c
         initializeTFAndLabel(c);
 
         add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
         c.gridy++;
         c.gridy++;
 
+        //Add refresh button
         add(Box.createRigidArea(new Dimension(14, 0)), c1);
         update = new JButton("Refresh");
         c1.gridheight = 2;
@@ -249,7 +254,6 @@ public class BillCard extends JPanel {
 
         add(totalPriceLabel, c);
         add(totalPriceField, c);
-
     }
 
     /**
@@ -294,6 +298,7 @@ public class BillCard extends JPanel {
      * Update will update information on the page from UserFile.txt and each SubArea
      */
     private void update() {
+        //Calls method to read from
         try {
             fillTextFields(inFile);
         } catch (IOException e) {
@@ -301,11 +306,15 @@ public class BillCard extends JPanel {
             System.exit(1);
         }
         this.updateUI();
+
         contact1Field.setText(String.valueOf(MainSystem.getPhone1()));
         contact2Field.setText(String.valueOf(MainSystem.getPhone2()));
+
         ArrayList<SubAreas> areaList = BuildingList.getBuilding(0).getSubAreaList();
+
         motionCount =0;
         fireCount = 0;
+        //Count number of each type of sensors
         for(SubAreas temp: areaList) {
             if(temp.hasMotionSensor()) {
                 ++motionCount;
@@ -314,6 +323,7 @@ public class BillCard extends JPanel {
                 ++fireCount;
             }
         }
+
         fireSensorField.setText(String.valueOf(fireCount));
         motionSensorField.setText(String.valueOf(motionCount));
 

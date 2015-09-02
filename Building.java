@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * Provides functionality to access subareas and mainsystem
  */
 public class Building {
-
     private BufferedImage image;
     private URL imageURL;
     private int buildingId;

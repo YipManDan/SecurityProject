@@ -41,6 +41,9 @@ public class LogPane extends JPanel{
             errorPanel.add(new JLabel("File not found and file unable to be created. Please create file: LogFile.txt in Jar location."));
             errorFrame.setVisible(true);
         }
+        /*
+        Buttons
+         */
         refresh = new JButton("Refresh");
         refresh.setActionCommand("refresh");
         refresh.addActionListener(new ActionListener() {
