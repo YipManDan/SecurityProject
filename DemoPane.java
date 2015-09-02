@@ -1,41 +1,24 @@
 package project.security;
 
-import javafx.util.converter.LocalDateStringConverter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.font.TextAttribute;
-import java.awt.image.BufferedImage;
-import java.net.URL;
-import java.util.Map;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.*;
 
 /**
  * Created by Daniel on 8/27/2015.
@@ -69,9 +52,23 @@ public class DemoPane extends JPanel{
 
     DemoPane() {
         setLayout(new BorderLayout());
+        toFile = new File("LogFile.txt");
+        try {
+            if (!toFile.exists()) {
+                toFile.createNewFile();
+            }
+        } catch (IOException e) {
+            JFrame errorFrame = new JFrame("");
+            JPanel errorPanel = new JPanel();
+            errorFrame.getContentPane().add(errorPanel);
+            errorPanel.add(new JLabel("File not found and file unable to be created. Please create file: LogFile.txt in Jar location."));
+            errorFrame.setVisible(true);
+        }
+
+
+
         currentMode = Schedule.Setting.manual;
         isWeekend = true;
-        toFile = new File("LogFile.txt");
         format = new SimpleDateFormat("HH:mm");
         formatter = DateTimeFormatter.ofPattern("HH:mm");
         dayIs = "sunday";

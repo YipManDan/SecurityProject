@@ -192,7 +192,7 @@ public class SetupCard extends JPanel {
         panelMiddle.setBackground(Color.white);
 
         URL url = this.getClass().getClassLoader()
-                .getResource("commercial.jpg");
+                .getResource("images/commercial.jpg");
         JLabel commercialLabel = new JLabel(new ImageIcon(url));
 
         panelMiddle.add(commercialLabel);

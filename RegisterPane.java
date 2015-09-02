@@ -23,8 +23,18 @@ public class RegisterPane extends JPanel {
 
     private GridBagConstraints c = new GridBagConstraints();
     RegisterPane(ActionListener listener) {
-        //File inFile = new File("testfile.txt");
         File inFile = new File("UserFile.txt");
+        try {
+            if (!inFile.exists()) {
+                inFile.createNewFile();
+            }
+        } catch (IOException e) {
+            JFrame errorFrame = new JFrame("");
+            JPanel errorPanel = new JPanel();
+            errorFrame.getContentPane().add(errorPanel);
+            errorPanel.add(new JLabel("File not found and file unable to be created. Please create file: UserFile.txt in Jar location."));
+            errorFrame.setVisible(true);
+        }
 
 
         setLayout(new GridBagLayout());

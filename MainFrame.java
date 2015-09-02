@@ -25,8 +25,10 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         registerPanel = new RegisterPane(new MenuActionListener());
-        this.add(registerPanel);
 
+
+        //this.add(registerPanel);
+        getContentPane().add(registerPanel);
 
 
         tabbedPane = new JTabbedPane();
@@ -51,6 +53,17 @@ public class MainFrame extends JFrame {
     private void saveRegistration() {
         //File toFile = new File("testfile.txt");
         File toFile = new File("UserFile.txt");
+        try {
+            if (!toFile.exists()) {
+                toFile.createNewFile();
+            }
+        } catch (IOException e) {
+            JFrame errorFrame = new JFrame("");
+            JPanel errorPanel = new JPanel();
+            errorFrame.getContentPane().add(errorPanel);
+            errorPanel.add(new JLabel("File not found and file unable to be created. Please create file: UserFile.txt in Jar location."));
+            errorFrame.setVisible(true);
+        }
         try {
             //write("Hello World again", toFile);
             RegisterPane.saveText(toFile);

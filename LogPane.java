@@ -28,6 +28,17 @@ public class LogPane extends JPanel{
         center.setLayout(new GridBagLayout());
 
         inFile = new File("LogFile.txt");
+        try {
+            if (!inFile.exists()) {
+                inFile.createNewFile();
+            }
+        } catch (IOException e) {
+            JFrame errorFrame = new JFrame("");
+            JPanel errorPanel = new JPanel();
+            errorFrame.getContentPane().add(errorPanel);
+            errorPanel.add(new JLabel("File not found and file unable to be created. Please create file: LogFile.txt in Jar location."));
+            errorFrame.setVisible(true);
+        }
 
         /*
         try {
