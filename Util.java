@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 public class Util {
     /**
      * Make the height and width of the image proportioned to the label.
-     * Renders the selected image. Then add it to the label.
+     * Renders the selected image. Then add it to the label
      * @param label label to set
      * @param name  name of picture
      */
