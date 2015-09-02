@@ -1,47 +1,45 @@
 package project.security;
 
-
-
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
-
+/**
+ * BillCard displays billing information
+ * Information is sourced from UserFile.txt and information stored in each SubArea
+ */
 public class BillCard extends JPanel {
-
     private JLabel contractIDLabel, nameLabel, addressLabel,cityStateLabel,zipLabel,phoneLabel, contact1Label, contact2Label, emailLabel, dateLabel, fireSensorLabel, motionSensorLabel, pricePerFireLabel, pricePerMotionLabel, priceOfFireLabel, priceOfMotionLabel, totalPriceLabel;
     private JTextField contractIDField, nameField, addressField, cityStateField,zipField,phoneField,contact1Field, contact2Field, emailField, fireSensorField, motionSensorField, pricePerFireField, pricePerMotionLField, priceOfFireField, priceOfMotionField, totalPriceField;
     private JFormattedTextField dateField;
-    private JPanel centerPanel, panelRight, panelLeft;
     private JButton update;
     File inFile;
-    // private SubAreas subAreas = new SubAreas() ;
-    //private GridBagConstraints c = new GridBagConstraints();
 
     public static final int FONTSIZE = 15;
     public final int BOX_SIZE = 27;
-    //Font font1 = new Font("Courier", Font.BOLD, 16);
-    //DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
     DateFormat format = new SimpleDateFormat("MM-dd-yyyy");
     int motionCount;
     int fireCount;
 
+    /**
+     * BillCard constructor
+     * Obtains UserFile.txt, obtains list of SubAreas, and fills panel with initial values
+     */
     BillCard() {
-
-        //inFile = new File("testfile.txt");
         inFile = new File("UserFile.txt");
         ArrayList<SubAreas> areaList = BuildingList.getBuilding(0).getSubAreaList();
         motionCount =0;
@@ -54,8 +52,6 @@ public class BillCard extends JPanel {
                 ++fireCount;
             }
         }
-
-
         GridBagLayout gbl_panel_1 = new GridBagLayout();
 
         gbl_panel_1.columnWidths = new int[]{1};
@@ -71,254 +67,14 @@ public class BillCard extends JPanel {
         c.gridy = 1;
         c1.gridy = 16;
 
-        //setBackground(Color.WHITE);
+        initializeTFAndLabel(c);
 
-        contractIDLabel = new JLabel("Contract ID: ");
-        contractIDLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        contractIDField = new JTextField(15);
-        contractIDField.setPreferredSize(new Dimension(500, FONTSIZE + 7));
-        contractIDField.setText("C1120");
-        //contractIDField.setFont(font1);
-        contractIDField.setEditable(false);
-
-        JLabel title = new JLabel("System-Generated Bill");
-        title.setFont(new Font("Serif", Font.BOLD, FONTSIZE+9));
-        add(title);
-        c.gridy++;
-        this.add(Box.createRigidArea(new Dimension(260, 15)), c);
-        c.gridy++;
-        add(contractIDLabel, c);
-        add(contractIDField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        nameLabel = new JLabel("User Name: ");
-        nameLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        nameField = new JTextField(15);
-        nameField.setPreferredSize(new Dimension(300, FONTSIZE + 7));
-        //nameField.setFont(font1);
-        nameField.setEditable(false);
-
-        add(nameLabel, c);
-        add(nameField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        addressLabel = new JLabel("Address:");
-        addressLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        addressField = new JTextField(15);
-        addressField.setPreferredSize(new Dimension(300, FONTSIZE + 7));
-        // addressField.setFont(font1);
-        addressField.setEditable(false);
-
-        add(addressLabel, c);
-        add(addressField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-
-
-        cityStateLabel = new JLabel("City, State:");
-        cityStateLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        cityStateField = new JTextField(15);
-        cityStateField.setPreferredSize(new Dimension(300, FONTSIZE + 7));
-        //cityStateField.setFont(font1);
-        cityStateField.setEditable(false);
-
-
-        add(cityStateLabel, c);
-        add(cityStateField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-
-        zipLabel = new JLabel("ZipCode:");
-        zipLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        zipField = new JTextField(15);
-        zipField.setPreferredSize(new Dimension(300, FONTSIZE + 7));
-        // zipField.setFont(font1);
-        zipField.setEditable(false);
-
-        add(zipLabel, c);
-        add(zipField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        phoneLabel = new JLabel("User Phone No.:");
-        phoneLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        phoneField = new JTextField(15);
-        phoneField.setPreferredSize(new Dimension(300, FONTSIZE + 7));
-        //phoneField.setFont(font1);
-        phoneField.setEditable(false);
-
-        add(phoneLabel, c);
-        add(phoneField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-
-        contact1Label = new JLabel("Emergency Contact No.1:");
-        contact1Label.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        contact1Field = new JTextField(15);
-        contact1Field.setPreferredSize(new Dimension(300, FONTSIZE + 7));
-        contact1Field.setText(String.valueOf(MainSystem.getPhone1()));
-
-
-        //contact1Field.setFont(font1);
-        contact1Field.setEditable(false);
-
-        add(contact1Label, c);
-        add(contact1Field, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        contact2Label = new JLabel("Emergency Contact No.2");
-        contact2Label.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        contact2Field = new JTextField(15);
-        contact2Field.setPreferredSize(new Dimension(300, FONTSIZE + 7));
-        contact2Field.setText(String.valueOf(MainSystem.getPhone2()));
-        //contact2Field.setFont(font1);
-        contact2Field.setEditable(false);
-
-        add(contact2Label, c);
-        add(contact2Field, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        emailLabel = new JLabel("Email: ");
-        emailLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        emailField = new JTextField(15);
-        emailField.setPreferredSize(new Dimension(300, FONTSIZE + 7));
-        //emailField.setFont(font1);
-        emailField.setEditable(false);
-
-        add(emailLabel, c);
-        add(emailField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        dateLabel = new JLabel("Date: ");
-        dateLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        dateField = new JFormattedTextField((format));
-        dateField.setColumns(15);
-        dateField.setPreferredSize(new Dimension(135, FONTSIZE+7));
-        dateField.setValue(new java.util.Date());
-        //dateField.setFont(font1);
-        dateField.setEditable(false);
-
-        add(dateLabel, c);
-        add(dateField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        fireSensorLabel = new JLabel("No of Firesensors: ");
-        fireSensorLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        fireSensorField = new JTextField(15);
-        fireSensorField.setPreferredSize(new Dimension(100, FONTSIZE+7));
-        fireSensorField.setText(String.valueOf(fireCount));
-        // fireSensorField.setFont(font1);
-        fireSensorField.setEditable(false);
-
-        add(fireSensorLabel, c);
-        add(fireSensorField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        motionSensorLabel = new JLabel("No of Motionsensors: ");
-        motionSensorLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        motionSensorField = new JTextField(15);
-        motionSensorField.setPreferredSize(new Dimension(100, FONTSIZE+7));
-        motionSensorField.setText(String.valueOf(motionCount));
-        // motionSensorField.setFont(font1);
-        motionSensorField.setEditable(false);
-
-        add(motionSensorLabel, c);
-        add(motionSensorField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        pricePerFireLabel = new JLabel("Price per FireSensor:");
-        pricePerFireLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        pricePerFireField = new JTextField(15);
-        pricePerFireField.setPreferredSize(new Dimension(100, FONTSIZE+7));
-        int firePrice = 20;
-        pricePerFireField.setText("$" + String.valueOf(firePrice));
-        //pricePerFireField.setFont(font1);
-        pricePerFireField.setEditable(false);
-
-        add(pricePerFireLabel, c);
-        add(pricePerFireField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        pricePerMotionLabel = new JLabel("Price per MotionSensor:");
-        pricePerMotionLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        pricePerMotionLField = new JTextField(15);
-        pricePerMotionLField.setPreferredSize(new Dimension(100, FONTSIZE+7));
-        int motionPrice = 18;
-        pricePerMotionLField.setText("$" + String.valueOf(motionPrice));
-        //pricePerMotionLField.setFont(font1);
-        pricePerMotionLField.setEditable(false);
-
-        add(pricePerMotionLabel, c);
-        add(pricePerMotionLField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        priceOfFireLabel = new JLabel("Total Price of Firesensors:");
-        priceOfFireLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        priceOfFireField = new JTextField(15);
-        priceOfFireField.setPreferredSize(new Dimension(100, FONTSIZE+7));
-        int priceOfFire = fireCount * firePrice;
-        priceOfFireField.setText("$" + String.valueOf(priceOfFire));
-        // priceOfFireField.setFont(font1);
-        priceOfFireField.setEditable(false);
-
-
-        add(priceOfFireLabel, c);
-        add(priceOfFireField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-        priceOfMotionLabel = new JLabel("Total Price of Motionsensors:");
-        priceOfMotionLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        priceOfMotionField = new JTextField(15);
-        priceOfMotionField.setPreferredSize(new Dimension(100, FONTSIZE+7));
-        int priceOfMotion = motionCount * motionPrice;
-        priceOfMotionField.setText("$" + String.valueOf(priceOfMotion));
-        //priceOfMotionField.setFont(font1);
-        priceOfMotionField.setEditable(false);
-
-        add(priceOfMotionLabel, c);
-        add(priceOfMotionField, c);
-        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
-        c.gridy++;
-
-
-        totalPriceLabel = new JLabel("Total Price:");
-        totalPriceLabel.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
-        totalPriceField = new JTextField(15);
-        totalPriceField.setPreferredSize(new Dimension(100, FONTSIZE+7));
-        int totalPrice= priceOfFire + priceOfMotion;
-        totalPriceField.setText("$" + String.valueOf(totalPrice));
-        // totalPriceField.setFont(font1);
-        totalPriceField.setEditable(false);
-
-        add(totalPriceLabel, c);
-        add(totalPriceField, c);
         add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
         c.gridy++;
         c.gridy++;
 
-       /* save = new JButton("Save as PDF");
-        save.setFont(new Font("ARIAL", Font.ITALIC, 16));
-        add(save, c1);
-        c1.gridy++;*/
-        //c1.gridx++;
         add(Box.createRigidArea(new Dimension(14, 0)), c1);
-        //c1.gridx++;
         update = new JButton("Refresh");
-        //update.setFont(new Font("ARIAL", Font.ITALIC, 16));
         c1.gridheight = 2;
         update.setFont(new Font("Serif", Font.PLAIN, 16));
         update.setPreferredSize(new Dimension(115, 24));
@@ -330,16 +86,213 @@ public class BillCard extends JPanel {
                 update();
             }
         });
-
         try {
             fillTextFields(inFile);
         } catch (IOException e) {
             System.err.println(e);
             System.exit(1);
         }
+    }
+
+    /**
+     * Function initializes and adds JTextFields and JLabels
+     * @param c the GridBagConstraint to be used
+     */
+    void initializeTFAndLabel(GridBagConstraints c) {
+        //Create Contract Label
+        contractIDLabel = createJLabel("Contract ID: ");
+        contractIDField = createJTextField(15, "C1120");
+
+        //Insert title and rigidAreas for formatting
+        JLabel title = new JLabel("System-Generated Bill");
+        title.setFont(new Font("Serif", Font.BOLD, FONTSIZE+9));
+        add(title);
+        c.gridy++;
+        this.add(Box.createRigidArea(new Dimension(260, 15)), c);
+        c.gridy++;
+        add(contractIDLabel, c);
+        add(contractIDField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        nameLabel = createJLabel("User Name: ");
+        nameField = createJTextField(15);
+
+        add(nameLabel, c);
+        add(nameField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        addressLabel = createJLabel("Address:");
+        addressField = createJTextField(15);
+
+        add(addressLabel, c);
+        add(addressField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        cityStateLabel = createJLabel("City, State:");
+        cityStateField = createJTextField(15);
+
+        add(cityStateLabel, c);
+        add(cityStateField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        zipLabel = createJLabel("ZipCode:");
+        zipField = createJTextField(15);
+
+        add(zipLabel, c);
+        add(zipField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        phoneLabel = createJLabel("User Phone No.:");
+        phoneField = createJTextField(15);
+
+        add(phoneLabel, c);
+        add(phoneField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        contact1Label = createJLabel("Emergency Contact No.1:");
+        contact1Field = createJTextField(15, String.valueOf(MainSystem.getPhone1()));
+
+        add(contact1Label, c);
+        add(contact1Field, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        contact2Label = createJLabel("Emergency Contact No.2");
+        contact2Field = createJTextField(15, String.valueOf(MainSystem.getPhone2()));
+
+        add(contact2Label, c);
+        add(contact2Field, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        emailLabel = createJLabel("Email: ");
+        emailField = createJTextField(15);
+
+        add(emailLabel, c);
+        add(emailField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        dateLabel = createJLabel("Date: ");
+        dateField = new JFormattedTextField((format));
+        dateField.setColumns(15);
+        dateField.setPreferredSize(new Dimension(300, FONTSIZE+7));
+        dateField.setValue(new java.util.Date());
+        dateField.setEditable(false);
+
+        add(dateLabel, c);
+        add(dateField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        fireSensorLabel = createJLabel("No of Firesensors: ");
+        fireSensorField = createJTextField(15, String.valueOf(fireCount));
+
+        add(fireSensorLabel, c);
+        add(fireSensorField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        motionSensorLabel = createJLabel("No of Motionsensors: ");
+        motionSensorField = createJTextField(15,String.valueOf(motionCount));
+
+        add(motionSensorLabel, c);
+        add(motionSensorField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        pricePerFireLabel = createJLabel("Price per FireSensor:");
+        int firePrice = 20; //set price of fire sensor
+        pricePerFireField = createJTextField(15, "$" + String.valueOf(firePrice));
+
+        add(pricePerFireLabel, c);
+        add(pricePerFireField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        pricePerMotionLabel = createJLabel("Price per MotionSensor:");
+        int motionPrice = 18;   //set price of motion sensor
+        pricePerMotionLField = createJTextField(15, "$" + String.valueOf(motionPrice));
+
+        add(pricePerMotionLabel, c);
+        add(pricePerMotionLField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        priceOfFireLabel = createJLabel("Total Price of Firesensors:");
+        int priceOfFire = fireCount * firePrice;
+        priceOfFireField = createJTextField(15,"$" + String.valueOf(priceOfFire));
+
+        add(priceOfFireLabel, c);
+        add(priceOfFireField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        priceOfMotionLabel = createJLabel("Total Price of Motionsensors:");
+        int priceOfMotion = motionCount * motionPrice;
+        priceOfMotionField = createJTextField(15, "$" + String.valueOf(priceOfMotion));
+
+        add(priceOfMotionLabel, c);
+        add(priceOfMotionField, c);
+        add(Box.createRigidArea(new Dimension(0, BOX_SIZE)), c);
+        c.gridy++;
+
+        totalPriceLabel = createJLabel("Total Price:");
+        int totalPrice= priceOfFire + priceOfMotion;
+        totalPriceField = createJTextField(15, "$" + String.valueOf(totalPrice));
+
+        add(totalPriceLabel, c);
+        add(totalPriceField, c);
 
     }
 
+    /**
+     * Function to create and format JLabel
+     * @param s String to title JLabel
+     * @return a JLabel
+     */
+    JLabel createJLabel(String s) {
+        JLabel temp = new JLabel(s);
+        temp.setFont(new Font("ARIAL", Font.PLAIN, FONTSIZE));
+        return temp;
+    }
+
+    /**
+     * Function to create and format JTextField
+     * @param columns number of columns for JTextField constructor
+     * @return a JTextField
+     */
+    JTextField createJTextField(int columns) {
+        JTextField temp = new JTextField(columns);
+        temp.setPreferredSize(new Dimension(500, FONTSIZE + 7));
+        temp.setEditable(false);
+        return temp;
+    }
+
+    /**
+     * Function to create and format JTextField
+     * @param columns number of columns for JTextField constructor
+     * @param s string to initialize JTextField with
+     * @return a JTextField
+     */
+    JTextField createJTextField(int columns, String s) {
+        JTextField temp = new JTextField(columns);
+        temp.setPreferredSize(new Dimension(500, FONTSIZE + 7));
+        temp.setText(s);
+        temp.setEditable(false);
+        return temp;
+    }
+
+    /**
+     *Update is called by the update button
+     * Update will update information on the page from UserFile.txt and each SubArea
+     */
     private void update() {
         try {
             fillTextFields(inFile);
@@ -361,7 +314,6 @@ public class BillCard extends JPanel {
                 ++fireCount;
             }
         }
-
         fireSensorField.setText(String.valueOf(fireCount));
         motionSensorField.setText(String.valueOf(motionCount));
 
@@ -377,6 +329,11 @@ public class BillCard extends JPanel {
         totalPriceField.setText("$" + String.valueOf(totalPrice));
     }
 
+    /**
+     *Fill textfields will open the file and read information from the file
+     * @param inFile input file to obtain user information
+     * @throws IOException
+     */
     public void fillTextFields(File inFile) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inFile));
         nameField.setText(reader.readLine());
