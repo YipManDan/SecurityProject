@@ -7,20 +7,29 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 /**
- * Created by Daniel on 8/25/2015.
+ * LogPane allows user access to the action logs
+ * Log displays events that occurred
+ * Allows user to refresh the log or clear the log which erases data from the log text file
  */
 public class LogPane extends JPanel{
-    private JPanel left, right, center;
+    private JPanel center;
     private static GridBagConstraints c = new GridBagConstraints();
-    File inFile;
-    JButton refresh;
-    JButton clear;
+    private File inFile;
+    private JButton refresh;
+    private JButton clear;
 
+    /**
+     * Logpane creator
+     * Creates the center panel and sets the format
+     * Pane is filled with text from inFile
+     * Implements refresh and clear button
+     */
     LogPane() {
         center = new JPanel();
         center.setLayout(new GridBagLayout());
 
         inFile = new File("LogFile.txt");
+        //If inFile does  not exist, creates inFile at location
         try {
             if (!inFile.exists()) {
                 inFile.createNewFile();
@@ -32,7 +41,6 @@ public class LogPane extends JPanel{
             errorPanel.add(new JLabel("File not found and file unable to be created. Please create file: LogFile.txt in Jar location."));
             errorFrame.setVisible(true);
         }
-
         refresh = new JButton("Refresh");
         refresh.setActionCommand("refresh");
         refresh.addActionListener(new ActionListener() {
@@ -67,6 +75,12 @@ public class LogPane extends JPanel{
         setVisible(true);
     }
 
+    /**
+     * Method to refresh the pane
+     * Center is cleared then refilled
+     * @param inFile File to source log information from
+     * @throws IOException
+     */
     public void refreshPane (File inFile) throws IOException {
         center.removeAll();
 
@@ -99,6 +113,11 @@ public class LogPane extends JPanel{
         reader.close();
     }
 
+    /**
+     * Method to clear the file, opens the file then adds a blank string
+     * @param inFile
+     * @throws IOException
+     */
     public void clearFile(File inFile) throws IOException {
         center.removeAll();
 

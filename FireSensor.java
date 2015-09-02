@@ -3,7 +3,8 @@ package project.security;
 import java.lang.System;
 
 /**
- * Created by Daniel on 8/14/2015.
+ * FireSensor class which extends the abstract class sensor
+ * Specifies action of fire sensors
  */
 public class FireSensor extends Sensor{
     public FireSensor(int sensorID, int roomID) {

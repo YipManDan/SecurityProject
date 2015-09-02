@@ -21,14 +21,17 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
- * Created by Daniel on 8/27/2015.
+ * DemoPane allows for UI access to demo functionalities to display system
+ * LeftPanel allows user to select type of event
+ * MiddlePanel allows user to select location of event
+ * BottomPanel allows user to set time/date
  */
 public class DemoPane extends JPanel{
 
     private JComboBox combo;
     private JPanel panelRight, panelLeft, topPanel, bottomPanel;
     private JPanel panelMiddle;
-    PanelCenter panelCenter = new PanelCenter(new RoomHandler());
+    private PanelCenter panelCenter = new PanelCenter(new RoomHandler());
 
     private File toFile;
 
@@ -41,11 +44,15 @@ public class DemoPane extends JPanel{
     private String dayIs;
     private LocalTime thisTime;
 
-    String soundName = "yourSound.wav";
+    //private String soundName = "yourSound.wav";
 
     private DateFormat format;
     private DateTimeFormatter formatter;
 
+    /**
+     * DemoPane Constructor
+     * Opens file to save log and creates panels
+     */
     DemoPane() {
         setLayout(new BorderLayout());
         toFile = new File("LogFile.txt");
@@ -60,9 +67,6 @@ public class DemoPane extends JPanel{
             errorPanel.add(new JLabel("File not found and file unable to be created. Please create file: LogFile.txt in Jar location."));
             errorFrame.setVisible(true);
         }
-
-
-
         currentMode = Schedule.Setting.manual;
         isWeekend = true;
         format = new SimpleDateFormat("HH:mm");
@@ -87,7 +91,6 @@ public class DemoPane extends JPanel{
         add(panelMiddle, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
-
         // Create an Rectangular house structure
 
         /*Top Panel Components*/
@@ -103,7 +106,6 @@ public class DemoPane extends JPanel{
         /*Create Bottom Panel*/
         bottomPanelCreator();
 
-
         /*Right Panel*/
         panelRight.setPreferredSize(new Dimension(270, 100));
         panelRight.setMaximumSize(new Dimension(270, 100));
@@ -114,12 +116,9 @@ public class DemoPane extends JPanel{
         thisEvent = eventType.FIRE;
         generateLeft();
 
-
         /*Center Panel*/
         panelCenter.setBackground(Color.white);
 
-                /*
-                */
         combo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -134,17 +133,23 @@ public class DemoPane extends JPanel{
                 else if (selectedBuilding.equals("Select a building")) {
                     clearMiddle();
                 }
-
-
             }
         });
     }
+
+    /**
+     * Method to show new building based on comboBox selection
+     */
     private void createHouse() {
         this.remove(panelMiddle);
         panelMiddle = panelCenter;
         this.add(panelMiddle, BorderLayout.CENTER);
         this.updateUI();
     }
+
+    /**
+     * Function to create the bottom panel and add time/date interface
+     */
     private void bottomPanelCreator() {
         bottomPanel.setMinimumSize(new Dimension(100, 200));
         GridBagConstraints c = new GridBagConstraints();
@@ -228,16 +233,10 @@ public class DemoPane extends JPanel{
         timeLbl.setFont(new Font("Serif", Font.BOLD, 14));
         bottomPanel.add(timeLbl, c);
 
-
         currentTime= new JFormattedTextField(format);
-        /*
-        String time = LocalTime.now().toString();
-        currentTime.setText(LocalTime.parse(time, formatter).toString());
-        */
         currentTime.setText("17:23");
         c.gridx++;
         bottomPanel.add(currentTime, c);
-
 
         Building building = BuildingList.getBuilding(0);
         /* Mode will:
@@ -268,6 +267,10 @@ public class DemoPane extends JPanel{
            }
         }
         );
+        /**
+         * Inner class radioListener which listens to radio buttons to adjust Settings and time
+         * Determines if weekday/weekend
+         */
         class radioListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -275,7 +278,6 @@ public class DemoPane extends JPanel{
                 dayIs = e.getActionCommand();
                 if(e.getActionCommand() == "sunday" || e.getActionCommand() == "saturday") {
                     isWeekend = true;
-                    System.out.println("Hey! It's the weekend!");
                     //Radio listeners need to be able to update setting between weekday and weekend
                     if(s.equals("Automatic")) {
                         if(isWeekend && currentMode.equals(Schedule.Setting.weekday)) {
@@ -298,7 +300,6 @@ public class DemoPane extends JPanel{
                             building.updateSettings(Schedule.Setting.weekday);
                         }
                     }
-                    System.out.println("It's a weekday =(");
                 }
             }
         }
@@ -314,6 +315,10 @@ public class DemoPane extends JPanel{
 
         bottomPanel.updateUI();
     }
+
+    /**
+     * Function to create commerical building if ComboBox selected is commercial
+     */
     private void createCBuilding() {
         this.remove(panelMiddle);
         panelMiddle = new JPanel();
@@ -329,6 +334,10 @@ public class DemoPane extends JPanel{
         this.updateUI();
 
     }
+
+    /**
+     * Clear middle panel
+     */
     private void clearMiddle() {
         this.remove(panelMiddle);
         panelMiddle = new JPanel();
@@ -337,7 +346,11 @@ public class DemoPane extends JPanel{
         this.add(panelMiddle, BorderLayout.CENTER);
         this.updateUI();
     }
-    //private void generateLeft(BuildingList.roomRef input) {
+
+    /**
+     * Generate the left panel
+     * Left panel contains Radiobuttons to determine type of event
+     */
     private void generateLeft() {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -396,6 +409,10 @@ public class DemoPane extends JPanel{
         panelLeft.updateUI();
     }
 
+    /**
+     * Displays response if sensor available/active
+     * @param input
+     */
     private void emergencyEvent(BuildingList.roomRef input) {
         writeText("Event Occurred on " + dayIs.toString()  + " at " + getTime().toString());
         writeText("System mode: " + currentMode.toString());
@@ -436,7 +453,6 @@ public class DemoPane extends JPanel{
         /*Switch does:
             Determines type of event.
             Determine if appropriate sensor is available.
-            (?)Update individual sensor setting.
             Determine if appropriate sensor is on.
          */
         switch (thisEvent) {
@@ -502,8 +518,6 @@ public class DemoPane extends JPanel{
         alertFrame.setTitle("Emergency Detected");
         alertFrame.setLocationRelativeTo(null);
         alertFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        //alertFrame.dispose();
-
 
         JPanel eventPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -567,27 +581,26 @@ public class DemoPane extends JPanel{
         alertFrame.setVisible(true);
     }
 
+    /**
+     * Log events
+     * @param s string to write to file
+     */
     public void writeText(String s){
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(toFile, true));
             PrintWriter out = new PrintWriter(writer);
             out.println(s);
-            //writer.write(s);
-            //writer.newLine();
             writer.close();
         } catch (IOException e) {
             System.err.print(e);
             System.exit(1);
         }
-        /*
-        try {
-            Files.write(Paths.get("LogFile.txt"), s.getBytes(), StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            System.err.print(e);
-            System.exit(1);
-        }
-        */
     }
+
+    /**
+     * Retunrs the currently set time as defined by the bottom panel
+     * @return a LocalTime
+     */
     private LocalTime getTime() {
         String string = currentTime.getText();
         String sub1 = string.substring(0, 2);
@@ -596,14 +609,19 @@ public class DemoPane extends JPanel{
         System.out.println("The current time is: " + time);
         return time;
     }
+    /**
+     * Sets the time
+     * @param time a LocalTime
+     */
     private void setTime(LocalTime time) {
         System.out.println("New time is: " + time);
         currentTime.setText(time.toString());
     }
-    private void testFun() {
-        LocalTime aTime = LocalTime.now();
-    }
 
+    /**
+     * Handler to pass to PanelCenter
+     * Controls actions of buttons in the center panel
+     */
     private class RoomHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand() == "room1") {
@@ -624,7 +642,6 @@ public class DemoPane extends JPanel{
             if(e.getActionCommand() == "bathroom") {
                 emergencyEvent(BuildingList.roomRef.BATHROOM);
             }
-
         }
     }
 }
