@@ -152,7 +152,6 @@ public abstract class Sensor {
             default:
                 return;
         }
-
     }
 
     /**

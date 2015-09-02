@@ -125,7 +125,6 @@ public class SetupCard extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(!enterNumber1.getText().equals("")) {
                     BuildingList.getBuilding(0).setPhone1(Integer.parseInt(enterNumber1.getText()));
-                    System.out.println("Phone 1: " + enterNumber1.getText());
                     if(enablePhone1.isSelected())
                         MainSystem.enablePhone1(true);
                     else
@@ -133,7 +132,6 @@ public class SetupCard extends JPanel {
                 }
                 if(!enterNumber2.getText().equals("")) {
                     BuildingList.getBuilding(0).setPhone2(Integer.parseInt(enterNumber2.getText()));
-                    System.out.println("Phone 2: " + enterNumber2.getText());
                     if(enablePhone2.isSelected())
                         MainSystem.enablePhone2(true);
                     else
@@ -262,14 +260,10 @@ public class SetupCard extends JPanel {
         SubAreas temp = BuildingList.getBuilding(0).getSubArea(room);
 
         fireSensor = new JCheckBox("Fire Sensor");
-        //fireSensor.setBackground(Color.GRAY);
-        //fireSensor.setMnemonic(KeyEvent.VK_C);
         fireSensor.setSelected(temp.hasFireSensor());
 
 
         motionSensor = new JCheckBox("Motion Sensor");
-        //motionSensor.setBackground(Color.GRAY);
-        //motionSensor.setMnemonic(KeyEvent.VK_G);
         motionSensor.setSelected(temp.hasMotionSensor());
 
         c.gridy++;
