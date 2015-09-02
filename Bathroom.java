@@ -10,14 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Bathroom extends JPanel {
-
     private JLabel label1;
     private JButton bathroom;
 
-
     public Bathroom(){
-
-
         this.setLayout(null);
         this.setBackground(Color.WHITE);
         this.setBounds(252, 405, 95, 140);
@@ -26,17 +22,13 @@ public class Bathroom extends JPanel {
         setBathroomPanel();
         add(label1);
         add(bathroom);
-
     }
-
-
     /**
      * Set up label for picture. Then add picture to the label.
      * Add label to the kitchen panel.
      *
      */
     public void setBathroomPanel(){
-
         bathroom = new JButton("Bathroom");
         bathroom.setActionCommand("bathroom");
         bathroom.setBackground(Color.CYAN);
@@ -49,13 +41,9 @@ public class Bathroom extends JPanel {
         label1.setLocation(0, 0);
         label1.setSize(120, 160);
         Util.setPicturetoLabel(label1, "/images/bathroom.jpg") ;
-
     }
     public void setActionListener(ActionListener listener) {
         bathroom.addActionListener(listener);
     }
-
-
-
 }
 
