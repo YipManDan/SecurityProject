@@ -6,30 +6,28 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
-
+/**
+ * JFrame which holds the primary UI panels
+ * Has a registerPane and a tabbedPane which allows access to: setup, schedule, log, bill, and demo
+ */
 public class MainFrame extends JFrame {
-
-    JPanel buttonPanel, cardPanel;
     JPanel setupPane, schedulePane, logPane, billPane, demoPane;
     JPanel registerPanel;
     JTabbedPane tabbedPane;
     JScrollPane logPaneScroll;
 
+    /**
+     * MainFrame creator
+     * Creates tabbedPane and sets registerPanel visible
+     */
     public MainFrame() {
         setTitle("Home Security System");
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //this.setMinimumSize(new Dimension(1320, 990));
-        //this.setMinimumSize(new Dimension(1200, 900));
         this.setMinimumSize(new Dimension(1200, 870));
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         registerPanel = new RegisterPane(new MenuActionListener());
-
-
-        //this.add(registerPanel);
         getContentPane().add(registerPanel);
-
 
         tabbedPane = new JTabbedPane();
         setupPane = new SetupCard();
@@ -47,9 +45,12 @@ public class MainFrame extends JFrame {
         tabbedPane.addTab("Log", logPaneScroll);
         tabbedPane.addTab("Demo", demoPane);
 
-        //this.add(tabbedPane);
         this.setVisible(true);
     }
+
+    /**
+     * Saves information input into registration panel into a textfile
+     */
     private void saveRegistration() {
         File toFile = new File("UserFile.txt");
         try {

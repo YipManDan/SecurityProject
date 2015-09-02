@@ -3,7 +3,12 @@ package project.security;
 import javax.swing.*;
 
 public class Main {
-
+    /**
+     * Main function generates the static class Buildinglist and the deprecated static class Clock
+     * Defaults are generated via the bulidinglist
+     * MainFrame is called
+     * @param args unused
+     */
     public static void main(String[] args) {
         new Clock();
         new BuildingList();
