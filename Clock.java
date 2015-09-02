@@ -33,11 +33,6 @@ public class Clock {
         return time;
     }
     public static LocalDate addDays(int days) {
-        /*
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, days);
-        */
         dateTime.plusDays(days);
         return dateTime.toLocalDate();
     }
@@ -55,10 +50,7 @@ public class Clock {
     }
     public static boolean isWeekend() {
         //if(cal.DAY_OF_WEEK == Calendar.SATURDAY || cal.DAY_OF_WEEK == Calendar.SUNDAY)
-        if(dayOfWeek() == DayOfWeek.SATURDAY || dayOfWeek() == DayOfWeek.SUNDAY)
-            return true;
-        else
-            return false;
+        return dayOfWeek() == DayOfWeek.SATURDAY || dayOfWeek() == DayOfWeek.SUNDAY;
     }
     public static void setVacation(int days) {
         vacationStart = dateTime;
@@ -69,10 +61,7 @@ public class Clock {
         //vacationEnd.add(Calendar.DATE, days);
     }
     public static boolean onVacation() {
-        if(dateTime.isBefore(vacationEnd) && dateTime.isAfter(vacationStart))
-            return true;
-        else
-            return false;
+        return dateTime.isBefore(vacationEnd) && dateTime.isAfter(vacationStart);
     }
 
 }

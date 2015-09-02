@@ -17,7 +17,7 @@ public class MainSystem {
         usePhone1 = false;
         usePhone2 = false;
         //Clock.setTime(LocalTime.now());
-        new Clock();
+        //new Clock();
     }
     public Schedule getSchedule() {
         return schedule;

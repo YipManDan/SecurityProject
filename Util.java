@@ -1,30 +1,22 @@
 package project.security;
 
-
-
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-
 public class Util {
-
     /**
      * Make the height and width of the image proportioned to the label.
      * Renders the selected image. Then add it to the label.
      *
      * @param name
      */
-
     protected static void setPicturetoLabel(JLabel label, String name) {
-
         ImageIcon icon = createImageIcon(name );
         ImageIcon imgThisImg =icon;
 
-
         if  (icon != null) {
-
             Image img = imgThisImg.getImage();
             Image newimg;
             int h, w;
@@ -35,7 +27,6 @@ public class Util {
                 h = (int) label.getPreferredSize().getHeight();
                 w = imgThisImg.getIconWidth() *  h / imgThisImg.getIconHeight();
                 if(w > label.getPreferredSize().getWidth() ) w = (int) label.getPreferredSize().getWidth() ;
-
             }
             else{
                 w = (int) label.getPreferredSize().getWidth() ;
@@ -43,7 +34,6 @@ public class Util {
 
                 if(h > label.getPreferredSize().getHeight()) h = (int) label.getPreferredSize().getHeight();
             }
-
             newimg = img.getScaledInstance( w, h ,java.awt.Image.SCALE_SMOOTH);
             ImageIcon icon1 = new ImageIcon(newimg);
 
@@ -53,14 +43,9 @@ public class Util {
             label.setText("Image not found");
         }
     }
-
-
-
-
     /**
      * Returns an ImageIcon, or null if the path was invalid.
      */
-
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = PanelCenter.class.getResource(path);
         // java.net.URL imgURL = .getClass().getResource(path);
@@ -72,5 +57,4 @@ public class Util {
             return null;
         }
     }
-
 }

@@ -18,6 +18,7 @@ public abstract class Sensor {
     protected LocalTime vacationOn, vacationOff;
     protected Boolean manualOn;
     Schedule.Setting setting = Schedule.Setting.weekday;
+
     public Sensor(int sensorID, int roomID) {
         this.sensorID = sensorID;
         this.roomID = roomID;

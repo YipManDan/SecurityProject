@@ -5,13 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 /**
  * Created by Daniel on 8/25/2015.
@@ -39,17 +32,6 @@ public class LogPane extends JPanel{
             errorPanel.add(new JLabel("File not found and file unable to be created. Please create file: LogFile.txt in Jar location."));
             errorFrame.setVisible(true);
         }
-
-        /*
-        try {
-            PrintWriter writer = new PrintWriter(inFile);
-            writer.print("");
-            writer.close();
-        } catch (IOException e) {
-            System.err.println(e);
-            System.exit(1);
-        }
-        */
 
         refresh = new JButton("Refresh");
         refresh.setActionCommand("refresh");
@@ -138,10 +120,4 @@ public class LogPane extends JPanel{
         writer.print("");
         writer.close();
     }
-    /*
-    private void logText(String text) {
-        c.gridy++;
-        add(new JLabel(text), c);
-    }
-    */
 }

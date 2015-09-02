@@ -10,7 +10,7 @@ import java.io.IOException;
 public class MainFrame extends JFrame {
 
     JPanel buttonPanel, cardPanel;
-    JPanel setupPane, passPane, logPane, billPane, demoPane;
+    JPanel setupPane, schedulePane, logPane, billPane, demoPane;
     JPanel registerPanel;
     JTabbedPane tabbedPane;
     JScrollPane logPaneScroll;
@@ -34,7 +34,7 @@ public class MainFrame extends JFrame {
         tabbedPane = new JTabbedPane();
         setupPane = new SetupCard();
         setupPane.setBackground(Color.GRAY);
-        passPane = new SchedulePane();
+        schedulePane = new SchedulePane();
         logPane = new LogPane();
         logPaneScroll = new JScrollPane(logPane);
         billPane = new BillCard();
@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
 
         tabbedPane.addTab("Setup", setupPane);
         tabbedPane.addTab("Bill", billPane);
-        tabbedPane.addTab("Schedule", passPane);
+        tabbedPane.addTab("Schedule", schedulePane);
         //tabbedPane.addTab("Log", logPane);
         tabbedPane.addTab("Log", logPaneScroll);
         tabbedPane.addTab("Demo", demoPane);
@@ -51,7 +51,6 @@ public class MainFrame extends JFrame {
         this.setVisible(true);
     }
     private void saveRegistration() {
-        //File toFile = new File("testfile.txt");
         File toFile = new File("UserFile.txt");
         try {
             if (!toFile.exists()) {

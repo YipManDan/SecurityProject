@@ -32,7 +32,6 @@ public class DemoPane extends JPanel{
 
     private File toFile;
 
-
     private BuildingList.roomRef currentRef;
     private Schedule.Setting currentMode ;
     private enum eventType {FIRE, INTRUDER}
@@ -42,13 +41,10 @@ public class DemoPane extends JPanel{
     private String dayIs;
     private LocalTime thisTime;
 
-
     String soundName = "yourSound.wav";
 
     private DateFormat format;
     private DateTimeFormatter formatter;
-
-
 
     DemoPane() {
         setLayout(new BorderLayout());
@@ -564,8 +560,6 @@ public class DemoPane extends JPanel{
         c.gridy++;
         c.gridx--;
         eventPanel.add(responseLbl, c);
-
-
 
         writeText(" ");
 
