@@ -21,6 +21,7 @@ public class SetupCard extends JPanel {
     private PanelCenter panelCenter = new PanelCenter(new RoomHandler());
     private JTextField enterNumber1, enterNumber2;
     private JLabel firstNumber, secondNumber;
+    private JLabel status;
     private JButton savePhoneNumbers;
     private JCheckBox fireSensor, motionSensor;
     private BuildingList.roomRef currentRef;
@@ -120,6 +121,9 @@ public class SetupCard extends JPanel {
         gbc.gridx = 1;
         gbc.gridy++;
         panelRight.add(savePhoneNumbers, gbc);
+        status = new JLabel("");
+        gbc.gridy++;
+        panelRight.add(status, gbc);
 
         savePhoneNumbers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -137,6 +141,7 @@ public class SetupCard extends JPanel {
                     else
                         MainSystem.enablePhone2(false);
                 }
+                status.setText("Saved!");
             }
         });
 
@@ -154,6 +159,7 @@ public class SetupCard extends JPanel {
                 else if (selectedBuilding.equals("Select a building")) {
                     clearMiddle();
                 }
+                status.setText("");
 
 
             }
@@ -276,6 +282,7 @@ public class SetupCard extends JPanel {
 
         class ButtonHandler implements ActionListener {
             public void actionPerformed(ActionEvent e) {
+                status.setText("");
                 if(e.getActionCommand() == "save") {
                     if(temp.hasFireSensor() && !fireSensor.isSelected())
                         temp.removeFireSensor();
@@ -286,10 +293,8 @@ public class SetupCard extends JPanel {
                     else if(!temp.hasMotionSensor() && motionSensor.isSelected())
                         temp.createMotionSensor();
                 }
-                if(e.getActionCommand() == "cancel") {
-                    panelLeft.removeAll();
-                    panelLeft.updateUI();
-                }
+                panelLeft.removeAll();
+                panelLeft.updateUI();
             }
         }
 
@@ -320,6 +325,7 @@ public class SetupCard extends JPanel {
      */
     private class RoomHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            status.setText("");
             if(e.getActionCommand() == "room1") {
                 addSensors(BuildingList.roomRef.ROOM1);
             }
