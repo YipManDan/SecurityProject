@@ -9,6 +9,7 @@ import java.util.Date;
 
 /**
  * Created by Daniel on 8/14/2015.
+ * @deprecated
  */
 public class Clock {
     private static LocalTime time;
