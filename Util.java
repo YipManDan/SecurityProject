@@ -9,8 +9,8 @@ public class Util {
     /**
      * Make the height and width of the image proportioned to the label.
      * Renders the selected image. Then add it to the label.
-     *
-     * @param name
+     * @param label label to set
+     * @param name  name of picture
      */
     protected static void setPicturetoLabel(JLabel label, String name) {
         ImageIcon icon = createImageIcon(name );
@@ -45,6 +45,8 @@ public class Util {
     }
     /**
      * Returns an ImageIcon, or null if the path was invalid.
+     * @param path path of image
+     * @return returns imageicon if successful
      */
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = PanelCenter.class.getResource(path);
