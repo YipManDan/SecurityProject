@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Class to generate image and button for Bedroom2
+ */
 public class Bedroom2 extends JPanel {
     private JLabel label1;
     private JButton room2;
@@ -42,6 +45,10 @@ public class Bedroom2 extends JPanel {
         label1.setSize(120, 160);
         Util.setPicturetoLabel(label1, "/images/bedroom2.jpg") ;
     }
+    /**
+     * Allows for outside access to add an actionlisteners
+     * @param listener an actionlistner that allows outside access
+     */
     public void setActionListener(ActionListener listener) {
         room2.addActionListener(listener);
     }

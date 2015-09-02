@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Class to display bathroom image and create bathroom button
+ */
 public class Bathroom extends JPanel {
     private JLabel label1;
     private JButton bathroom;

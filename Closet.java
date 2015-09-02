@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Class to display closet image and create closet button
+ */
 public class Closet extends JPanel {
     private JLabel label1;
     private JButton closet;
@@ -42,6 +45,11 @@ public class Closet extends JPanel {
         label1.setSize(120, 160);
         Util.setPicturetoLabel(label1, "/images/closet.jpg") ;
     }
+
+    /**
+     * Allows for outside access to add an actionlisteners
+     * @param listener an actionlistner that allows outside access
+     */
     public void setActionListener(ActionListener listener) {
         closet.addActionListener(listener);
     }

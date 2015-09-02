@@ -48,6 +48,10 @@ public class Bedroom1 extends JPanel {
         // add image to the label
         Util.setPicturetoLabel(label2, "/images/bedroom1.jpg") ;
     }
+    /**
+     * Allows for outside access to add an actionlisteners
+     * @param listener an actionlistner that allows outside access
+     */
     public void setActionListener(ActionListener listener) {
         room1.addActionListener(listener);
     }
