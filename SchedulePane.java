@@ -5,7 +5,6 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Created by Daniel on 8/25/2015.
+ * SchedulePane allows user to set schedule for all sensors
  */
 public class SchedulePane extends JPanel{
     //MainSystem system;
@@ -43,7 +42,7 @@ public class SchedulePane extends JPanel{
 
     private BuildingList.roomRef currentRef;
 
-    JLabel numRooms;
+    private JLabel numRooms;
 
     public SchedulePane() {
         setLayout(new BorderLayout());
@@ -54,17 +53,7 @@ public class SchedulePane extends JPanel{
         saveBtn.setActionCommand("save");
         saveBtn.addActionListener(new ButtonHandler());
 
-        /*
-        roomID = new JTextField();
-        roomID.setPreferredSize(new Dimension(100, 30));
-        enterID = new JButton("Enter");
-        enterID.setActionCommand("enter");
-        enterID.addActionListener(new ButtonHandler());
-        */
         bottomPanel = new JPanel(new FlowLayout());
-        //bottomPanel.add(roomID);
-        //bottomPanel.add(enterID);
-        //bottomPanel.add(results);
 
         showAll = new JButton("Show All");
         showAll.setActionCommand("all");
@@ -110,17 +99,19 @@ public class SchedulePane extends JPanel{
         passPanel.add(passTF);
         passPanel.add(enter);
 
-
         this.add(passPanel);
         cardPanel.add(sensorCard, "sensors");
         cardPanel.add(optionCard, "options");
 
         scheduleCard.add(cardPanel, BorderLayout.LINE_START);
         scheduleCard.add(right, BorderLayout.LINE_END);
-
-
     }
 
+    /**
+     * Function creates MaskFormatter for JFormattedTextFields
+     * @param s format
+     * @return a MaskFormatter
+     */
     protected MaskFormatter createFormatter(String s) {
         MaskFormatter formatter = null;
         try {
@@ -132,20 +123,30 @@ public class SchedulePane extends JPanel{
         return formatter;
     }
 
+    /**
+     * Handles password input
+     */
     private class PassHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String inputPass = passTF.getText();
             if(BuildingList.getBuilding(0).getSystemPass().equals(inputPass))
                 validPassWord();
-                //cards.next(cardPanel);
-                //cards.next(this);
-
         }
     }
+
+    /**
+     * If password valid method is called
+     * Removes passPanel and adds scheduleCard
+     */
     private void validPassWord() {
         this.remove(passPanel);
         this.add(scheduleCard);
     }
+
+    /**
+     * Checks for sensors in a room then shows appropriates options
+     * @param input Determines which room
+     */
     private void checkForSensor(BuildingList.roomRef input) {
         int room = 0;
         String title = "";
@@ -179,12 +180,6 @@ public class SchedulePane extends JPanel{
         sensors.removeAll();
         JLabel roomLbl = new JLabel("Subarea: " + title);
         roomLbl.setFont(new Font("Arial", Font.BOLD, 15));
-        /*
-        Font font = roomLbl.getFont();
-        Map attributes = font.getAttributes();
-        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        roomLbl.setFont(font.deriveFont(attributes));
-        */
 
         sensors.add(roomLbl);
         sensors.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -216,9 +211,11 @@ public class SchedulePane extends JPanel{
             sensors.add(none);
         }
         sensorCard.updateUI();
-
-
     }
+
+    /**
+     * Shows all sensors in Building along with settings for sensor
+     */
     private void showAllSensors() {
         allSensors = new JFrame();
         allSensors.setPreferredSize(new Dimension(1000, 350));
@@ -353,6 +350,11 @@ public class SchedulePane extends JPanel{
         allSensors.add(sensorList);
         allSensors.setVisible(true);
     }
+
+    /**
+     * Generates the optionCard on the Left
+     * @param type type of sensor clicked
+     */
     private void generateOptionCard(int type) {
         int room = 0;
         switch (currentRef) {
@@ -389,11 +391,6 @@ public class SchedulePane extends JPanel{
         modeCard.add(weekendCard, "weekend");
         modeCard.add(vacationCard, "vacation");
         JButton cancelBtn1, optionSaveBtn1;
-        /*
-        JButton cancelBtn2, optionSaveBtn2;
-        JButton cancelBtn3, optionSaveBtn3;
-        JButton cancelBtn4, optionSaveBtn4;
-        */
 
         optionSaveBtn1 = new JButton("Save");
         optionSaveBtn1.setActionCommand("save");
@@ -578,12 +575,8 @@ public class SchedulePane extends JPanel{
         bc.gridx++;
         vacationCard.add(vacationOffTF, bc);
 
-
-
         mode.addActionListener(new ActionListener() {
                                    public void actionPerformed(ActionEvent e) {
-                                       //JComboBox cb = (JComboBox)e.getSource();
-                                       //String place = (String)cb.getSelectedItem();
                                        String s = (String) mode.getSelectedItem();
                                        switch (s) {
                                            case "Manual":
@@ -625,12 +618,22 @@ public class SchedulePane extends JPanel{
         optionSaveBtn1.addActionListener(new optionsBtnHandler());
         cancelBtn1.addActionListener(new optionsBtnHandler());
     }
+
+    /**
+     * Parses string to LocalTime
+     * @param string string to be parsed
+     * @return LocalTime based on input string
+     */
     private LocalTime parseString(String string) {
         String sub1 = string.substring(0, 2);
         String sub2 = string.substring(3, 5);
         LocalTime time = LocalTime.of(Integer.parseInt(sub1), Integer.parseInt(sub2));
         return time;
     }
+
+    /**
+     * Saves textfields to sensors, from allSensors then closes allSensors
+     */
     private void saveTextFields() {
         int i=0;
         for(Sensor temp: sensorArray) {
@@ -646,13 +649,12 @@ public class SchedulePane extends JPanel{
         allSensors.dispose();
 
     }
+
+    /**
+     * ButtonHandler
+     */
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            /*
-            if(e.getActionCommand() == "enter") {
-                cards.show(cardPanel, "sensors");
-            }
-            */
             if(e.getActionCommand() == "all") {
                 showAllSensors();
             }
@@ -664,7 +666,6 @@ public class SchedulePane extends JPanel{
             if(e.getActionCommand() == "motion") {
                 generateOptionCard(1);
                 cards.next(cardPanel);
-
             }
             if(e.getActionCommand() == "save") {
                 saveTextFields();
@@ -677,6 +678,10 @@ public class SchedulePane extends JPanel{
             }
         }
     }
+
+    /**
+     * ButtonHandler for rooms
+     */
     private class RoomHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand() == "room1") {
@@ -703,7 +708,6 @@ public class SchedulePane extends JPanel{
                 checkForSensor(BuildingList.roomRef.BATHROOM);
                 cards.show(cardPanel, "sensors");
             }
-
         }
     }
 }
