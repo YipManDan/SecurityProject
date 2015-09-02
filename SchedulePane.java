@@ -606,13 +606,11 @@ public class SchedulePane extends JPanel{
                     sensor.setOffTime(Schedule.Setting.weekend, parseString(weekendOffTF.getText()));
                     sensor.setOnTime(Schedule.Setting.vacation, parseString(vacationOnTF.getText()));
                     sensor.setOffTime(Schedule.Setting.vacation, parseString(vacationOffTF.getText()));
-
+                    cards.show(cardPanel, "sensors");
                 }
                 if(e.getActionCommand() == "cancel") {
                     cards.show(cardPanel, "sensors");
-
                 }
-
             }
         }
         optionSaveBtn1.addActionListener(new optionsBtnHandler());
