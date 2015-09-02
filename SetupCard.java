@@ -1,43 +1,37 @@
 package project.security;
 
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
 import javax.swing.*;
 
+/**
+ * SetupCard allows user to add or remove sensors from rooms in a building
+ * Also allows user to specify use for emergency phone numbers
+ */
 public class SetupCard extends JPanel {
 
     private JComboBox combo;
     private JPanel panelRight, panelLeft, topPanel;
     private JPanel panelMiddle;
-    PanelCenter panelCenter = new PanelCenter(new RoomHandler());
+    private PanelCenter panelCenter = new PanelCenter(new RoomHandler());
     private JTextField enterNumber1, enterNumber2;
     private JLabel firstNumber, secondNumber;
-    private JButton savePhoneNumbers, saveSensor, cancelSensor;
+    private JButton savePhoneNumbers;
     private JCheckBox fireSensor, motionSensor;
-    private JLabel xLabel, yLabel;
-    //private MouseEventAdapterA meaA;
-    private String xStr, yStr;
-    BufferedImage image;
     private BuildingList.roomRef currentRef;
     String soundName = "yourSound.wav";
-    //DisplayBluePrint pic = new DisplayBluePrint();
 
-
-
+    /**
+     * SetupCard Constructor
+     */
     SetupCard() {
         setLayout(new BorderLayout());
 
-        // panelRight = new JPanel(new FlowLayout(FlowLayout.LEADING, 15, 6));
-//        panelRight = new JPanel(new FlowLayout());
         panelRight = new JPanel(new GridBagLayout());
         topPanel = new JPanel(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(700, 35));
@@ -45,18 +39,13 @@ public class SetupCard extends JPanel {
         panelMiddle = new JPanel();
 
         panelMiddle.setBackground(Color.white);
-        //panelRight.setBackground(Color.CYAN);
 
         add(topPanel, BorderLayout.NORTH);
         add(panelRight, BorderLayout.LINE_END);
         add(panelLeft, BorderLayout.LINE_START);
         add(panelMiddle, BorderLayout.CENTER);
-        //add(panelCenter, BorderLayout.CENTER);
 
-
-        // Create an Rectangular house structure
-
-
+        //ComboBox to control which Building to display
         combo = new JComboBox();
         combo.addItem("Select a building");
         combo.addItem("Single House");
@@ -66,11 +55,9 @@ public class SetupCard extends JPanel {
         combo.setMaximumSize(new Dimension(200, 25));
         topPanel.add(combo);
 
-        //panelRight.setBackground(Color.GRAY);
         panelRight.setPreferredSize(new Dimension(270, 100));
         panelRight.setMaximumSize(new Dimension(270, 100));
 
-        //panelLeft.setBackground(Color.GRAY);
         panelLeft.setPreferredSize(new Dimension(270, 30));
         panelLeft.setMaximumSize(new Dimension(270, 100));
 
@@ -175,12 +162,19 @@ public class SetupCard extends JPanel {
         });
     }
 
+    /**
+     * Shows house in panelMiddle
+     */
     private void createHouse() {
         this.remove(panelMiddle);
         panelMiddle = panelCenter;
         this.add(panelMiddle, BorderLayout.CENTER);
         this.updateUI();
     }
+
+    /**
+     * Shows corporate building in panelMiddle
+     */
     private void createCBuilding() {
         this.remove(panelMiddle);
         panelMiddle = new JPanel();
@@ -188,14 +182,22 @@ public class SetupCard extends JPanel {
 
         URL url = this.getClass().getClassLoader()
                 .getResource("images/commercial.jpg");
-        JLabel commercialLabel = new JLabel(new ImageIcon(url));
+        try {
+            JLabel commercialLabel = new JLabel(new ImageIcon(url));
+            panelMiddle.add(commercialLabel);
+        } catch (NullPointerException e){
+            System.err.print(e);
+            System.exit(-1);
 
-        panelMiddle.add(commercialLabel);
+        }
 
         this.add(panelMiddle, BorderLayout.CENTER);
         this.updateUI();
-
     }
+
+    /**
+     * Removes panelMiddle and adds a new blank one
+     */
     private void clearMiddle() {
         this.remove(panelMiddle);
         panelMiddle = new JPanel();
@@ -204,6 +206,12 @@ public class SetupCard extends JPanel {
         this.add(panelMiddle, BorderLayout.CENTER);
         this.updateUI();
     }
+
+    /**
+     * Allows user to add or remove a sensor from a room
+     * This method displays the current sensors on the left side
+     * @param input room reference to be added to
+     */
     private void addSensors(BuildingList.roomRef input) {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -313,6 +321,9 @@ public class SetupCard extends JPanel {
         panelLeft.updateUI();
     }
 
+    /**
+     * ButtonHandler to be passed to PanelCenter to control house buttons
+     */
     private class RoomHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand() == "room1") {
