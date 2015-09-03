@@ -165,8 +165,6 @@ public class SetupCard extends JPanel {
                     clearMiddle();
                 }
                 status.setText("");
-
-
             }
         });
     }

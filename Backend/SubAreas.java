@@ -2,6 +2,11 @@ package project.security.Backend;
 
 import java.time.LocalTime;
 
+/**
+ * SubArea represents a room
+ * Contains 0-1 firesensors
+ * Contains 0-1 motionsensors
+ */
 public class SubAreas {
     private int subAreaId;
     private Schedule schedule;

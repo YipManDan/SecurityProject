@@ -98,7 +98,7 @@ public class SchedulePane extends JPanel{
         centerPanel = new PanelCenter(new RoomHandler());
         scheduleCard.add(centerPanel, BorderLayout.CENTER);
 
-        passPanel.add(new JLabel("Enter 4-digit Password: "));
+        passPanel.add(new JLabel("Enter 4-digit Password(0000): "));
         passPanel.add(passTF);
         passPanel.add(enter);
 
