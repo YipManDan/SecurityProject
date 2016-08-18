@@ -1,4 +1,4 @@
 # SecurityProject
-Final project for COEN 275 at SCU (Object Oriented Programming)
+Object Oriented Project
 
 GUI implementation of a home security (fire and motion detector).
